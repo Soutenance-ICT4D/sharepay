@@ -1,0 +1,24 @@
+{
+    "HomePage": {
+        "title": "Bienvenue sur SharePay",
+        "description": "La plateforme de partage de paiement unifiée, simple et sécurisée.",
+        "links": {
+            "documentation": "Documentation",
+            "deploy": "Déployer maintenant",
+            "templates": "Modèles",
+            "learning": "Apprentissage"
+        },
+        "start": "Pour commencer, éditez le fichier page.tsx.",
+        "more": "Vous cherchez un point de départ ?",
+        "testConfig": {
+            "themeTitle": "Changement de thème",
+            "themeDesc": "Testez la fonctionnalité de changement de thème. Observez le changement d'icône et la transition de couleur de fond.",
+            "langTitle": "Sélecteur de langue",
+            "langDesc": "Testez le changement de traduction. Le texte ci-dessus devrait se mettre à jour instantanément.",
+            "loaderTitle": "Page de chargement",
+            "loaderDesc": "Cliquez ci-dessous pour afficher le chargeur plein écran pendant 3 secondes.",
+            "loaderBtn": "Tester le chargeur",
+            "loaderLabel": "Test du chargeur (3s)..."
+        }
+    }
+}

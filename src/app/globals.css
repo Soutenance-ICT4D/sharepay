@@ -1,0 +1,105 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/*
+  @theme {
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+  }
+*/
+
+@layer base {
+  :root {
+    /* --- MODE CLAIR (LIGHT) --- */
+
+    /* Fond blanc pur et Texte sombre */
+    --background: 0 0% 100%;
+    --foreground: 208 70% 15%;
+
+    /* Primaire : #098865 (Vert Émeraude) */
+    /* Conversion HSL : 163 88% 28% */
+    --primary: 163 88% 28%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondaire : #10385B (Bleu Nuit) */
+    /* Conversion HSL : 208 70% 21% */
+    --secondary: 208 70% 21%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Cartes et Éléments */
+    --card: 0 0% 100%;
+    --card-foreground: 208 70% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 208 70% 15%;
+
+    /* Muted (Grisé) : Une teinte très claire de ton bleu secondaire */
+    --muted: 208 30% 96%;
+    --muted-foreground: 208 20% 45%;
+
+    /* Accent (Hover) : Une teinte légère de ton vert primaire */
+    --accent: 163 30% 96%;
+    --accent-foreground: 208 70% 21%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Bordures : Gris-Bleu très clair */
+    --border: 208 20% 90%;
+    --input: 208 20% 90%;
+
+    /* Ring : Ton vert primaire pour le focus */
+    --ring: 163 88% 28%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* --- MODE SOMBRE (DARK) --- */
+
+    color-scheme: dark;
+
+    /* Fond : Un bleu très très sombre (dérivé de ton secondaire #10385B) */
+    --background: 208 50% 8%;
+    --foreground: 210 40% 98%;
+
+    /* Cartes : Un poil plus clair que le fond */
+    --card: 208 50% 10%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 208 50% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primaire : On l'éclaircit un peu pour qu'il ressorte bien sur le noir */
+    --primary: 163 70% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondaire : On l'éclaircit aussi */
+    --secondary: 208 40% 30%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 208 30% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 208 30% 15%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 208 30% 18%;
+    --input: 208 30% 18%;
+    --ring: 163 70% 45%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
