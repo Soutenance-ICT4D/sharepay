@@ -1,4 +1,84 @@
 {
+    "Navigation": {
+        "login": "Connexion",
+        "register": "S'inscrire",
+        "features": "Fonctionnalités",
+        "pricing": "Tarifs",
+        "developers": "Développeurs",
+        "company": "Entreprise",
+        "menu_payments": "Paiements",
+        "menu_transfers": "Virements",
+        "menu_cards": "Cartes Virtuelles",
+        "menu_api": "Documentation API",
+        "menu_status": "État du système",
+        "menu_about": "À propos",
+        "menu_contact": "Contact",
+        "desc_payments": "Acceptez des paiements du monde entier.",
+        "desc_transfers": "Envoyez de l'argent vers n'importe quel compte.",
+        "desc_api": "Intégrez SharePay en quelques lignes de code.",
+        "desc_status": "Vérifiez la disponibilité de nos services.",
+        "desc_dashboard": "Suivez vos finances en temps réel.",
+        "desc_security": "Normes PCI-DSS et chiffrement.",
+        "terms": "Conditions",
+        "privacy": "Confidentialité"
+    },
+    "Footer": {
+        "tagline": "L'infrastructure de paiement pour l'Afrique de demain.",
+        "product": "Produit",
+        "features": "Fonctionnalités",
+        "pricing": "Tarifs",
+        "api": "API & Docs",
+        "status": "État du système",
+        "company": "Entreprise",
+        "about": "À propos",
+        "blog": "Blog",
+        "careers": "Carrières",
+        "contact": "Contact",
+        "legal": "Légal",
+        "privacy": "Confidentialité",
+        "terms": "Conditions d'utilisation",
+        "security": "Sécurité",
+        "cookies": "Cookies",
+        "systemStatus": "Tous les systèmes opérationnels",
+        "copyright": "© 2026 SharePay Inc. Tous droits réservés."
+    },
+    "Landing": {
+        "Hero": {
+            "title": "Encaissez l'instant.",
+            "subtitle": "L'agrégateur qui transforme la complexité des paiements en une ligne de code. Intégrez, connectez et voyez votre business respirer.",
+            "ctaStart": "Lancer l'intégration",
+            "ctaDemo": "Voir la démo live",
+            "reassurance": "Prêt en 5 minutes. Sans paperasse interminable.",
+            "trustedBy": "Ils nous font confiance"
+        },
+        "Connectivity": {
+            "title": "Portée mondiale, racines locales",
+            "subtitle": "Connexions directes aux réseaux de cartes et aux opérateurs de mobile money locaux.",
+            "nodes": {
+                "visa": "Visa",
+                "mastercard": "Mastercard",
+                "mtn": "MTN MoMo",
+                "orange": "Orange Money",
+                "wave": "Wave"
+            }
+        },
+        "Integration": {
+            "title": "Conçu pour les développeurs",
+            "subtitle": "Intégrez notre API unifiée en quelques minutes, pas en semaines.",
+            "consoleLabel": "Essayer en direct",
+            "runBtn": "Exécuter la requête"
+        },
+        "Security": {
+            "title": "Sécurité de niveau bancaire",
+            "subtitle": "Vos données sont chiffrées au repos et en transit.",
+            "vaultLabel": "Coffre-fort de chiffrement"
+        },
+        "Pricing": {
+            "title": "Tarification simple et transparente",
+            "subtitle": "Pas de frais d'installation, pas de frais mensuels, pas de coûts cachés.",
+            "sliderLabel": "Volume Mensuel Estimé"
+        }
+    },
     "HomePage": {
         "title": "Bienvenue sur SharePay",
         "description": "La plateforme de partage de paiement unifiée, simple et sécurisée.",
@@ -19,6 +99,55 @@
             "loaderDesc": "Cliquez ci-dessous pour afficher le chargeur plein écran pendant 3 secondes.",
             "loaderBtn": "Tester le chargeur",
             "loaderLabel": "Test du chargeur (3s)..."
+        }
+    },
+    "Auth": {
+        "Login": {
+            "title": "Bon retour",
+            "description": "Entrez votre email pour vous connecter",
+            "emailLabel": "Email",
+            "passwordLabel": "Mot de passe",
+            "forgotPassword": "Mot de passe oublié ?",
+            "rememberMe": "Se souvenir de moi",
+            "submitBtn": "Se connecter",
+            "orContinueWith": "Ou continuer avec",
+            "noAccount": "Pas encore de compte ?",
+            "registerLink": "S'inscrire"
+        },
+        "Register": {
+            "title": "Créer un compte",
+            "description": "Entrez vos détails ci-dessous pour créer votre compte",
+            "submitBtn": "Créer un compte",
+            "haveAccount": "Déjà un compte ?",
+            "loginLink": "Se connecter"
+        },
+        "VerifyEmail": {
+            "title": "Vérifiez votre email",
+            "description": "Nous avons envoyé un code de vérification à",
+            "submitBtn": "Vérifier",
+            "resend": "Renvoyer le code"
+        },
+        "ForgotPassword": {
+            "title": "Mot de passe oublié",
+            "description": "Entrez votre email pour réinitialiser votre mot de passe",
+            "submitBtn": "Envoyer le code de réinitialisation",
+            "backToLogin": "Retour à la connexion"
+        }
+    },
+    "Dashboard": {
+        "title": "Tableau de bord",
+        "nav": {
+            "overview": "Vue d'ensemble"
+        },
+        "Overview": {
+            "title": "Vue d'ensemble",
+            "welcome": "Bienvenue sur votre tableau de bord SharePay.",
+            "stats": {
+                "revenue": "Revenu Total",
+                "activeLinks": "Liens Actifs",
+                "transactions": "Transactions",
+                "customers": "Clients"
+            }
         }
     }
 }

@@ -1,4 +1,84 @@
 {
+    "Navigation": {
+        "login": "Login",
+        "register": "Sign up",
+        "features": "Features",
+        "pricing": "Pricing",
+        "developers": "Developers",
+        "company": "Company",
+        "menu_payments": "Payments",
+        "menu_transfers": "Transfers",
+        "menu_cards": "Virtual Cards",
+        "menu_api": "API Documentation",
+        "menu_status": "System Status",
+        "menu_about": "About",
+        "menu_contact": "Contact",
+        "desc_payments": "Accept payments from around the world.",
+        "desc_transfers": "Send money to any bank account.",
+        "desc_api": "Integrate SharePay in just a few lines of code.",
+        "desc_status": "Check the availability of our services.",
+        "desc_dashboard": "Track your finances in real-time.",
+        "desc_security": "PCI-DSS standards and encryption.",
+        "terms": "Terms",
+        "privacy": "Privacy"
+    },
+    "Footer": {
+        "tagline": "Payment infrastructure for the Africa of tomorrow.",
+        "product": "Product",
+        "features": "Features",
+        "pricing": "Pricing",
+        "api": "API & Docs",
+        "status": "System Status",
+        "company": "Company",
+        "about": "About",
+        "blog": "Blog",
+        "careers": "Careers",
+        "contact": "Contact",
+        "legal": "Legal",
+        "privacy": "Privacy",
+        "terms": "Terms of Service",
+        "security": "Security",
+        "cookies": "Cookies",
+        "systemStatus": "All systems operational",
+        "copyright": "© 2026 SharePay Inc. All rights reserved."
+    },
+    "Landing": {
+        "Hero": {
+            "title": "Cash in the moment.",
+            "subtitle": "The aggregator that turns payment complexity into a single line of code. Integrate, connect, and watch your business breathe.",
+            "ctaStart": "Start Integration",
+            "ctaDemo": "View Live Demo",
+            "reassurance": "Ready in 5 minutes. No endless paperwork.",
+            "trustedBy": "Trusted by industry leaders"
+        },
+        "Connectivity": {
+            "title": "Global reach, local roots",
+            "subtitle": "Direct connections to card networks and local mobile money providers.",
+            "nodes": {
+                "visa": "Visa",
+                "mastercard": "Mastercard",
+                "mtn": "MTN MoMo",
+                "orange": "Orange Money",
+                "wave": "Wave"
+            }
+        },
+        "Integration": {
+            "title": "Designed for developers",
+            "subtitle": "Integrate our unified API in minutes, not weeks.",
+            "consoleLabel": "Try it live",
+            "runBtn": "Run Request"
+        },
+        "Security": {
+            "title": "Banking-grade security",
+            "subtitle": "Your data is encrypted at rest and in transit.",
+            "vaultLabel": "Encryption Vault"
+        },
+        "Pricing": {
+            "title": "Simple, transparent pricing",
+            "subtitle": "No setup fees, monthly fees, or hidden costs.",
+            "sliderLabel": "Estimated Monthly Volume"
+        }
+    },
     "HomePage": {
         "title": "Welcome to SharePay",
         "description": "The unified, simple and secure payment sharing platform.",
@@ -19,6 +99,55 @@
             "loaderDesc": "Click below to show the full-screen loader for 3 seconds.",
             "loaderBtn": "Test Loader",
             "loaderLabel": "Test Loader (3s)..."
+        }
+    },
+    "Auth": {
+        "Login": {
+            "title": "Welcome back",
+            "description": "Enter your email to sign in to your account",
+            "emailLabel": "Email",
+            "passwordLabel": "Password",
+            "forgotPassword": "Forgot password?",
+            "rememberMe": "Remember me",
+            "submitBtn": "Sign In",
+            "orContinueWith": "Or continue with",
+            "noAccount": "Don't have an account?",
+            "registerLink": "Sign Up"
+        },
+        "Register": {
+            "title": "Create an account",
+            "description": "Enter your details below to create your account",
+            "submitBtn": "Create Account",
+            "haveAccount": "Already have an account?",
+            "loginLink": "Sign In"
+        },
+        "VerifyEmail": {
+            "title": "Verify your email",
+            "description": "We sent a verification code to",
+            "submitBtn": "Verify",
+            "resend": "Resend code"
+        },
+        "ForgotPassword": {
+            "title": "Forgot password",
+            "description": "Enter your email to reset your password",
+            "submitBtn": "Send Reset Code",
+            "backToLogin": "Back to login"
+        }
+    },
+    "Dashboard": {
+        "title": "Dashboard",
+        "nav": {
+            "overview": "Overview"
+        },
+        "Overview": {
+            "title": "Overview",
+            "welcome": "Welcome to your SharePay dashboard.",
+            "stats": {
+                "revenue": "Total Revenue",
+                "activeLinks": "Active Links",
+                "transactions": "Transactions",
+                "customers": "Customers"
+            }
         }
     }
 }

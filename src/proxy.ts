@@ -1,14 +1,12 @@
 import createMiddleware from 'next-intl/middleware';
+import { routing } from './core/i18n/routing';
 
-export default createMiddleware({
-    // Une liste de toutes les locales supportées
-    locales: ['en', 'fr'],
+export default createMiddleware(routing);
 
-    // La locale par défaut si aucune n'est détectée
-    defaultLocale: 'fr'
-});
- 
 export const config = {
-  // Matcher pour ignorer les fichiers internes (_next), les images, etc.
-  matcher: ['/', '/pay/:path*', '/(fr|en)/:path*']
+    matcher: [
+        '/',
+        '/(fr|en)/:path*',
+        '/((?!_next|_vercel|.*\\..*).*)'
+    ]
 };
