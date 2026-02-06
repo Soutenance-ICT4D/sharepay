@@ -8,8 +8,13 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Loader2, ArrowLeft } from "lucide-react";
 
+import { authService } from "@/core/services/auth.service";
+import { toast } from "sonner";
+import { getAuthErrorMessage } from "@/core/lib/error-codes";
+
 export default function ForgotPasswordPage() {
     const t = useTranslations('Auth.ForgotPassword');
+    const tGlobal = useTranslations();
     const tLogin = useTranslations('Auth.Login');
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -18,12 +23,20 @@ export default function ForgotPasswordPage() {
         event.preventDefault();
         setIsLoading(true);
 
-        // Simulate API call
-        setTimeout(() => {
-            setIsLoading(false);
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get("email") as string;
+
+        try {
+            await authService.forgotPassword({ email });
+            toast.success("Reset code sent to your email.");
             // Redirect to verify-reset-code
-            router.push('/verify-reset-code');
-        }, 2000);
+            router.push(`/verify-reset-code?email=${encodeURIComponent(email)}`);
+        } catch (error: any) {
+            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            toast.error(tGlobal(`Auth.Errors.${key}`));
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -40,6 +53,7 @@ export default function ForgotPasswordPage() {
                         id="email"
                         placeholder="name@example.com"
                         type="email"
+                        name="email"
                         required
                     />
                 </div>

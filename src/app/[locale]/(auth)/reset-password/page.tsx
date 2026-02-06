@@ -5,24 +5,55 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "@/core/i18n/routing";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Loader2, LockKeyhole } from "lucide-react";
 
+import { authService } from "@/core/services/auth.service";
+import { toast } from "sonner";
+import { getAuthErrorMessage } from "@/core/lib/error-codes";
+
 export default function ResetPasswordPage() {
+    const tGlobal = useTranslations();
     // Ideally adding 'Auth.ResetPassword' keys later
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const email = searchParams.get('email') || "";
+    const resetToken = searchParams.get('token') || "";
+
     const [isLoading, setIsLoading] = useState(false);
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        if (!email || !resetToken) {
+            toast.error("Missing email or reset token.");
+            return;
+        }
+
         setIsLoading(true);
 
-        // Simulate API call to reset password
-        setTimeout(() => {
+        const formData = new FormData(event.currentTarget);
+        const newPassword = formData.get("newPassword") as string;
+        const confirmPassword = formData.get("confirmPassword") as string;
+
+        if (newPassword !== confirmPassword) {
+            toast.error("Passwords do not match.");
             setIsLoading(false);
+            return;
+        }
+
+        try {
+            await authService.resetPassword({ email, resetToken, newPassword });
+            toast.success("Password reset successfully. Please login.");
             // Redirect to login
             router.push('/login');
-        }, 2000);
+        } catch (error: any) {
+            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            toast.error(tGlobal(`Auth.Errors.${key}`));
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -45,6 +76,7 @@ export default function ResetPasswordPage() {
                         id="newPassword"
                         type="password"
                         placeholder="••••••••"
+                        name="newPassword"
                         required
                     />
                 </div>
@@ -55,6 +87,7 @@ export default function ResetPasswordPage() {
                         id="confirmPassword"
                         type="password"
                         placeholder="••••••••"
+                        name="confirmPassword"
                         required
                     />
                 </div>

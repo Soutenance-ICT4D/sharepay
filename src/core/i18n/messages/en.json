@@ -19,8 +19,8 @@
         "desc_status": "Check the availability of our services.",
         "desc_dashboard": "Track your finances in real-time.",
         "desc_security": "PCI-DSS standards and encryption.",
-        "terms": "Terms",
-        "privacy": "Privacy"
+        "terms": "Terms of Service",
+        "privacy": "Privacy Policy"
     },
     "Footer": {
         "tagline": "Payment infrastructure for the Africa of tomorrow.",
@@ -35,7 +35,7 @@
         "careers": "Careers",
         "contact": "Contact",
         "legal": "Legal",
-        "privacy": "Privacy",
+        "privacy": "Privacy Policy",
         "terms": "Terms of Service",
         "security": "Security",
         "cookies": "Cookies",
@@ -107,6 +107,7 @@
             "description": "Enter your email to sign in to your account",
             "emailLabel": "Email",
             "passwordLabel": "Password",
+            "phoneLabel": "Phone number",
             "forgotPassword": "Forgot password?",
             "rememberMe": "Remember me",
             "submitBtn": "Sign In",
@@ -119,7 +120,9 @@
             "description": "Enter your details below to create your account",
             "submitBtn": "Create Account",
             "haveAccount": "Already have an account?",
-            "loginLink": "Sign In"
+            "loginLink": "Sign In",
+            "acceptTerms": "I accept the",
+            "and": "and the"
         },
         "VerifyEmail": {
             "title": "Verify your email",
@@ -132,12 +135,31 @@
             "description": "Enter your email to reset your password",
             "submitBtn": "Send Reset Code",
             "backToLogin": "Back to login"
+        },
+        "Errors": {
+            "invalid_credentials": "Incorrect email or password.",
+            "user_not_found": "No account found with this email.",
+            "email_exists": "An account already exists with this email.",
+            "not_verified": "Your account is not verified.",
+            "invalid_otp": "Invalid verification code.",
+            "otp_expired": "Verification code expired.",
+            "account_locked": "Account locked. Contact support.",
+            "session_expired": "Your session has expired.",
+            "validation_error": "Invalid data.",
+            "internal_server_error": "Server error. Please try again later.",
+            "unknown_error": "An unknown error occurred.",
+            "auth_failed": "Authentication failed.",
+            "account_disabled": "Account disabled. Contact support.",
+            "already_verified": "This account is already verified.",
+            "invalid_token": "Invalid token.",
+            "token_revoked": "Token revoked. Please login again."
         }
     },
     "Dashboard": {
         "title": "Dashboard",
         "nav": {
-            "overview": "Overview"
+            "overview": "Overview",
+            "logout": "Log out"
         },
         "Overview": {
             "title": "Overview",

@@ -19,8 +19,8 @@
         "desc_status": "Vérifiez la disponibilité de nos services.",
         "desc_dashboard": "Suivez vos finances en temps réel.",
         "desc_security": "Normes PCI-DSS et chiffrement.",
-        "terms": "Conditions",
-        "privacy": "Confidentialité"
+        "terms": "Conditions d'utilisation",
+        "privacy": "Termes de confidentialité"
     },
     "Footer": {
         "tagline": "L'infrastructure de paiement pour l'Afrique de demain.",
@@ -35,7 +35,7 @@
         "careers": "Carrières",
         "contact": "Contact",
         "legal": "Légal",
-        "privacy": "Confidentialité",
+        "privacy": "Termes de confidentialité",
         "terms": "Conditions d'utilisation",
         "security": "Sécurité",
         "cookies": "Cookies",
@@ -107,6 +107,7 @@
             "description": "Entrez votre email pour vous connecter",
             "emailLabel": "Email",
             "passwordLabel": "Mot de passe",
+            "phoneLabel": "Numéro de téléphone",
             "forgotPassword": "Mot de passe oublié ?",
             "rememberMe": "Se souvenir de moi",
             "submitBtn": "Se connecter",
@@ -119,7 +120,9 @@
             "description": "Entrez vos détails ci-dessous pour créer votre compte",
             "submitBtn": "Créer un compte",
             "haveAccount": "Déjà un compte ?",
-            "loginLink": "Se connecter"
+            "loginLink": "Se connecter",
+            "acceptTerms": "J'accepte les",
+            "and": "et les"
         },
         "VerifyEmail": {
             "title": "Vérifiez votre email",
@@ -132,12 +135,31 @@
             "description": "Entrez votre email pour réinitialiser votre mot de passe",
             "submitBtn": "Envoyer le code de réinitialisation",
             "backToLogin": "Retour à la connexion"
+        },
+        "Errors": {
+            "invalid_credentials": "Email ou mot de passe incorrect.",
+            "user_not_found": "Aucun compte associé à cet email.",
+            "email_exists": "Un compte existe déjà avec cet email.",
+            "not_verified": "Votre compte n'est pas vérifié.",
+            "invalid_otp": "Code de vérification invalide.",
+            "otp_expired": "Le code de vérification a expiré.",
+            "account_locked": "Compte bloqué. Contactez le support.",
+            "session_expired": "Votre session a expiré.",
+            "validation_error": "Données invalides.",
+            "internal_server_error": "Erreur serveur. Veuillez réessayer plus tard.",
+            "unknown_error": "Une erreur inconnue est survenue.",
+            "auth_failed": "Authentification échouée.",
+            "account_disabled": "Compte désactivé. Contactez le support.",
+            "already_verified": "Ce compte est déjà vérifié.",
+            "invalid_token": "Jeton invalide.",
+            "token_revoked": "Jeton révoqué. Veuillez vous reconnecter."
         }
     },
     "Dashboard": {
         "title": "Tableau de bord",
         "nav": {
-            "overview": "Vue d'ensemble"
+            "overview": "Vue d'ensemble",
+            "logout": "Se déconnecter"
         },
         "Overview": {
             "title": "Vue d'ensemble",

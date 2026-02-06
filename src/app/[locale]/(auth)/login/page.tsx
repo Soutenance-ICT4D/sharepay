@@ -9,22 +9,54 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
+import { authService } from "@/core/services/auth.service";
+import { toast } from "sonner";
+
+import { getAuthErrorMessage } from "@/core/lib/error-codes";
+
 export default function LoginPage() {
-    const t = useTranslations('Auth.Login'); // We need to ensure these keys exist
+    const t = useTranslations('Auth.Login');
+    const tGlobal = useTranslations();
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        setIsLoading(true);
+        setIsSubmitting(true);
 
-        // Simulate API call
-        setTimeout(() => {
-            setIsLoading(false);
-            // Handle login logic here
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        try {
+            await authService.login({ email, password }, rememberMe);
+            toast.success("Login successful");
             router.push('/dashboard');
-        }, 2000);
+        } catch (error: any) {
+            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            toast.error(tGlobal(`Auth.Errors.${key}`));
+        } finally {
+            setIsSubmitting(false);
+        }
     }
+
+    // Separate handler for Google
+    async function onGoogleLogin() {
+        setIsGoogleLoading(true);
+        try {
+            await authService.loginWithGoogle();
+            toast.success("Logged in with Google");
+            router.push('/dashboard');
+        } catch (error) {
+            toast.error("Google login failed");
+        } finally {
+            setIsGoogleLoading(false);
+        }
+    }
+
+    const isLoading = isSubmitting || isGoogleLoading;
 
     return (
         <div className="p-8 space-y-6">
@@ -43,6 +75,7 @@ export default function LoginPage() {
                         autoCapitalize="none"
                         autoComplete="email"
                         autoCorrect="off"
+                        name="email"
                         required
                     />
                 </div>
@@ -59,13 +92,18 @@ export default function LoginPage() {
                     <Input
                         id="password"
                         type="password"
+                        name="password"
                         required
                     />
                 </div>
 
                 {/* Remember Me (Optional) */}
                 <div className="flex items-center space-x-2">
-                    <Checkbox id="remember" />
+                    <Checkbox
+                        id="remember"
+                        checked={rememberMe}
+                        onCheckedChange={(checked) => setRememberMe(checked === true)}
+                    />
                     <label
                         htmlFor="remember"
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -75,7 +113,7 @@ export default function LoginPage() {
                 </div>
 
                 <Button className="w-full" type="submit" disabled={isLoading}>
-                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {t('submitBtn')}
                 </Button>
             </form>
@@ -96,11 +134,11 @@ export default function LoginPage() {
                 <Button
                     variant="outline"
                     type="button"
-                    onClick={() => { }}
+                    onClick={onGoogleLogin}
                     disabled={isLoading}
                     className="w-full h-12 gap-3 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300"
                 >
-                    {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : (
+                    {isGoogleLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : (
                         <svg className="h-5 w-5" viewBox="0 0 24 24">
                             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />

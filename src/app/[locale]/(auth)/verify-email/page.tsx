@@ -2,26 +2,67 @@
 
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/core/i18n/routing";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Loader2, Mail } from "lucide-react";
 
+import { authService } from "@/core/services/auth.service";
+import { toast } from "sonner";
+import { getAuthErrorMessage } from "@/core/lib/error-codes";
+
 export default function VerifyEmailPage() {
     const t = useTranslations('Auth.VerifyEmail');
+    const tGlobal = useTranslations();
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const email = searchParams.get('email') || "";
+
     const [isLoading, setIsLoading] = useState(false);
+    const [isResending, setIsResending] = useState(false);
+    const [code, setCode] = useState("");
+
+    async function onResend() {
+        if (!email) return;
+        setIsResending(true);
+        try {
+            await authService.resendOtp(email);
+            toast.success(t('successMessage') || "New code sent!");
+        } catch (error: any) {
+            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            toast.error(tGlobal(`Auth.Errors.${key}`));
+        } finally {
+            setIsResending(false);
+        }
+    }
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        if (!email) {
+            toast.error("Email is missing. Please register again.");
+            return;
+        }
+
+        if (code.length < 6) {
+            toast.error(tGlobal('Auth.Errors.invalid_otp'));
+            return;
+        }
+
         setIsLoading(true);
 
-        // Simulate API call
-        setTimeout(() => {
-            setIsLoading(false);
+        try {
+            await authService.verifyEmail({ email, otpCode: code });
+            toast.success(t('successMessage') || "Email verified!");
             router.push('/login');
-        }, 2000);
+        } catch (error: any) {
+            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            toast.error(tGlobal(`Auth.Errors.${key}`));
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -34,7 +75,7 @@ export default function VerifyEmailPage() {
 
             <div className="space-y-2">
                 <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
-                <p className="text-sm text-muted-foreground">{t('description')} <span className="font-medium text-foreground">user@example.com</span></p>
+                <p className="text-sm text-muted-foreground">{t('description')} <span className="font-medium text-foreground">{email}</span></p>
             </div>
 
             <form onSubmit={onSubmit} className="space-y-4 text-left">
@@ -42,6 +83,8 @@ export default function VerifyEmailPage() {
                     <Label htmlFor="code" className="sr-only">Code</Label>
                     <InputOTP
                         maxLength={6}
+                        value={code}
+                        onChange={(value) => setCode(value)}
                         render={({ slots }) => (
                             <InputOTPGroup>
                                 {slots.map((slot, index) => (
@@ -59,7 +102,13 @@ export default function VerifyEmailPage() {
             </form>
 
             <div className="text-center text-sm">
-                <button className="text-primary hover:underline font-medium" type="button">
+                <button
+                    className="text-primary hover:underline font-medium disabled:opacity-50"
+                    type="button"
+                    onClick={onResend}
+                    disabled={isResending || isLoading}
+                >
+                    {isResending ? <Loader2 className="h-3 w-3 animate-spin inline mr-1" /> : null}
                     {t('resend')}
                 </button>
             </div>

@@ -32,7 +32,7 @@ export const tokenStorage = {
 
     // On cherche d'abord en local, puis en session
     const storage = this.getPersistMode() === "local" ? localStorage : sessionStorage;
-    
+
     const accessToken = storage.getItem(KEYS.ACCESS);
     const refreshToken = storage.getItem(KEYS.REFRESH);
     const tokenType = storage.getItem(KEYS.TYPE) ?? "Bearer";
@@ -42,6 +42,7 @@ export const tokenStorage = {
     return { accessToken, refreshToken, tokenType };
   },
 
+  /**
   /**
    * Enregistre les tokens et gère la stratégie de persistance
    */
@@ -59,6 +60,22 @@ export const tokenStorage = {
     target.setItem(KEYS.ACCESS, tokens.accessToken);
     target.setItem(KEYS.REFRESH, tokens.refreshToken);
     target.setItem(KEYS.TYPE, tokens.tokenType);
+
+    // Cookie management for Middleware
+    // We set a flag cookie. detailed validation happens on client or via API
+    const cookieName = "sharepay_session";
+    const secure = window.location.protocol === "https:" ? "; Secure" : "";
+    const sameSite = "; SameSite=Strict";
+
+    let expires = "";
+    if (persist) {
+      // 30 days
+      const date = new Date();
+      date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+
+    document.cookie = `${cookieName}=true${expires}; path=/${secure}${sameSite}`;
   },
 
   /**
@@ -68,6 +85,9 @@ export const tokenStorage = {
     if (!isBrowser()) return;
     this._clearStorage(localStorage);
     this._clearStorage(sessionStorage);
+
+    // Clear cookie
+    document.cookie = "sharepay_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   },
 
   /**

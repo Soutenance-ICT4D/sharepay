@@ -5,22 +5,50 @@ import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "@/core/i18n/routing";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Loader2, KeyRound } from "lucide-react";
 
+import { authService } from "@/core/services/auth.service";
+import { toast } from "sonner";
+import { getAuthErrorMessage } from "@/core/lib/error-codes";
+
 export default function VerifyResetCodePage() {
-    const router = useRouter(); // To navigate to reset-password
+    const tGlobal = useTranslations();
+    // Ideally translations
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const email = searchParams.get('email') || "";
+
     const [isLoading, setIsLoading] = useState(false);
+    const [code, setCode] = useState("");
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        if (!email) {
+            toast.error("Email is missing.");
+            return;
+        }
+
+        if (code.length < 6) {
+            toast.error("Invalid code.");
+            return;
+        }
+
         setIsLoading(true);
 
-        setTimeout(() => {
+        try {
+            const response = await authService.verifyResetCode({ email, otpCode: code });
+            toast.success("Code verified.");
+            // response.resetToken contains the token
+            router.push(`/reset-password?email=${encodeURIComponent(email)}&token=${encodeURIComponent(response.resetToken)}`);
+        } catch (error: any) {
+            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            toast.error(tGlobal(`Auth.Errors.${key}`));
+        } finally {
             setIsLoading(false);
-            // On success, redirect to reset-password
-            router.push('/reset-password');
-        }, 2000);
+        }
     }
 
     return (
@@ -41,6 +69,8 @@ export default function VerifyResetCodePage() {
                     <Label htmlFor="code" className="sr-only">Code</Label>
                     <InputOTP
                         maxLength={6}
+                        value={code}
+                        onChange={(value) => setCode(value)}
                         render={({ slots }) => (
                             <InputOTPGroup>
                                 {slots.map((slot, index) => (
