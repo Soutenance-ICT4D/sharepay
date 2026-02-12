@@ -113,7 +113,8 @@
             "submitBtn": "Sign In",
             "orContinueWith": "Or continue with",
             "noAccount": "Don't have an account?",
-            "registerLink": "Sign Up"
+            "registerLink": "Sign Up",
+            "successMessage": "Login successful."
         },
         "Register": {
             "title": "Create an account",
@@ -122,19 +123,32 @@
             "haveAccount": "Already have an account?",
             "loginLink": "Sign In",
             "acceptTerms": "I accept the",
-            "and": "and the"
+            "and": "and the",
+            "successMessage": "Account created successfully. Please verify your email."
         },
         "VerifyEmail": {
             "title": "Verify your email",
             "description": "We sent a verification code to",
             "submitBtn": "Verify",
-            "resend": "Resend code"
+            "resend": "Resend code",
+            "successMessage": "Email verified successfully."
         },
         "ForgotPassword": {
             "title": "Forgot password",
             "description": "Enter your email to reset your password",
             "submitBtn": "Send Reset Code",
-            "backToLogin": "Back to login"
+            "backToLogin": "Back to login",
+            "successMessage": "If an account exists, a reset code has been sent."
+        },
+        "ResetPassword": {
+            "title": "Create new password",
+            "description": "Your new password must be different from previously used passwords.",
+            "labelNew": "New Password",
+            "labelConfirm": "Confirm Password",
+            "submitBtn": "Set New Password",
+            "successMessage": "Password reset successfully. Please login.",
+            "errorMatch": "Passwords do not match.",
+            "errorMissing": "Missing email or reset token."
         },
         "Errors": {
             "invalid_credentials": "Incorrect email or password.",
@@ -170,6 +184,20 @@
                 "transactions": "Transactions",
                 "customers": "Customers"
             }
+        },
+        "Sidebar": {
+            "overview": "Overview",
+            "paymentLinks": "Payment Link",
+            "transactions": "Transactions",
+            "customers": "Customers",
+            "developers": "Developers",
+            "settings": "Settings"
+        },
+        "Header": {
+            "searchPlaceholder": "Search...",
+            "profile": "Profile",
+            "settings": "Settings",
+            "logout": "Log out"
         }
     }
 }

@@ -14,8 +14,8 @@ import { toast } from "sonner";
 import { getAuthErrorMessage } from "@/core/lib/error-codes";
 
 export default function ResetPasswordPage() {
+    const t = useTranslations('Auth.ResetPassword');
     const tGlobal = useTranslations();
-    // Ideally adding 'Auth.ResetPassword' keys later
     const router = useRouter();
     const searchParams = useSearchParams();
     const email = searchParams.get('email') || "";
@@ -27,7 +27,7 @@ export default function ResetPasswordPage() {
         event.preventDefault();
 
         if (!email || !resetToken) {
-            toast.error("Missing email or reset token.");
+            toast.error(t('errorMissing') || "Missing email or reset token.");
             return;
         }
 
@@ -38,14 +38,14 @@ export default function ResetPasswordPage() {
         const confirmPassword = formData.get("confirmPassword") as string;
 
         if (newPassword !== confirmPassword) {
-            toast.error("Passwords do not match.");
+            toast.error(t('errorMatch') || "Passwords do not match.");
             setIsLoading(false);
             return;
         }
 
         try {
             await authService.resetPassword({ email, resetToken, newPassword });
-            toast.success("Password reset successfully. Please login.");
+            toast.success(t('successMessage'));
             // Redirect to login
             router.push('/login');
         } catch (error: any) {
@@ -65,13 +65,13 @@ export default function ResetPasswordPage() {
             </div>
 
             <div className="space-y-2">
-                <h1 className="text-2xl font-bold tracking-tight">Create new password</h1>
-                <p className="text-sm text-muted-foreground">Your new password must be different from previously used passwords.</p>
+                <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
+                <p className="text-sm text-muted-foreground">{t('description')}</p>
             </div>
 
             <form onSubmit={onSubmit} className="space-y-4 text-left">
                 <div className="space-y-2">
-                    <Label htmlFor="newPassword">New Password</Label>
+                    <Label htmlFor="newPassword">{t('labelNew')}</Label>
                     <Input
                         id="newPassword"
                         type="password"
@@ -82,7 +82,7 @@ export default function ResetPasswordPage() {
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword">{t('labelConfirm')}</Label>
                     <Input
                         id="confirmPassword"
                         type="password"
@@ -94,7 +94,7 @@ export default function ResetPasswordPage() {
 
                 <Button className="w-full" type="submit" disabled={isLoading}>
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Set New Password
+                    {t('submitBtn')}
                 </Button>
             </form>
         </div>

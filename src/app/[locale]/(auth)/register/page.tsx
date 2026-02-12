@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/core/i18n/routing";
+import { getCountryCallingCode, Country } from "react-phone-number-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,7 +24,7 @@ export default function RegisterPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
     const [phoneValue, setPhoneValue] = useState<string>("");
-    const [countryCode, setCountryCode] = useState<string | undefined>("CM");
+    const [countryCode, setCountryCode] = useState<Country | undefined>("CM");
     const [acceptedTerms, setAcceptedTerms] = useState(false);
 
     // États pour les champs du formulaire
@@ -60,7 +61,7 @@ export default function RegisterPage() {
                 password,
                 fullName: fullname,
                 phone: phoneValue,
-                countryCode: countryCode,
+                countryCode: countryCode ? `+${getCountryCallingCode(countryCode)}` : "",
                 role: "MERCHANT" // Default role as per plan/docs
             });
             toast.success(t('successMessage') || "Account created! Please verify your email.");
@@ -138,7 +139,7 @@ export default function RegisterPage() {
                         placeholder="Enter phone number"
                         value={phoneValue}
                         onChange={setPhoneValue}
-                        onCountryChange={setCountryCode}
+                        onCountryChange={(c) => setCountryCode(c as Country)}
                     />
                 </div>
 

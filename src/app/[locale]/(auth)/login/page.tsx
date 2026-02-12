@@ -32,7 +32,7 @@ export default function LoginPage() {
 
         try {
             await authService.login({ email, password }, rememberMe);
-            toast.success("Login successful");
+            toast.success(t('successMessage'));
             router.push('/dashboard');
         } catch (error: any) {
             const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");

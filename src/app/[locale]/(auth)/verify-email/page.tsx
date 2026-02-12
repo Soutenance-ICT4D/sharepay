@@ -29,7 +29,7 @@ export default function VerifyEmailPage() {
         setIsResending(true);
         try {
             await authService.resendOtp(email);
-            toast.success(t('successMessage') || "New code sent!");
+            toast.success(t('successMessage'));
         } catch (error: any) {
             const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
             toast.error(tGlobal(`Auth.Errors.${key}`));
@@ -55,7 +55,7 @@ export default function VerifyEmailPage() {
 
         try {
             await authService.verifyEmail({ email, otpCode: code });
-            toast.success(t('successMessage') || "Email verified!");
+            toast.success(t('successMessage'));
             router.push('/login');
         } catch (error: any) {
             const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");

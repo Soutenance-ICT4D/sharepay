@@ -14,7 +14,7 @@ export interface RegisterRequest {
     phone: string;
     password?: string; // Optionnel si OAUTH, mais requis par API standard
     role?: "USER" | "MERCHANT" | "ADMIN"; // Default MERCHANT
-    countryCode?: string; // Utile pour le front, peut-être à concaténer dans 'phone' avant envoi
+    countryCode: string; // Requis pour le backend (ex: "+237")
 }
 
 // Réponse suite à une inscription/vérification (User object)

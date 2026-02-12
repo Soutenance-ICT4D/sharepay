@@ -34,14 +34,10 @@ export const authService = {
 
             return authData;
         } catch (error: any) {
-            // Si c'est une erreur Axios avec réponse backend
             if (error.response?.data) {
                 const apiError = error.response.data as ApiResponse;
-                // On lance une erreur contenant LE CODE (ex: AUTH_INVALID_CREDENTIALS)
-                // Cela permettra à getAuthErrorMessage de faire le mapping
                 throw new Error(apiError.code || apiError.message || "UNKNOWN_ERROR");
             }
-            // Sinon on relance l'erreur d'origine
             throw error;
         }
     },
@@ -159,8 +155,9 @@ export const authService = {
             if (tokens?.refreshToken) {
                 await client.post("/auth/logout", { refreshToken: tokens.refreshToken });
             }
-        } catch (error) {
-            console.error("Logout failed on backend", error);
+        } catch {
+            // Ignore backend errors during logout (e.g. 500 or 401)
+            // We want to clear local session regardless
         } finally {
             tokenStorage.clear();
         }

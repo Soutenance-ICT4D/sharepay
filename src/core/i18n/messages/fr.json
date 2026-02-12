@@ -113,7 +113,8 @@
             "submitBtn": "Se connecter",
             "orContinueWith": "Ou continuer avec",
             "noAccount": "Pas encore de compte ?",
-            "registerLink": "S'inscrire"
+            "registerLink": "S'inscrire",
+            "successMessage": "Connexion réussie."
         },
         "Register": {
             "title": "Créer un compte",
@@ -122,19 +123,32 @@
             "haveAccount": "Déjà un compte ?",
             "loginLink": "Se connecter",
             "acceptTerms": "J'accepte les",
-            "and": "et les"
+            "and": "et les",
+            "successMessage": "Compte créé avec succès. Veuillez vérifier votre email."
         },
         "VerifyEmail": {
             "title": "Vérifiez votre email",
             "description": "Nous avons envoyé un code de vérification à",
             "submitBtn": "Vérifier",
-            "resend": "Renvoyer le code"
+            "resend": "Renvoyer le code",
+            "successMessage": "Email vérifié avec succès."
         },
         "ForgotPassword": {
             "title": "Mot de passe oublié",
             "description": "Entrez votre email pour réinitialiser votre mot de passe",
             "submitBtn": "Envoyer le code de réinitialisation",
-            "backToLogin": "Retour à la connexion"
+            "backToLogin": "Retour à la connexion",
+            "successMessage": "Si un compte existe, un code de réinitialisation a été envoyé."
+        },
+        "ResetPassword": {
+            "title": "Créer un nouveau mot de passe",
+            "description": "Votre nouveau mot de passe doit être différent des précédents.",
+            "labelNew": "Nouveau mot de passe",
+            "labelConfirm": "Confirmer le mot de passe",
+            "submitBtn": "Définir le nouveau mot de passe",
+            "successMessage": "Mot de passe réinitialisé avec succès. Veuillez vous connecter.",
+            "errorMatch": "Les mots de passe ne correspondent pas.",
+            "errorMissing": "Email ou jeton manquant."
         },
         "Errors": {
             "invalid_credentials": "Email ou mot de passe incorrect.",
@@ -170,6 +184,20 @@
                 "transactions": "Transactions",
                 "customers": "Clients"
             }
+        },
+        "Sidebar": {
+            "overview": "Aperçu",
+            "paymentLinks": "Lien de paiement",
+            "transactions": "Transactions",
+            "customers": "Clients",
+            "developers": "Développeurs",
+            "settings": "Paramètres"
+        },
+        "Header": {
+            "searchPlaceholder": "Rechercher...",
+            "profile": "Profil",
+            "settings": "Paramètres",
+            "logout": "Déconnexion"
         }
     }
 }

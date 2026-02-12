@@ -28,7 +28,7 @@ export default function ForgotPasswordPage() {
 
         try {
             await authService.forgotPassword({ email });
-            toast.success("Reset code sent to your email.");
+            toast.success(t('successMessage'));
             // Redirect to verify-reset-code
             router.push(`/verify-reset-code?email=${encodeURIComponent(email)}`);
         } catch (error: any) {

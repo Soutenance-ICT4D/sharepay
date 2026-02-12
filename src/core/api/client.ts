@@ -14,8 +14,6 @@ export const client = axios.create({
 // Intercepteur de requête : Ajoute le token automatiquement et log la requête
 client.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-        // LOG DEBUG
-        console.log(`🚀 [API Request] ${config.method?.toUpperCase()} ${config.url}`, config.data);
 
         const tokens = tokenStorage.get();
         if (tokens?.accessToken) {
@@ -24,7 +22,6 @@ client.interceptors.request.use(
         return config;
     },
     (error: AxiosError) => {
-        console.error("❌ [API Request Error]", error);
         return Promise.reject(error);
     }
 );
@@ -32,23 +29,10 @@ client.interceptors.request.use(
 // Intercepteur de réponse : Gère les erreurs globales (ex: 401)
 client.interceptors.response.use(
     (response) => {
-        console.log(`✅ [API Response] ${response.config.method?.toUpperCase()} ${response.config.url}`, response.status, response.data);
         return response;
     },
     async (error: AxiosError) => {
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
-
-        // LOG DEBUG: On utilise console.dir pour voir toute l'erreur
-        if (error.response) {
-            console.error("❌ [API Response Error Details]:", {
-                message: error.message,
-                code: error.code,
-                status: error.response?.status,
-                url: error.config?.url
-            });
-        } else {
-            console.error("🚨 [Network Error] Impossible de contacter le serveur.", error.message);
-        }
 
         const isLoginRequest = originalRequest.url?.includes("/auth/login");
         const isRefreshRequest = originalRequest.url?.includes("/auth/refresh-token");
