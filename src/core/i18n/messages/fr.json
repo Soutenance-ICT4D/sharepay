@@ -188,10 +188,12 @@
         "Sidebar": {
             "overview": "Aperçu",
             "paymentLinks": "Lien de paiement",
+            "withdrawals": "Retrait",
             "transactions": "Transactions",
-            "customers": "Clients",
+            "apps": "Applications",
             "developers": "Développeurs",
-            "settings": "Paramètres"
+            "settings": "Paramètres",
+            "faq": "FAQ"
         },
         "Header": {
             "searchPlaceholder": "Rechercher...",
@@ -199,5 +201,20 @@
             "settings": "Paramètres",
             "logout": "Déconnexion"
         }
+    },
+    "NotFound": {
+        "title": "Page introuvable",
+        "description": "Il semble que le chemin soit introuvable. Ne vous inquiétez pas,",
+        "backHome": "Retour à l'accueil",
+        "breadcrumbHome": "Accueil",
+        "breadcrumbError": "Erreur 404",
+        "descriptionNote": "vos transactions et vos fonds sont en parfaite sécurité",
+        "searchPlaceholder": "Rechercher une transaction, un marchand ou de l'aide...",
+        "contactSupport": "Contacter le support",
+        "quickLinks": "Liens utiles",
+        "helpCenter": "Centre d'aide",
+        "transactions": "Transactions",
+        "security": "Sécurité",
+        "systemStatus": "État du système"
     }
 }

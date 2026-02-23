@@ -1,4 +1,12 @@
 @import "tailwindcss";
+/*
+  ---break---
+*/
+@plugin "tailwindcss-animate";
+/*
+  ---break---
+*/
+@custom-variant dark (&:is(.dark *));
 @config "../../tailwind.config.ts";
 
 /*
@@ -103,3 +111,4 @@
     color: hsl(var(--foreground));
   }
 }
+

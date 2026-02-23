@@ -3,8 +3,6 @@
 import { Link, usePathname } from "@/core/i18n/routing";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useState } from "react";
 
 interface DashboardSidebarProps {
     isOpen: boolean;
@@ -14,23 +12,19 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
     const t = useTranslations('Dashboard.Sidebar');
     const pathname = usePathname();
-    const [avatarLoaded, setAvatarLoaded] = useState(false);
-
-    // Mock user data (In a real app, this would come from a hook or props)
-    const user = {
-        name: "User Name",
-        status: "Pro Plan",
-        avatarUrl: null // or "/images/avatar.jpeg" if available
-    };
-    const initials = "UN";
-    const isValidAvatar = Boolean(user.avatarUrl);
 
     const navItems = [
         { href: '/dashboard', label: t('overview'), iconSrc: '/icons/dashboard.png' },
         { href: '/dashboard/payment-links', label: t('paymentLinks'), iconSrc: '/icons/income.png' },
+        { href: '/dashboard/withdrawals', label: t('withdrawals'), iconSrc: '/icons/withdraw.png' },
         { href: '/dashboard/transactions', label: t('transactions'), iconSrc: '/icons/transaction.png' },
-        { href: '/dashboard/customers', label: t('customers'), iconSrc: '/icons/customer.png' },
+        { href: '/dashboard/apps', label: t('apps'), iconSrc: '/icons/apps.png' },
         { href: '/dashboard/developers', label: t('developers'), iconSrc: '/icons/code.png' },
+    ];
+
+    const bottomNavItems = [
+        { href: '/dashboard/settings', label: t('settings'), iconSrc: '/icons/setting.png' },
+        { href: '/faq', label: t('faq'), iconSrc: '/icons/help.png' },
     ];
 
     return (
@@ -72,12 +66,12 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
 
                         return (
                             <Link
-                                key={item.href}
+                                key={`top-${item.href}`}
                                 href={item.href}
                                 onClick={() => onClose()}
                                 className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${isActive
-                                        ? "bg-primary/10 text-primary"
-                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    ? "bg-primary/10 text-primary"
+                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                     }`}
                             >
                                 <span
@@ -107,38 +101,45 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                     })}
                 </nav>
 
-                <div className="p-4 border-t">
-                    <div className="flex items-center gap-3 px-2">
-                        <Avatar className="h-9 w-9 border border-primary/20 overflow-hidden">
-                            {isValidAvatar ? (
-                                <AvatarImage
-                                    src={user.avatarUrl!}
-                                    alt={user.name}
-                                    className={[
-                                        "h-full w-full object-cover",
-                                        avatarLoaded ? "opacity-100" : "opacity-0",
-                                        "transition-opacity duration-200",
-                                    ].join(" ")}
-                                    onLoadingStatusChange={(status) => setAvatarLoaded(status === 'loaded')}
-                                />
-                            ) : null}
+                <div className="p-4 border-t space-y-1">
+                    {bottomNavItems.map((item) => {
+                        const isActive = pathname === item.href;
 
-                            <AvatarFallback
-                                className={[
-                                    "bg-primary/10 text-primary font-bold",
-                                    isValidAvatar && avatarLoaded ? "opacity-0" : "opacity-100",
-                                    "transition-opacity duration-200",
-                                ].join(" ")}
+                        return (
+                            <Link
+                                key={`bottom-${item.href}`}
+                                href={item.href}
+                                onClick={() => onClose()}
+                                className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${isActive
+                                    ? "bg-primary/10 text-primary"
+                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    }`}
                             >
-                                {initials}
-                            </AvatarFallback>
-                        </Avatar>
-
-                        <div className="min-w-0">
-                            <p className="text-sm font-medium leading-none truncate">{user.name}</p>
-                            <p className="text-xs text-muted-foreground truncate">{user.status}</p>
-                        </div>
-                    </div>
+                                <span
+                                    className={[
+                                        "h-9 w-9 rounded-lg flex items-center justify-center",
+                                        isActive
+                                            ? "bg-primary/10"
+                                            : "bg-muted/40 group-hover:bg-muted/60 dark:bg-muted/30 dark:group-hover:bg-muted/40 dark:ring-1 dark:ring-border/40",
+                                        "transition-colors",
+                                    ].join(" ")}
+                                >
+                                    <Image
+                                        src={item.iconSrc}
+                                        alt={item.label}
+                                        width={20}
+                                        height={20}
+                                        className={[
+                                            "h-5 w-5",
+                                            isActive ? "opacity-100" : "opacity-70 group-hover:opacity-100",
+                                            "transition-opacity dark:invert dark:opacity-90"
+                                        ].join(" ")}
+                                    />
+                                </span>
+                                {item.label}
+                            </Link>
+                        );
+                    })}
                 </div>
             </aside>
         </>

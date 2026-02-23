@@ -6,13 +6,14 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, theme, resolvedTheme } = useTheme();
 
   const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    
+    const currentTheme = theme === "system" ? resolvedTheme : theme;
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+
     setTheme(newTheme);
-    
+
     // Cookie pour éviter le flash blanc (SSR)
     document.cookie = `theme=${newTheme}; path=/; max-age=31536000`;
   };
@@ -31,10 +32,10 @@ export function ThemeToggle() {
     >
       {/* SOLEIL (Visible en Light Mode) */}
       <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0 hover:rotate-45" />
-      
+
       {/* LUNE (Visible en Dark Mode) */}
       <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100 dark:hover:-rotate-12" />
-      
+
       <span className="sr-only">Changer le thème</span>
     </Button>
   );

@@ -132,10 +132,6 @@ export default function DashboardPage() {
                 title="Vue d'ensemble"
                 subtitle="Bienvenue, voici l'état de votre activité aujourd'hui."
                 onPayout={() => router.push("/dashboard/payout")}
-                onDateRangeChange={(preset, range) => {
-                    setRangePreset(preset);
-                    setRangeCustom(range ?? {});
-                }}
             />
 
             <OverviewStatsGrid stats={stats} />
@@ -145,6 +141,10 @@ export default function DashboardPage() {
                     title="Flux de transactions"
                     subtitle="Évolution sur la période sélectionnée"
                     data={chartData}
+                    onDateRangeChange={(preset, range) => {
+                        setRangePreset(preset);
+                        setRangeCustom(range ?? {});
+                    }}
                 />
                 <OverviewRecentActivity
                     title="Activité récente"

@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { OverviewTransactionPoint } from "@/core/data/dashboard";
+import { CalendarDays, ChevronDown } from "lucide-react";
+import { DateRangePreset } from "@/core/data/dashboard";
 
 type Mode = "volume" | "count";
 
@@ -38,14 +40,70 @@ export function OverviewTransactionChartCard({
     title,
     subtitle,
     data,
+    onDateRangeChange
 }: {
     title: string;
     subtitle: string;
     data: OverviewTransactionPoint[];
+    onDateRangeChange?: (value: DateRangePreset, range?: { from?: string; to?: string }) => void;
 }) {
     const [mode, setMode] = useState<Mode>("volume");
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
+
+    const todayLabel = useMemo(() => {
+        const now = new Date();
+        return new Intl.DateTimeFormat("fr-FR", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+        }).format(now);
+    }, []);
+
+    const [preset, setPreset] = useState<DateRangePreset>("last30");
+    const [customFrom, setCustomFrom] = useState<string>("");
+    const [customTo, setCustomTo] = useState<string>("");
+    const [dateMenuOpen, setDateMenuOpen] = useState(false);
+
+    useEffect(() => {
+        const handler = (event: PointerEvent) => {
+            const root = rootRef.current;
+            if (!root) return;
+
+            const path = (event.composedPath?.() ?? []) as EventTarget[];
+            const isInside = path.length ? path.includes(root) : root.contains(event.target as Node | null);
+
+            if (!isInside) {
+                setDateMenuOpen(false);
+            }
+        };
+
+        window.addEventListener("pointerdown", handler, true);
+        return () => {
+            window.removeEventListener("pointerdown", handler, true);
+        };
+    }, []);
+
+    const presetLabel = useMemo(() => {
+        if (preset === "today") return `Aujourd'hui (${todayLabel})`;
+        if (preset === "last7") return "7 derniers jours";
+        if (preset === "last30") return "30 derniers jours";
+        return "Personnaliser";
+    }, [preset, todayLabel]);
+
+    const setPresetAndNotify = (next: DateRangePreset) => {
+        setPreset(next);
+        setDateMenuOpen(false);
+        if (next !== "custom") {
+            setCustomFrom("");
+            setCustomTo("");
+            onDateRangeChange?.(next);
+        } else {
+            onDateRangeChange?.("custom", { from: customFrom, to: customTo });
+        }
+    };
+
 
     const { points, linePath, areaPath, xLabels } = useMemo(() => {
         if (!data.length) return { points: [], linePath: "", areaPath: "", xLabels: [] };
@@ -75,28 +133,110 @@ export function OverviewTransactionChartCard({
     const activePoint = activeIndex !== null ? points[activeIndex] : null;
 
     return (
-        <div className="xl:col-span-2 bg-card text-card-foreground rounded-xl border p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-8">
+        <div className="xl:col-span-2 bg-card text-card-foreground rounded-xl border p-6 shadow-sm flex flex-col pt-0 pb-0" ref={rootRef}>
+            <div className="flex flex-col sm:flex-row gap-4 lg:items-center lg:justify-between py-6">
                 <div>
                     <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
                     <p className="text-sm text-muted-foreground">{subtitle}</p>
                 </div>
-                <div className="flex bg-muted/50 p-1 rounded-lg border">
-                    {(["volume", "count"] as const).map((m) => (
-                        <Button
-                            key={m}
-                            size="sm"
-                            variant={mode === m ? "secondary" : "ghost"}
-                            className={`text-xs h-7 px-3 ${mode === m ? "shadow-sm" : "text-muted-foreground"}`}
-                            onClick={() => setMode(m)}
+
+                <div className="flex flex-col sm:flex-row items-end gap-3 sm:items-center">
+                    {preset === "custom" ? (
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
+                            <input
+                                type="date"
+                                value={customFrom}
+                                onChange={(e) => {
+                                    setCustomFrom(e.target.value);
+                                    onDateRangeChange?.("custom", { from: e.target.value, to: customTo });
+                                }}
+                                className="h-10 rounded-md border border-input bg-background px-3 text-sm font-bold text-foreground shadow-sm w-full sm:w-auto"
+                            />
+                            <input
+                                type="date"
+                                value={customTo}
+                                onChange={(e) => {
+                                    setCustomTo(e.target.value);
+                                    onDateRangeChange?.("custom", { from: customFrom, to: e.target.value });
+                                }}
+                                className="h-10 rounded-md border border-input bg-background px-3 text-sm font-bold text-foreground shadow-sm w-full sm:w-auto"
+                            />
+                        </div>
+                    ) : null}
+
+                    <div className="relative w-full sm:w-auto">
+                        <button
+                            type="button"
+                            className="w-full sm:w-auto h-10 inline-flex items-center justify-between sm:justify-center gap-2 rounded-md border border-input bg-background px-3 text-sm font-bold text-foreground shadow-sm hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            aria-haspopup="menu"
+                            aria-expanded={dateMenuOpen}
+                            onClick={() => setDateMenuOpen((value) => !value)}
                         >
-                            {m === "volume" ? "Volume" : "Nombre"}
-                        </Button>
-                    ))}
+                            <div className="flex items-center gap-2">
+                                <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                                <span className="whitespace-nowrap">{presetLabel}</span>
+                            </div>
+                            <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        </button>
+
+                        {dateMenuOpen ? (
+                            <div
+                                className="absolute right-0 mt-2 w-full sm:w-[240px] rounded-md border bg-card text-card-foreground shadow-lg z-50 overflow-hidden"
+                                role="menu"
+                            >
+                                <button
+                                    type="button"
+                                    className="w-full text-left px-3 py-2 text-sm font-semibold hover:bg-muted"
+                                    role="menuitem"
+                                    onClick={() => setPresetAndNotify("today")}
+                                >
+                                    Aujourd'hui ({todayLabel})
+                                </button>
+                                <button
+                                    type="button"
+                                    className="w-full text-left px-3 py-2 text-sm font-semibold hover:bg-muted"
+                                    role="menuitem"
+                                    onClick={() => setPresetAndNotify("last7")}
+                                >
+                                    7 derniers jours
+                                </button>
+                                <button
+                                    type="button"
+                                    className="w-full text-left px-3 py-2 text-sm font-semibold hover:bg-muted"
+                                    role="menuitem"
+                                    onClick={() => setPresetAndNotify("last30")}
+                                >
+                                    30 derniers jours
+                                </button>
+                                <button
+                                    type="button"
+                                    className="w-full text-left px-3 py-2 text-sm font-semibold hover:bg-muted"
+                                    role="menuitem"
+                                    onClick={() => setPresetAndNotify("custom")}
+                                >
+                                    Personnaliser
+                                </button>
+                            </div>
+                        ) : null}
+                    </div>
+
+                    <div className="flex bg-muted/50 p-1 rounded-lg border w-full sm:w-auto justify-center sm:justify-start">
+                        {(["volume", "count"] as const).map((m) => (
+                            <Button
+                                key={m}
+                                size="sm"
+                                variant={mode === m ? "secondary" : "ghost"}
+                                className={`text-xs h-7 px-3 ${mode === m ? "shadow-sm" : "text-muted-foreground"}`}
+                                onClick={() => setMode(m)}
+                            >
+                                {m === "volume" ? "Volume" : "Nombre"}
+                            </Button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
-            <div className="relative h-[240px] w-full group" ref={containerRef}>
+            <div className="relative h-[240px] w-full group mb-8" ref={containerRef}>
                 {/* Grille horizontale en arrière-plan */}
                 <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                     {[...Array(5)].map((_, i) => (
@@ -185,7 +325,7 @@ export function OverviewTransactionChartCard({
             </div>
 
             {/* Labels X */}
-            <div className="flex justify-between mt-4">
+            <div className="flex justify-between pb-6 mt-auto">
                 {points.filter((_, i) => i % Math.ceil(points.length / 6) === 0 || i === points.length - 1).map((p, i) => (
                     <span key={i} className="text-[11px] font-medium text-muted-foreground">
                         {p.label}

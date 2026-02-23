@@ -188,10 +188,12 @@
         "Sidebar": {
             "overview": "Overview",
             "paymentLinks": "Payment Link",
+            "withdrawals": "Withdrawals",
             "transactions": "Transactions",
-            "customers": "Customers",
+            "apps": "Apps",
             "developers": "Developers",
-            "settings": "Settings"
+            "settings": "Settings",
+            "faq": "FAQ"
         },
         "Header": {
             "searchPlaceholder": "Search...",
@@ -199,5 +201,20 @@
             "settings": "Settings",
             "logout": "Log out"
         }
+    },
+    "NotFound": {
+        "title": "Page Not Found",
+        "description": "It seems the path cannot be found. Don't worry,",
+        "backHome": "Back to Home",
+        "breadcrumbHome": "Home",
+        "breadcrumbError": "404 Error",
+        "descriptionNote": "your transactions and funds are completely secure",
+        "searchPlaceholder": "Search for a transaction, merchant, or help...",
+        "contactSupport": "Contact Support",
+        "quickLinks": "Quick Links",
+        "helpCenter": "Help Center",
+        "transactions": "Transactions",
+        "security": "Security",
+        "systemStatus": "System Status"
     }
 }
