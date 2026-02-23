@@ -1,14 +1,19 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { ProfileHero } from "@/components/dashboard/profile/profile-hero";
+import { ProfileInformation } from "@/components/dashboard/profile/profile-information";
+import { ProfileSecurity } from "@/components/dashboard/profile/profile-security";
+import { ProfileDangerZone } from "@/components/dashboard/profile/profile-danger-zone";
+import { mockUserProfile, mockActiveSessions } from "@/lib/data/mock-profile";
 
 export default function ProfilePage() {
-    const t = useTranslations('Dashboard.Header');
     return (
-        <div className="space-y-8 p-6 md:p-8 pt-6">
-            <h1 className="text-2xl font-bold">{t('profile')}</h1>
-            <div className="bg-card border rounded-lg p-8 text-center text-muted-foreground">
-                User Profile management content.
+        <div className="flex-1 overflow-y-auto p-4 sm:p-8">
+            <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <ProfileHero user={mockUserProfile} />
+                <ProfileInformation user={mockUserProfile} />
+                <ProfileSecurity security={mockUserProfile.security} sessions={mockActiveSessions} />
+                <ProfileDangerZone />
             </div>
         </div>
     );

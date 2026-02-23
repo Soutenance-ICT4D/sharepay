@@ -200,6 +200,40 @@
             "profile": "Profile",
             "settings": "Settings",
             "logout": "Log out"
+        },
+        "Profile": {
+            "title": "My Profile",
+            "verified": "Verified Account",
+            "memberSince": "Member since",
+            "Hero": {
+                "editAvatar": "Edit Avatar"
+            },
+            "Information": {
+                "title": "My Information",
+                "fullName": "Full Name",
+                "email": "Work Email",
+                "phone": "Phone Number",
+                "save": "Save changes"
+            },
+            "Security": {
+                "title": "Account Security",
+                "passwordTitle": "Password",
+                "passwordDesc": "Last changed",
+                "passwordChange": "Change password",
+                "twoFactorTitle": "Two-Factor Authentication (2FA)",
+                "twoFactorDesc": "Secure your account via SMS or Authenticator App",
+                "twoFactorActive": "Enabled",
+                "sessionsTitle": "Devices & Sessions",
+                "sessionsDesc": "Manage your active sessions across browsers",
+                "sessionsDisconnect": "Sign out all",
+                "sessionCurrent": "Current session",
+                "sessionActive": "Active"
+            },
+            "DangerZone": {
+                "title": "Danger Zone",
+                "warning": "Account deletion is irreversible. All your data will be erased after 30 days.",
+                "deleteAccount": "Delete my account"
+            }
         }
     },
     "NotFound": {

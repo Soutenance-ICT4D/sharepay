@@ -27,6 +27,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authService } from "@/core/services/auth.service";
+import { mockUserProfile } from "@/lib/data/mock-profile";
 import { useRouter } from "@/core/i18n/routing";
 
 interface DashboardHeaderProps {
@@ -68,9 +69,9 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
 
     // Mock user for now
     const user = {
-        name: "User",
-        email: "user@sharepay.com",
-        avatarUrl: null
+        name: mockUserProfile.fullName,
+        email: mockUserProfile.email,
+        avatarUrl: mockUserProfile.avatarUrl !== "/images/placeholders/avatar.jpg" ? mockUserProfile.avatarUrl : null
     };
 
     const handleLogout = async () => {

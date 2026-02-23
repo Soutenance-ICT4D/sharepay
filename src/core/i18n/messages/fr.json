@@ -200,6 +200,40 @@
             "profile": "Profil",
             "settings": "Paramètres",
             "logout": "Déconnexion"
+        },
+        "Profile": {
+            "title": "Mon Profil",
+            "verified": "Compte Vérifié",
+            "memberSince": "Membre depuis",
+            "Hero": {
+                "editAvatar": "Modifier l'avatar"
+            },
+            "Information": {
+                "title": "Mes Informations",
+                "fullName": "Nom complet",
+                "email": "Email professionnel",
+                "phone": "Numéro de téléphone",
+                "save": "Enregistrer les modifications"
+            },
+            "Security": {
+                "title": "Sécurité du Compte",
+                "passwordTitle": "Mot de passe",
+                "passwordDesc": "Dernière modification il y a",
+                "passwordChange": "Changer le mot de passe",
+                "twoFactorTitle": "Double authentification (2FA)",
+                "twoFactorDesc": "Sécurisez votre compte via SMS ou App d'authentification",
+                "twoFactorActive": "Activé",
+                "sessionsTitle": "Appareils & Sessions",
+                "sessionsDesc": "Gérez vos sessions actives sur différents navigateurs",
+                "sessionsDisconnect": "Tout déconnecter",
+                "sessionCurrent": "Session actuelle",
+                "sessionActive": "Actif"
+            },
+            "DangerZone": {
+                "title": "Zone de danger",
+                "warning": "La suppression du compte est irréversible. Toutes vos données seront effacées après 30 jours.",
+                "deleteAccount": "Supprimer mon compte"
+            }
         }
     },
     "NotFound": {
