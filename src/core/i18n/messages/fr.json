@@ -178,6 +178,10 @@
         "Overview": {
             "title": "Vue d'ensemble",
             "welcome": "Bienvenue sur votre tableau de bord SharePay.",
+            "actions": {
+                "paymentLink": "Lien de paiement",
+                "withdraw": "Retrait"
+            },
             "stats": {
                 "revenue": "Revenu Total",
                 "activeLinks": "Liens Actifs",
@@ -245,7 +249,9 @@
             "developers": "Développeurs",
             "settings": "Paramètres",
             "profile": "Profil",
-            "faq": "FAQ"
+            "faq": "FAQ",
+            "edit": "Modifier",
+            "new": "Nouveau"
         },
         "PaymentLinks": {
             "title": "Liens de paiement",
@@ -343,6 +349,69 @@
                 "hidePreview": "Masquer l'aperçu",
                 "successMessage": "Lien de paiement mis à jour avec succès !",
                 "submit": "Enregistrer les modifications"
+            }
+        },
+        "Withdrawals": {
+            "title": "Mes retraits",
+            "subtitle": "Gérez vos retraits vers vos comptes bancaires et mobiles.",
+            "availableBalance": "Solde disponible",
+            "totalWithdrawn": "Total retiré",
+            "globalFlow": "Flux global",
+            "configureWithdrawals": "Configurer les retraits",
+            "Form": {
+                "title": "Effectuer un retrait",
+                "amountLabel": "Montant à retirer",
+                "amountPlaceholder": "Ex: 50000",
+                "destinationLabel": "Moyen de paiement",
+                "destinationPlaceholder": "Sélectionnez une destination",
+                "submit": "Retirer les fonds"
+            },
+            "Methods": {
+                "title": "Moyens de paiement",
+                "addMethod": "Ajouter un moyen",
+                "edit": "Modifier",
+                "delete": "Supprimer"
+            },
+            "History": {
+                "title": "Historique des retraits",
+                "id": "ID",
+                "date": "Date",
+                "destination": "Destination",
+                "amount": "Montant",
+                "status": "Statut",
+                "statusPending": "En attente",
+                "statusCompleted": "Terminé",
+                "statusFailed": "Échoué"
+            },
+            "ConfigModal": {
+                "title": "Configuration des retraits",
+                "description": "Paramétrez le comportement de vos retraits automatiques et autres options liées à vos fonds.",
+                "placeholder": "Options de configuration bientôt disponibles",
+                "types": {
+                    "manual": "Retrait manuel (Recommandé)",
+                    "instant": "Retrait instantané",
+                    "threshold": "Retrait par seuil",
+                    "periodic": "Retrait périodique"
+                },
+                "descriptions": {
+                    "manual": "Vous décidez de quand et combien retirer vers la destination de votre choix. Aucune action automatique n'est entreprise.",
+                    "instant": "Vos fonds seront automatiquement et immédiatement transférés vers la destination sélectionnée dès leur réception.",
+                    "threshold": "Dès que votre solde disponible atteint le seuil défini, un retrait automatique est déclenché vers la destination de votre choix.",
+                    "periodic": "Vos fonds seront transférés automatiquement selon la fréquence choisie (ex : tous les jours, chaque semaine) vers votre destination."
+                },
+                "fields": {
+                    "destination": "Destination",
+                    "destinationPlaceholder": "Sélectionner une destination",
+                    "destinationDefault": "Mon Compte Bancaire",
+                    "thresholdAmount": "Montant du seuil",
+                    "thresholdAmountPlaceholder": "Ex: 50 000",
+                    "period": "Périodicité",
+                    "periodPlaceholder": "Sélectionner une période",
+                    "daily": "Journalier",
+                    "weekly": "Hebdomadaire",
+                    "monthly": "Mensuel",
+                    "save": "Enregistrer les paramètres"
+                }
             }
         }
     },

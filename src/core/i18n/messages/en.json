@@ -178,6 +178,10 @@
         "Overview": {
             "title": "Overview",
             "welcome": "Welcome to your SharePay dashboard.",
+            "actions": {
+                "paymentLink": "Payment Link",
+                "withdraw": "Withdraw"
+            },
             "stats": {
                 "revenue": "Total Revenue",
                 "activeLinks": "Active Links",
@@ -245,7 +249,9 @@
             "developers": "Developers",
             "settings": "Settings",
             "profile": "Profile",
-            "faq": "FAQ"
+            "faq": "FAQ",
+            "edit": "Edit",
+            "new": "New"
         },
         "PaymentLinks": {
             "title": "Payment Links",
@@ -343,6 +349,69 @@
                 "hidePreview": "Hide preview",
                 "successMessage": "Payment link updated successfully!",
                 "submit": "Save changes"
+            }
+        },
+        "Withdrawals": {
+            "title": "My Withdrawals",
+            "subtitle": "Manage your withdrawals to your bank and mobile accounts.",
+            "availableBalance": "Available Balance",
+            "totalWithdrawn": "Total Withdrawn",
+            "globalFlow": "Global Flow",
+            "configureWithdrawals": "Configure withdrawals",
+            "Form": {
+                "title": "Make a withdrawal",
+                "amountLabel": "Amount to withdraw",
+                "amountPlaceholder": "Ex: 50000",
+                "destinationLabel": "Payment Method",
+                "destinationPlaceholder": "Select a destination",
+                "submit": "Withdraw funds"
+            },
+            "Methods": {
+                "title": "Payment Methods",
+                "addMethod": "Add new method",
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "History": {
+                "title": "Withdrawal History",
+                "id": "ID",
+                "date": "Date",
+                "destination": "Destination",
+                "amount": "Amount",
+                "status": "Status",
+                "statusPending": "Pending",
+                "statusCompleted": "Completed",
+                "statusFailed": "Failed"
+            },
+            "ConfigModal": {
+                "title": "Withdrawal Configuration",
+                "description": "Set up your automatic withdrawal behavior and other fund-related options.",
+                "placeholder": "Configuration options coming soon",
+                "types": {
+                    "manual": "Manual Withdrawal (Recommended)",
+                    "instant": "Instant Withdrawal",
+                    "threshold": "Threshold Withdrawal",
+                    "periodic": "Periodic Withdrawal"
+                },
+                "descriptions": {
+                    "manual": "You decide when and how much to withdraw to the destination of your choice. No automatic action is performed.",
+                    "instant": "Your funds will be automatically and immediately transferred to the selected destination upon receipt.",
+                    "threshold": "As soon as your available balance reaches the defined threshold, an automatic withdrawal is triggered to your destination of choice.",
+                    "periodic": "Your funds will be transferred automatically according to the chosen frequency (e.g., daily, weekly) to your destination."
+                },
+                "fields": {
+                    "destination": "Destination",
+                    "destinationPlaceholder": "Select a destination",
+                    "destinationDefault": "My Bank Account",
+                    "thresholdAmount": "Threshold Amount",
+                    "thresholdAmountPlaceholder": "E.g. 50 000",
+                    "period": "Period",
+                    "periodPlaceholder": "Select a period",
+                    "daily": "Daily",
+                    "weekly": "Weekly",
+                    "monthly": "Monthly",
+                    "save": "Save Settings"
+                }
             }
         }
     },

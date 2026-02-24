@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/core/i18n/routing";
 import { OverviewPageHeading } from "@/components/dashboard/overview/overview-page-heading";
 import { OverviewStatsGrid } from "@/components/dashboard/overview/overview-stats-grid";
@@ -26,6 +27,7 @@ import { buildSeries, DateRangePreset } from "@/core/data/dashboard";
 
 export default function DashboardPage() {
     const router = useRouter();
+    const t = useTranslations("Dashboard.Overview");
 
     const [rangePreset, setRangePreset] = useState<DateRangePreset>("last30");
     const [rangeCustom, setRangeCustom] = useState<{ from?: string; to?: string }>({});
@@ -129,9 +131,8 @@ export default function DashboardPage() {
     return (
         <div className="space-y-8 p-6 md:p-8 pt-6">
             <OverviewPageHeading
-                title="Vue d'ensemble"
-                subtitle="Bienvenue, voici l'état de votre activité aujourd'hui."
-                onPayout={() => router.push("/dashboard/payout")}
+                title={t("title")}
+                subtitle={t("welcome")}
             />
 
             <OverviewStatsGrid stats={stats} />

@@ -48,9 +48,16 @@ function buildBreadcrumbs(pathname: string, t: any) {
     parts.forEach((part, index) => {
         const href = "/" + parts.slice(0, index + 1).join("/");
 
-        // Try to translate the segment, fallback to title case
-        const translationKey = `Breadcrumbs.${part}`;
-        const label = t.has(translationKey) ? t(translationKey) : toTitleCase(part);
+        let label = "";
+
+        // Special handling for dynamic segments like /[id] after payment-links
+        if (index > 0 && parts[index - 1] === 'payment-links' && part !== 'new') {
+            label = t.has('Breadcrumbs.edit') ? t('Breadcrumbs.edit') : "Modifier";
+        } else {
+            // Try to translate the segment, fallback to title case
+            const translationKey = `Breadcrumbs.${part}`;
+            label = t.has(translationKey) ? t(translationKey) : toTitleCase(part);
+        }
 
         crumbs.push({
             href,

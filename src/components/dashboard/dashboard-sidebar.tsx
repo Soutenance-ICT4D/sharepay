@@ -23,7 +23,7 @@ export function DashboardSidebar({ isOpen, isCollapsed, onClose, onToggleCollaps
         { href: '/dashboard/withdrawals', label: t('withdrawals'), iconSrc: '/icons/withdraw.png' },
         { href: '/dashboard/transactions', label: t('transactions'), iconSrc: '/icons/transaction.png' },
         { href: '/dashboard/apps', label: t('apps'), iconSrc: '/icons/apps.png' },
-        { href: '/dashboard/developers', label: t('developers'), iconSrc: '/icons/code.png' },
+        { href: '/developers', label: t('developers'), iconSrc: '/icons/code.png' },
     ];
 
     const bottomNavItems = [

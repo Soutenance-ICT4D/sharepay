@@ -1,19 +1,18 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Link } from "@/core/i18n/routing";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { HandCoins } from "lucide-react";
 
 export function OverviewPageHeading({
     title,
     subtitle,
-    onPayout,
 }: {
     title: string;
     subtitle: string;
-    onPayout?: () => void;
 }) {
+    const t = useTranslations("Dashboard.Overview");
+
     return (
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -33,13 +32,15 @@ export function OverviewPageHeading({
                             height={16}
                             className="h-4 w-4 opacity-90 brightness-0 invert"
                         />
-                        <span>Lien de paiement</span>
+                        <span>{t("actions.paymentLink")}</span>
                     </Link>
                 </Button>
 
-                <Button variant="outline" className="w-full sm:w-auto gap-2 px-6 font-bold" onClick={onPayout}>
-                    <HandCoins className="h-4 w-4" />
-                    <span>Payout</span>
+                <Button variant="outline" className="w-full sm:w-auto gap-2 px-6 font-bold" asChild>
+                    <Link href="/dashboard/withdrawals">
+                        <HandCoins className="h-4 w-4" />
+                        <span>{t("actions.withdraw")}</span>
+                    </Link>
                 </Button>
             </div>
         </div>
