@@ -40,20 +40,21 @@ function toTitleCase(value: string) {
         .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function buildBreadcrumbs(pathname: string) {
-    // Remove locale from path if present (e.g. /fr/dashboard -> /dashboard)
-    // The usePathname hook from i18n/routing ALREADY gives us the path without locale prefix!
-    // But let's verify. usually usePathname returns "/dashboard".
+function buildBreadcrumbs(pathname: string, t: any) {
     const parts = pathname.split("?")[0].split("#")[0].split("/").filter(Boolean);
 
-    // Example: ["dashboard", "payments"]
     const crumbs: { href: string; label: string }[] = [];
 
     parts.forEach((part, index) => {
         const href = "/" + parts.slice(0, index + 1).join("/");
+
+        // Try to translate the segment, fallback to title case
+        const translationKey = `Breadcrumbs.${part}`;
+        const label = t.has(translationKey) ? t(translationKey) : toTitleCase(part);
+
         crumbs.push({
             href,
-            label: toTitleCase(part)
+            label
         });
     });
 
@@ -62,9 +63,10 @@ function buildBreadcrumbs(pathname: string) {
 
 export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
     const t = useTranslations('Dashboard.Header');
+    const tb = useTranslations('Dashboard');
     const pathname = usePathname();
     const router = useRouter();
-    const breadcrumbs = buildBreadcrumbs(pathname);
+    const breadcrumbs = buildBreadcrumbs(pathname, tb);
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
     // Mock user for now

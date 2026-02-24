@@ -22,6 +22,9 @@ import {
     Archive,
     ExternalLink,
 } from "lucide-react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/core/i18n/routing";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -60,72 +63,16 @@ export type PaymentLink = {
     amount: number | "Libre";
     currency: string;
     status: "active" | "inactive" | "archived";
-    views: number;
-    sales: number;
-    total: number;
     createdAt: string;
 };
 
-// Mock Data
-const data: PaymentLink[] = [
-    {
-        id: "lnk_1",
-        name: "Consultation 30 min",
-        amount: 15000,
-        currency: "FCFA",
-        status: "active",
-        views: 120,
-        sales: 45,
-        total: 675000,
-        createdAt: "2024-05-12",
-    },
-    {
-        id: "lnk_2",
-        name: "Ebook Formation React",
-        amount: 5000,
-        currency: "FCFA",
-        status: "active",
-        views: 850,
-        sales: 120,
-        total: 600000,
-        createdAt: "2024-04-10",
-    },
-    {
-        id: "lnk_3",
-        name: "Donation Projet X",
-        amount: "Libre",
-        currency: "FCFA",
-        status: "active",
-        views: 300,
-        sales: 15,
-        total: 45000,
-        createdAt: "2024-06-01",
-    },
-    {
-        id: "lnk_4",
-        name: "Abonnement Mensuel",
-        amount: 2000,
-        currency: "FCFA",
-        status: "inactive",
-        views: 50,
-        sales: 2,
-        total: 4000,
-        createdAt: "2024-03-15",
-    },
-    {
-        id: "lnk_5",
-        name: "Webinaire Gratuit",
-        amount: 0,
-        currency: "FCFA",
-        status: "archived",
-        views: 500,
-        sales: 0,
-        total: 0,
-        createdAt: "2024-02-20",
-    },
-];
+interface PaymentLinksTableProps {
+    data: PaymentLink[];
+}
 
-export function PaymentLinksTable() {
+export function PaymentLinksTable({ data }: PaymentLinksTableProps) {
+    const t = useTranslations("Dashboard.PaymentLinks.Table");
+    const router = useRouter();
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -133,36 +80,15 @@ export function PaymentLinksTable() {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
+    const [pagination, setPagination] = React.useState({
+        pageIndex: 0,
+        pageSize: 10,
+    });
 
-    // Definition des colonnes
     const columns: ColumnDef<PaymentLink>[] = [
         {
-            id: "select",
-            header: ({ table }) => (
-                <Checkbox
-                    checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
-                    }
-                    onCheckedChange={(value) =>
-                        table.toggleAllPageRowsSelected(!!value)
-                    }
-                    aria-label="Select all"
-                />
-            ),
-            cell: ({ row }) => (
-                <Checkbox
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                />
-            ),
-            enableSorting: false,
-            enableHiding: false,
-        },
-        {
             accessorKey: "name",
-            header: "Nom du lien",
+            header: t("name"),
             cell: ({ row }) => (
                 <div className="font-medium text-foreground">
                     {row.getValue("name")}
@@ -171,24 +97,24 @@ export function PaymentLinksTable() {
         },
         {
             accessorKey: "status",
-            header: "Statut",
+            header: t("status"),
             cell: ({ row }) => {
                 const status = row.getValue("status") as string;
                 return (
                     <Badge variant={status === "active" ? "default" : "secondary"}>
-                        {status === "active" ? "Actif" : status === "inactive" ? "Inactif" : "Archivé"}
+                        {status === "active" ? t("statusActive") : status === "inactive" ? t("statusInactive") : t("statusArchived")}
                     </Badge>
                 );
             },
         },
         {
             accessorKey: "amount",
-            header: "Montant",
+            header: t("amount"),
             cell: ({ row }) => {
                 const amount = row.getValue("amount");
                 const currency = row.original.currency;
 
-                if (amount === "Libre") return <span className="text-muted-foreground">Libre</span>;
+                if (amount === "Libre") return <span className="text-muted-foreground">{t("freeAmount")}</span>;
 
                 return (
                     <div className="font-medium">
@@ -201,50 +127,47 @@ export function PaymentLinksTable() {
             },
         },
         {
-            accessorKey: "sales",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                        className="px-0"
-                    >
-                        Ventes
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )
-            },
-            cell: ({ row }) => <div className="text-center">{row.getValue("sales")}</div>,
-        },
-        {
-            accessorKey: "total",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                        className="px-0"
-                    >
-                        Total
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )
-            },
+            id: "url",
+            header: t("paymentLink"),
             cell: ({ row }) => {
-                const amount = parseFloat(row.getValue("total"));
+                const url = `https://sharepay.app/p/${row.original.id}`;
                 return (
-                    <div className="font-medium text-right">
-                        {new Intl.NumberFormat("fr-FR", {
-                            style: "currency",
-                            currency: "XOF",
-                        }).format(amount)}
+                    <div className="flex items-center gap-2 max-w-[200px] sm:max-w-[300px]">
+                        <div className="truncate text-sm text-primary underline underline-offset-4 cursor-pointer hover:text-primary/80 transition-colors">
+                            {url}
+                        </div>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 shrink-0"
+                            onClick={() => {
+                                navigator.clipboard.writeText(url);
+                                toast.success(t("successCopy"), {
+                                    description: t("descCopy")
+                                });
+                            }}
+                            title={t("copyLink")}
+                        >
+                            <Copy className="h-3 w-3" />
+                        </Button>
                     </div>
                 );
             },
         },
         {
             accessorKey: "createdAt",
-            header: "Date",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                        className="px-0"
+                    >
+                        {t("createdAt")}
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
             cell: ({ row }) => <div className="text-muted-foreground text-sm">{row.getValue("createdAt")}</div>,
         },
         {
@@ -262,25 +185,30 @@ export function PaymentLinksTable() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
                             <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(paymentLink.id)}
+                                onClick={() => {
+                                    navigator.clipboard.writeText(paymentLink.id);
+                                    toast.success(t("successCopy"), {
+                                        description: t("descIdCopy")
+                                    });
+                                }}
                             >
                                 <Copy className="mr-2 h-4 w-4" />
-                                Copier le lien
+                                {t("copyLink")}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <ExternalLink className="mr-2 h-4 w-4" />
-                                Voir la page de paiement
+                                {t("viewPage")}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push(`/dashboard/payment-links/${paymentLink.id}`)}>
                                 <Edit className="mr-2 h-4 w-4" />
-                                Modifier
+                                {t("edit")}
                             </DropdownMenuItem>
                             <DropdownMenuItem className="text-destructive focus:text-destructive">
                                 <Archive className="mr-2 h-4 w-4" />
-                                Archiver
+                                {t("archive")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -300,11 +228,13 @@ export function PaymentLinksTable() {
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
+        onPaginationChange: setPagination,
         state: {
             sorting,
             columnFilters,
             columnVisibility,
             rowSelection,
+            pagination,
         },
     });
 
@@ -313,7 +243,7 @@ export function PaymentLinksTable() {
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <Input
-                        placeholder="Filtrer par nom..."
+                        placeholder={t("filterPlaceholder")}
                         value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                         onChange={(event) =>
                             table.getColumn("name")?.setFilterValue(event.target.value)
@@ -327,47 +257,20 @@ export function PaymentLinksTable() {
                         }
                     >
                         <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Statut" />
+                            <SelectValue placeholder={t("status")} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">Tous les statuts</SelectItem>
-                            <SelectItem value="active">Actif</SelectItem>
-                            <SelectItem value="inactive">Inactif</SelectItem>
-                            <SelectItem value="archived">Archivé</SelectItem>
+                            <SelectItem value="all">{t("statusAll")}</SelectItem>
+                            <SelectItem value="active">{t("statusActive")}</SelectItem>
+                            <SelectItem value="inactive">{t("statusInactive")}</SelectItem>
+                            <SelectItem value="archived">{t("statusArchived")}</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
-
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Colonnes <ChevronDown className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
             <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
+                <Table wrapperClassName="max-h-[calc(100vh-350px)]">
+                    <TableHeader className="sticky top-0 bg-background z-10 shadow-sm hover:bg-background">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
@@ -408,26 +311,51 @@ export function PaymentLinksTable() {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    Aucun résultat.
+                                    {t("noResults")}
                                 </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} sur{" "}
-                    {table.getFilteredRowModel().rows.length} ligne(s) sélectionnée(s).
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
+                <div className="flex items-center gap-4 w-full sm:w-auto overflow-x-auto">
+                    <div className="text-sm text-muted-foreground whitespace-nowrap">
+                        {t("showing")} {table.getFilteredRowModel().rows.length} {t("elements")}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium whitespace-nowrap">{t("rowsPerPage")}</p>
+                        <Select
+                            value={`${table.getState().pagination.pageSize}`}
+                            onValueChange={(value) => {
+                                table.setPageSize(Number(value));
+                            }}
+                        >
+                            <SelectTrigger className="h-8 w-[70px]">
+                                <SelectValue placeholder={table.getState().pagination.pageSize} />
+                            </SelectTrigger>
+                            <SelectContent side="top">
+                                {[10, 25, 50].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
-                <div className="space-x-2">
+                <div className="flex items-center space-x-2">
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
+                        {table.getPageCount() || 1}
+                    </div>
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Précédent
+                        {t("previous")}
                     </Button>
                     <Button
                         variant="outline"
@@ -435,7 +363,7 @@ export function PaymentLinksTable() {
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Suivant
+                        {t("next")}
                     </Button>
                 </div>
             </div>

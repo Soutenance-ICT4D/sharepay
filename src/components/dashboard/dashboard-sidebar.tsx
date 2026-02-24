@@ -4,12 +4,16 @@ import { Link, usePathname } from "@/core/i18n/routing";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 interface DashboardSidebarProps {
     isOpen: boolean;
+    isCollapsed: boolean;
     onClose: () => void;
+    onToggleCollapse: () => void;
 }
 
-export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
+export function DashboardSidebar({ isOpen, isCollapsed, onClose, onToggleCollapse }: DashboardSidebarProps) {
     const t = useTranslations('Dashboard.Sidebar');
     const pathname = usePathname();
 
@@ -38,16 +42,17 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             )}
 
             <aside className={`
-                fixed top-0 left-0 z-40 h-full w-64 border-r bg-background flex flex-col transition-transform duration-300 ease-in-out
+                fixed top-0 left-0 z-40 h-full border-r bg-background flex flex-col transition-all duration-300 ease-in-out
                 ${isOpen ? "translate-x-0" : "-translate-x-full"}
                 md:translate-x-0
+                ${isCollapsed ? "md:w-20" : "md:w-64"}
             `}>
                 <div className="h-16 flex items-center px-6 border-b">
                     <Link
                         href="/dashboard"
-                        className="flex items-center gap-2 font-bold text-lg text-primary"
+                        className="flex items-center gap-3 font-bold text-lg text-primary overflow-hidden"
                     >
-                        <div className="relative h-8 w-8">
+                        <div className="relative h-8 w-8 min-w-[32px]">
                             <Image
                                 src="/images/logo_sharepay_bg_remove_svg.svg"
                                 alt="SharePay Logo"
@@ -56,7 +61,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                 priority
                             />
                         </div>
-                        SharePay
+                        {!isCollapsed && <span className="whitespace-nowrap transition-opacity duration-300">SharePay</span>}
                     </Link>
                 </div>
 
@@ -69,14 +74,15 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                 key={`top-${item.href}`}
                                 href={item.href}
                                 onClick={() => onClose()}
-                                className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${isActive
+                                className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${isActive
                                     ? "bg-primary/10 text-primary"
                                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                    }`}
+                                    } ${isCollapsed ? "justify-center px-2" : ""}`}
+                                title={isCollapsed ? item.label : ""}
                             >
                                 <span
                                     className={[
-                                        "h-9 w-9 rounded-lg flex items-center justify-center",
+                                        "h-10 w-10 min-w-[40px] rounded-lg flex items-center justify-center shrink-0",
                                         isActive
                                             ? "bg-primary/10"
                                             : "bg-muted/40 group-hover:bg-muted/60 dark:bg-muted/30 dark:group-hover:bg-muted/40 dark:ring-1 dark:ring-border/40",
@@ -95,7 +101,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                         ].join(" ")}
                                     />
                                 </span>
-                                {item.label}
+                                {!isCollapsed && <span className="truncate whitespace-nowrap transition-opacity duration-300">{item.label}</span>}
                             </Link>
                         );
                     })}
@@ -110,14 +116,15 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                 key={`bottom-${item.href}`}
                                 href={item.href}
                                 onClick={() => onClose()}
-                                className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${isActive
+                                className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${isActive
                                     ? "bg-primary/10 text-primary"
                                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                    }`}
+                                    } ${isCollapsed ? "justify-center px-2" : ""}`}
+                                title={isCollapsed ? item.label : ""}
                             >
                                 <span
                                     className={[
-                                        "h-9 w-9 rounded-lg flex items-center justify-center",
+                                        "h-10 w-10 min-w-[40px] rounded-lg flex items-center justify-center shrink-0",
                                         isActive
                                             ? "bg-primary/10"
                                             : "bg-muted/40 group-hover:bg-muted/60 dark:bg-muted/30 dark:group-hover:bg-muted/40 dark:ring-1 dark:ring-border/40",
@@ -136,10 +143,22 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                         ].join(" ")}
                                     />
                                 </span>
-                                {item.label}
+                                {!isCollapsed && <span className="truncate whitespace-nowrap transition-opacity duration-300">{item.label}</span>}
                             </Link>
                         );
                     })}
+
+                    {/* Collapse Toggle Button (Desktop only) */}
+                    <button
+                        onClick={onToggleCollapse}
+                        className={`hidden md:flex w-full mt-4 items-center gap-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-300 overflow-hidden ${isCollapsed ? "justify-center px-2" : "px-3"}`}
+                        title={isCollapsed ? "Agrandir le menu" : "Réduire le menu"}
+                    >
+                        <span className="h-10 w-10 min-w-[40px] rounded-lg flex items-center justify-center bg-muted/40 group-hover:bg-muted/60 transition-colors shrink-0">
+                            {isCollapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+                        </span>
+                        {!isCollapsed && <span className="truncate whitespace-nowrap transition-opacity duration-300">{t("collapseMenu")}</span>}
+                    </button>
                 </div>
             </aside>
         </>
