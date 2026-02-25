@@ -351,6 +351,110 @@
                 "submit": "Enregistrer les modifications"
             }
         },
+        "Transactions": {
+            "title": "Transactions",
+            "allApps": "Toutes les applications",
+            "Stats": {
+                "balance": "Solde disponible",
+                "todayTransactions": "Transactions d'aujourd'hui",
+                "todayWithdrawals": "Retraits d'aujourd'hui"
+            },
+            "Table": {
+                "id": "ID",
+                "phone": "Téléphone",
+                "amount": "Montant",
+                "status": "Statut",
+                "date": "Date",
+                "source": "Source",
+                "actions": "Actions",
+                "copyLink": "Copier l'ID",
+                "successCopy": "Copié !",
+                "descIdCopy": "L'ID de la transaction a été copié dans le presse-papiers.",
+                "filterPlaceholder": "Filtrer...",
+                "statusAll": "Tous les statuts",
+                "statusSuccess": "Succès",
+                "statusPending": "En attente",
+                "statusFailed": "Échoué",
+                "viewDetails": "Voir les détails",
+                "noResults": "Aucun résultat.",
+                "showing": "Affichage de",
+                "elements": "élément(s)",
+                "rowsPerPage": "Lignes par page",
+                "page": "Page",
+                "of": "sur",
+                "previous": "Précédent",
+                "next": "Suivant"
+            }
+        },
+        "Apps": {
+            "title": "Applications",
+            "subtitle": "Gérez vos intégrations et clés API pour commencer à accepter des paiements.",
+            "createApp": "Créer une application",
+            "EmptyState": {
+                "title": "Aucune application",
+                "description": "Vous n'avez pas encore créé d'application. Créez-en une pour générer vos clés API."
+            },
+            "Filters": {
+                "searchPlaceholder": "Rechercher par nom...",
+                "envAll": "Tous les environnements",
+                "envLive": "Production",
+                "envTest": "Test",
+                "sortNewest": "Plus récentes",
+                "sortOldest": "Plus anciennes"
+            },
+            "Card": {
+                "statusLive": "En production",
+                "statusTest": "En test",
+                "createdAt": "Créée le",
+                "transactions": "transactions",
+                "settings": "Paramètres",
+                "viewDetails": "Voir les détails"
+            },
+            "Form": {
+                "backToApps": "Retour aux applications",
+                "createTitle": "Nouvelle application",
+                "createDescription": "Créez une nouvelle intégration SharePay pour générer vos clés API téléphoniques.",
+                "editTitle": "Modifier l'application",
+                "editDescription": "Mettez à jour les détails de votre application, gérez vos clés API et webhooks.",
+                "cancel": "Annuler",
+                "submitCreate": "Créer l'application",
+                "submitEdit": "Enregistrer les modifications",
+                "General": {
+                    "title": "Informations générales",
+                    "description": "Détails de base concernant votre application.",
+                    "nameLabel": "Nom de l'application",
+                    "namePlaceholder": "Ex: Mon Super Site E-commerce",
+                    "descLabel": "Description courte",
+                    "descPlaceholder": "Où cette intégration sera-t-elle utilisée ?"
+                },
+                "Branding": {
+                    "title": "Personnalisation",
+                    "description": "Personnalisez l'apparence de votre application sur la page de paiement.",
+                    "themeColor": "Couleur du thème",
+                    "logo": "Logo de l'application",
+                    "logoUpload": "Importer un logo",
+                    "logoRemove": "Supprimer le logo"
+                },
+                "APIKeys": {
+                    "title": "Clés API",
+                    "description": "Utilisez ces clés pour authentifier vos requêtes API.",
+                    "publicKey": "Clé Publique",
+                    "secretKey": "Clé Secrète",
+                    "reveal": "Révéler",
+                    "hide": "Masquer",
+                    "copy": "Copier",
+                    "copied": "Copié !"
+                },
+                "Webhooks": {
+                    "title": "Webhooks",
+                    "description": "Configurez les endpoints pour recevoir des notifications d'événements en temps réel.",
+                    "urlLabel": "URL du Webhook",
+                    "urlPlaceholder": "https://votre-domaine.com/webhook",
+                    "secretLabel": "Secret du Webhook",
+                    "generateNew": "Générer un nouveau secret"
+                }
+            }
+        },
         "Withdrawals": {
             "title": "Mes retraits",
             "subtitle": "Gérez vos retraits vers vos comptes bancaires et mobiles.",
@@ -429,5 +533,73 @@
         "transactions": "Transactions",
         "security": "Sécurité",
         "systemStatus": "État du système"
+    },
+    "Developers": {
+        "Menu": "Menu",
+        "DocsNavigation": "Navigation Docs",
+        "OnThisPage": "Sur cette page",
+        "HelpfulLinksTitle": "Liens utiles",
+        "CommunityForum": "Forum Communautaire",
+        "ReportIssue": "Signaler un problème",
+        "UnderConstructionTitle": "Bientôt disponible",
+        "UnderConstructionDesc": "Le contenu de la documentation pour cette section est en cours de rédaction par notre équipe et sera publié prochainement.",
+        "Categories": {
+            "getting-started": "Pour Commencer",
+            "api-rest": "API REST",
+            "webhooks": "Webhooks",
+            "sdks": "SDKs"
+        },
+        "Sections": {
+            "introduction": "Introduction",
+            "authentication": "Authentification",
+            "environments": "Environnements",
+            "responses": "Réponses",
+            "responses-success": "Succès (200)",
+            "responses-failed": "Échoué (400)",
+            "responses-rejected": "Rejeté (403)",
+            "errors": "Codes d'erreurs",
+            "health": "Santé / Disponibilité",
+            "initiate": "Initier un paiement",
+            "status": "Vérifier le statut",
+            "payout": "Retraits",
+            "checkout": "Paiements",
+            "webhooks-config": "Configuration",
+            "webhooks-events": "Types d'événements",
+            "sdk-js": "JavaScript",
+            "sdk-php": "PHP",
+            "sdk-csharp": "C#"
+        },
+        "Pagination": {
+            "previous": "Précédent",
+            "next": "Suivant"
+        },
+        "RightNav": {
+            "intro-overview": "Vue d'ensemble",
+            "intro-features": "Fonctionnalités Clés",
+            "intro-quickstart": "Guide de Démarrage Rapide",
+            "intro-payment-methods": "Moyens de Paiement",
+            "auth-overview": "Vue d'ensemble",
+            "auth-api-keys": "Clés d'API",
+            "auth-best-practices": "Bonnes Pratiques"
+        },
+        "Intro": {
+            "title": "Documentation Développeur",
+            "description": "Bienvenue sur la plateforme SharePay. Notre API et nos outils pour développeurs vous permettent d'accepter des paiements, de gérer des abonnements et de faire évoluer votre infrastructure de commerce mondial avec la sécurité au cœur. Démarrez en quelques minutes avec nos SDKs robustes et notre API REST complète.",
+            "downloadDocs": "Télécharger la doc (PDF)",
+            "restApiTitle": "API REST",
+            "restApiDesc": "Contrôle total sur vos paiements avec nos points de terminaison REST granulaires.",
+            "exploreApi": "Explorer l'API",
+            "webhooksTitle": "Webhooks",
+            "webhooksDesc": "Notifications en temps réel pour les événements de paiement et les changements d'état.",
+            "setupHooks": "Configurer les Hooks",
+            "sdksTitle": "Bibliothèques SDK",
+            "sdksDesc": "Bibliothèques clientes officielles pour JS, iOS, Android et les langages backend.",
+            "viewSdks": "Voir les SDK",
+            "quickstartTitle": "Guide de Démarrage Rapide",
+            "quickstartDesc": "Pour commencer à intégrer SharePay, vous devrez obtenir vos clés API depuis le Tableau de bord Développeur. Nous fournissons des clés de test et en direct. Ne partagez jamais vos clés secrètes et ne les incluez pas dans le code client.",
+            "apiVersion": "Notre versionnement d'API suit un format basé sur la date. La version actuelle est",
+            "paymentMethodsTitle": "Moyens de Paiement Supportés",
+            "paymentMethodsDesc": "Nous prenons actuellement en charge les paiements via MTN Mobile Money et Orange Money pour faciliter vos transactions locales."
+        }
     }
 }

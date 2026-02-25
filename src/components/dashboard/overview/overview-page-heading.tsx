@@ -38,7 +38,14 @@ export function OverviewPageHeading({
 
                 <Button variant="outline" className="w-full sm:w-auto gap-2 px-6 font-bold" asChild>
                     <Link href="/dashboard/withdrawals">
-                        <HandCoins className="h-4 w-4" />
+                        {/* <HandCoins className="h-4 w-4" /> */}
+                        <Image
+                            src="/icons/withdraw.png"
+                            alt="Withdraw"
+                            width={16}
+                            height={16}
+                            className="h-4 w-4 dark:invert"
+                        />
                         <span>{t("actions.withdraw")}</span>
                     </Link>
                 </Button>

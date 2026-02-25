@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronRight, Key, ShieldCheck, AlertTriangle, CheckCircle2 } from "lucide-react";
-import { RightNavItem } from "../developers-right-nav";
+import { RightNavItem } from "../../developers-right-nav";
 
 export const authenticationNavItems: RightNavItem[] = [
     { id: "auth-overview", label: "Overview", isActive: true },
@@ -12,14 +12,6 @@ export const authenticationNavItems: RightNavItem[] = [
 export function DevelopersAuthentication() {
     return (
         <div className="max-w-[70rem] mx-auto pb-16">
-            <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-                <span className="hover:text-primary transition-colors cursor-pointer">Docs</span>
-                <ChevronRight className="h-3 w-3" />
-                <span className="text-foreground font-medium">Getting Started</span>
-                <ChevronRight className="h-3 w-3" />
-                <span className="text-foreground font-medium">Authentication</span>
-            </nav>
-
             <h1 id="auth-overview" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground mb-6 scroll-m-24">
                 Authentication
             </h1>

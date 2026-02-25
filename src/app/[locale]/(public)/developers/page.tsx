@@ -14,14 +14,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function DevelopersPage() {
     return (
-        <div className="relative flex min-h-screen flex-col bg-background">
+        <div className="relative flex h-screen flex-col bg-background overflow-hidden">
             <SiteHeader />
 
-            <div className="pt-24 lg:pt-32">
+            <div className="pt-24 h-full">
                 <DevelopersContent />
             </div>
-
-            <SiteFooter />
         </div>
     );
 }
