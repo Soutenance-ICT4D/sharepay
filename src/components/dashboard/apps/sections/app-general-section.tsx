@@ -1,15 +1,17 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { AppWindow } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 interface AppGeneralSectionProps {
     name: string;
     setName: (val: string) => void;
     description: string;
     setDescription: (val: string) => void;
+    siteUrl: string;
+    setSiteUrl: (val: string) => void;
 }
 
 export function AppGeneralSection({
@@ -17,38 +19,58 @@ export function AppGeneralSection({
     setName,
     description,
     setDescription,
+    siteUrl,
+    setSiteUrl,
 }: AppGeneralSectionProps) {
     const t = useTranslations("Dashboard.Apps.Form.General");
 
     return (
-        <div className="space-y-6">
-            <div>
+        <section>
+            <div className="flex items-center gap-2 mb-6">
+                <AppWindow className="text-primary w-6 h-6" />
                 <h3 className="text-lg font-bold">{t("title")}</h3>
-                <p className="text-sm text-muted-foreground">{t("description")}</p>
             </div>
 
-            <div className="grid gap-4">
+            <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-6">
                 <div className="space-y-2">
-                    <Label htmlFor="appName">{t("nameLabel")}</Label>
+                    <Label htmlFor="appName">
+                        {t("nameLabel")} <span className="text-primary">*</span>
+                    </Label>
                     <Input
                         id="appName"
                         placeholder={t("namePlaceholder")}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
+                        className="bg-background focus:ring-primary"
                     />
                 </div>
+
                 <div className="space-y-2">
-                    <Label htmlFor="appDescription">{t("descLabel")}</Label>
-                    <Textarea
+                    <Label htmlFor="appDescription">
+                        {t("descLabel")} <span className="text-primary">*</span>
+                    </Label>
+                    <textarea
                         id="appDescription"
+                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder={t("descPlaceholder")}
-                        className="resize-none h-24"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
+
+                <div className="space-y-2">
+                    <Label htmlFor="appSiteUrl">{t("siteUrlLabel")}</Label>
+                    <Input
+                        id="appSiteUrl"
+                        placeholder={t("siteUrlPlaceholder")}
+                        type="url"
+                        value={siteUrl}
+                        onChange={(e) => setSiteUrl(e.target.value)}
+                        className="bg-background focus:ring-primary"
+                    />
+                </div>
             </div>
-        </div>
+        </section>
     );
 }

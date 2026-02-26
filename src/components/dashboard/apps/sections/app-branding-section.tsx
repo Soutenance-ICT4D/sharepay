@@ -1,100 +1,194 @@
 "use client";
 
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Upload, X } from "lucide-react";
+import { Palette, Upload, X } from "lucide-react";
 
 interface AppBrandingSectionProps {
     themeColor: string;
     setThemeColor: (val: string) => void;
-    logoUrl?: string;
-    setLogoUrl: (val: string) => void;
+    logoMode: "none" | "upload" | "url";
+    setLogoMode: (val: "none" | "upload" | "url") => void;
+    logoUrlInput: string;
+    setLogoUrlInput: (val: string) => void;
+    setLogoDataUrl: (val: string) => void;
+    logoDataUrl?: string;
 }
 
 export function AppBrandingSection({
     themeColor,
     setThemeColor,
-    logoUrl,
-    setLogoUrl,
+    logoMode,
+    setLogoMode,
+    logoUrlInput,
+    setLogoUrlInput,
+    setLogoDataUrl,
+    logoDataUrl,
 }: AppBrandingSectionProps) {
     const t = useTranslations("Dashboard.Apps.Form.Branding");
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const PRESET_COLORS = ["#0f172a", "#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#6366f1", "#ec4899", "#8b5cf6"];
+    const PRESET_COLORS = ["#088a5c", "#0f172a", "#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#6366f1", "#ec4899"];
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => setLogoDataUrl(reader.result as string);
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleClearLogo = () => {
+        setLogoDataUrl("");
+        setLogoUrlInput("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+
+    // The current logo preview (either from URL or uploaded file)
+    const logoPreview = logoMode === "url" ? logoUrlInput : logoMode === "upload" ? logoDataUrl : undefined;
 
     return (
-        <div className="space-y-6">
-            <div>
+        <section>
+            <div className="flex items-center gap-2 mb-6">
+                <Palette className="text-primary w-6 h-6" />
                 <h3 className="text-lg font-bold">{t("title")}</h3>
-                <p className="text-sm text-muted-foreground">{t("description")}</p>
             </div>
 
-            <div className="grid gap-6">
-                {/* Theme Color */}
-                <div className="space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-card p-6 rounded-xl border border-border shadow-sm">
+
+                {/* ── Logo ─────────────────────────────────────── */}
+                <div className="space-y-4">
+                    <Label>{t("logo")}</Label>
+
+                    {/* Mode selector */}
+                    <select
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={logoMode}
+                        onChange={(e) => {
+                            setLogoMode(e.target.value as "none" | "upload" | "url");
+                            handleClearLogo();
+                        }}
+                    >
+                        <option value="none">{t("logoNone")}</option>
+                        <option value="url">{t("logoUrl")}</option>
+                        <option value="upload">{t("logoUpload")}</option>
+                    </select>
+
+                    {/* URL mode */}
+                    {logoMode === "url" && (
+                        <Input
+                            placeholder="https://example.com/logo.png"
+                            value={logoUrlInput}
+                            onChange={(e) => setLogoUrlInput(e.target.value)}
+                            className="bg-background"
+                        />
+                    )}
+
+                    {/* Upload mode */}
+                    {logoMode === "upload" && (
+                        <div className="space-y-2">
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                                className="hidden"
+                                onChange={handleFileChange}
+                            />
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="w-full gap-2"
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                <Upload className="w-4 h-4" />
+                                {logoDataUrl ? t("logoChangeFile") : t("logoSelectFile")}
+                            </Button>
+                            <p className="text-xs text-muted-foreground">{t("logoFileTypes")}</p>
+                        </div>
+                    )}
+
+                    {/* Preview */}
+                    {logoPreview && (
+                        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-xl border border-border bg-background overflow-hidden group">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={logoPreview}
+                                alt="Logo preview"
+                                className="w-full h-full object-contain p-1"
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                            />
+                            <button
+                                type="button"
+                                onClick={handleClearLogo}
+                                className="absolute top-1 right-1 hidden group-hover:flex items-center justify-center w-5 h-5 bg-destructive/90 rounded-full text-white"
+                                title={t("logoRemove")}
+                            >
+                                <X className="w-3 h-3" />
+                            </button>
+                        </div>
+                    )}
+
+                    {logoMode === "none" && (
+                        <div className="flex flex-col items-start gap-2">
+                            <div className="inline-flex items-center justify-center w-20 h-20 rounded-xl border border-border bg-background overflow-hidden">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src="/images/logo_sharepay_bg_remove_svg.svg"
+                                    alt="SharePay logo (défaut)"
+                                    className="w-full h-full object-contain p-2"
+                                />
+                            </div>
+                            <p className="text-xs text-muted-foreground">{t("logoDefaultCaption")}</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* ── Theme Color ──────────────────────────────── */}
+                <div className="space-y-4">
                     <Label>{t("themeColor")}</Label>
-                    <div className="flex flex-wrap gap-3">
+
+                    {/* Preset swatches */}
+                    <div className="flex flex-wrap gap-2">
                         {PRESET_COLORS.map((color) => (
                             <button
                                 key={color}
                                 type="button"
-                                onClick={() => setThemeColor(color)}
-                                className={`w-8 h-8 rounded-full border-2 transition-all ${themeColor === color ? "border-primary scale-110 shadow-sm" : "border-transparent hover:scale-110"
-                                    }`}
-                                style={{ backgroundColor: color }}
                                 title={color}
+                                onClick={() => setThemeColor(color)}
+                                className="w-8 h-8 rounded-full border-2 transition-all hover:scale-110"
+                                style={{
+                                    backgroundColor: color,
+                                    borderColor: themeColor === color ? "white" : "transparent",
+                                    outline: themeColor === color ? `2px solid ${color}` : "none",
+                                    outlineOffset: "2px",
+                                }}
                             />
                         ))}
-                        <div className="relative overflow-hidden w-8 h-8 rounded-full border-2 ml-2 transition-all hover:scale-110 focus-within:border-primary focus-within:scale-110">
-                            <input
-                                type="color"
-                                value={themeColor}
-                                onChange={(e) => setThemeColor(e.target.value)}
-                                className="absolute inset-[-10px] w-[50px] h-[50px] cursor-pointer"
-                            />
-                        </div>
+                    </div>
+
+                    {/* Custom color picker + hex input */}
+                    <div className="flex items-center gap-3">
+                        <input
+                            type="color"
+                            value={themeColor}
+                            onChange={(e) => setThemeColor(e.target.value)}
+                            className="h-10 w-12 rounded cursor-pointer border border-border p-0.5 bg-background"
+                        />
+                        <Input
+                            value={themeColor}
+                            onChange={(e) => setThemeColor(e.target.value)}
+                            className="font-mono uppercase bg-background"
+                            maxLength={7}
+                            placeholder="#000000"
+                        />
                     </div>
                 </div>
 
-                {/* Logo */}
-                <div className="space-y-3">
-                    <Label>{t("logo")}</Label>
-                    <div className="flex items-center gap-4">
-                        {logoUrl ? (
-                            <div className="relative h-16 w-16 rounded-xl border flex items-center justify-center bg-muted/30 overflow-hidden group">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={logoUrl} alt="App Logo" className="max-h-full max-w-full object-contain p-1" />
-                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon"
-                                        className="h-8 w-8 text-white hover:bg-white/20 hover:text-white"
-                                        onClick={() => setLogoUrl("")}
-                                    >
-                                        <X className="h-4 w-4" />
-                                    </Button>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="h-16 w-16 rounded-xl border-2 border-dashed flex items-center justify-center bg-muted/10">
-                                <Upload className="h-6 w-6 text-muted-foreground/50" />
-                            </div>
-                        )}
-                        <div className="flex-1 space-y-2">
-                            <Input
-                                placeholder="https://..."
-                                value={logoUrl || ""}
-                                onChange={(e) => setLogoUrl(e.target.value)}
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                {t("logoUpload")}
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
+        </section>
     );
 }

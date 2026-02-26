@@ -16,10 +16,11 @@ import {
 interface AppsGridProps {
     applications: ApplicationData[];
     onSettingsClick: (id: string) => void;
-    onViewClick: (id: string) => void;
+    onDeleteSuccess?: () => void;
+    isLoading?: boolean;
 }
 
-export function AppsGrid({ applications, onSettingsClick, onViewClick }: AppsGridProps) {
+export function AppsGrid({ applications, onSettingsClick, onDeleteSuccess, isLoading = false }: AppsGridProps) {
     const t = useTranslations("Dashboard.Apps");
     const [searchQuery, setSearchQuery] = useState("");
     const [envFilter, setEnvFilter] = useState("all");
@@ -88,8 +89,8 @@ export function AppsGrid({ applications, onSettingsClick, onViewClick }: AppsGri
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">{t("Filters.envAll")}</SelectItem>
-                            <SelectItem value="live">{t("Filters.envLive")}</SelectItem>
-                            <SelectItem value="test">{t("Filters.envTest")}</SelectItem>
+                            <SelectItem value="PRODUCTION">{t("Filters.envLive")}</SelectItem>
+                            <SelectItem value="SANDBOX">{t("Filters.envTest")}</SelectItem>
                         </SelectContent>
                     </Select>
 
@@ -117,7 +118,6 @@ export function AppsGrid({ applications, onSettingsClick, onViewClick }: AppsGri
                             key={app.id}
                             app={app}
                             onSettingsClick={onSettingsClick}
-                            onViewClick={onViewClick}
                         />
                     ))}
                 </div>

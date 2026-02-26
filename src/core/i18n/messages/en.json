@@ -324,6 +324,11 @@
                 "logoNone": "No Logo",
                 "logoUrl": "URL Link",
                 "logoUpload": "Local File",
+                "logoSelectFile": "Select a file",
+                "logoChangeFile": "Change file",
+                "logoRemove": "Remove",
+                "logoFileTypes": "PNG, JPG, SVG or WebP — max 2 MB",
+                "logoDefaultCaption": "The SharePay logo will be used by default.",
                 "colorLabel": "Accent Color",
                 "redirectLabel": "Redirect after success",
                 "redirectPlaceholder": "https://your-site.com/thank-you",
@@ -397,18 +402,29 @@
             "Filters": {
                 "searchPlaceholder": "Search by name...",
                 "envAll": "All environments",
-                "envLive": "Live",
-                "envTest": "Test",
+                "envLive": "PRODUCTION",
+                "envTest": "SANDBOX",
                 "sortNewest": "Newest first",
                 "sortOldest": "Oldest first"
             },
             "Card": {
-                "statusLive": "Live",
-                "statusTest": "Test",
+                "statusLive": "PRODUCTION",
+                "statusTest": "SANDBOX",
                 "createdAt": "Created on",
                 "transactions": "transactions",
                 "settings": "Settings",
-                "viewDetails": "View Details"
+                "actions": "Actions",
+                "delete": "Delete"
+            },
+            "DeleteDialog": {
+                "title": "Delete Application",
+                "description": "This action is irreversible. All associated API keys will be revoked and access to SharePay services for this application will be cut off.",
+                "confirmText": "To confirm, please type the name of the application:",
+                "placeholder": "Application name",
+                "cancel": "Cancel",
+                "confirm": "Permanently delete",
+                "success": "Application deleted successfully.",
+                "error": "An error occurred during deletion."
             },
             "Form": {
                 "backToApps": "Back to applications",
@@ -419,21 +435,59 @@
                 "cancel": "Cancel",
                 "submitCreate": "Create Application",
                 "submitEdit": "Save Changes",
+                "submitting": "Saving…",
                 "General": {
                     "title": "General Information",
                     "description": "Basic details about your application.",
                     "nameLabel": "Application Name",
                     "namePlaceholder": "Ex: My Awesome E-commerce Site",
                     "descLabel": "Short Description",
-                    "descPlaceholder": "Where will this integration be used?"
+                    "descPlaceholder": "Where will this integration be used?",
+                    "siteUrlLabel": "Location URL",
+                    "siteUrlPlaceholder": "https://yoursite.com"
                 },
                 "Branding": {
                     "title": "Branding",
                     "description": "Customize how your application appears on the checkout page.",
                     "themeColor": "Theme Color",
                     "logo": "Application Logo",
-                    "logoUpload": "Upload Logo",
-                    "logoRemove": "Remove Logo"
+                    "logoNone": "None",
+                    "logoUrl": "Image Link",
+                    "logoUpload": "Upload file...",
+                    "logoSelectFile": "Select a file",
+                    "logoChangeFile": "Change file",
+                    "logoRemove": "Remove",
+                    "logoFileTypes": "PNG, JPG, SVG or WebP — max 2 MB",
+                    "logoDefaultCaption": "The SharePay logo will be used by default."
+                },
+                "Configuration": {
+                    "title": "Configuration",
+                    "environmentLabel": "Environment",
+                    "envLive": "Production (Live Mode)",
+                    "envLiveDesc": "Real transactions",
+                    "envTest": "Test (Sandbox Mode)",
+                    "envTestDesc": "No financial impact",
+                    "environmentDesc": "Determines if this application will process real transactions.",
+                    "webhookUrlLabel": "Webhook URL",
+                    "webhookUrlPlaceholder": "https://api.yoursite.com/sharepay/webhook",
+                    "webhookUrlDesc": "We will send payment events to this address.",
+                    "fallbackUrlLabel": "Fallback URL",
+                    "fallbackUrlPlaceholder": "https://yoursite.com/payment-failed",
+                    "fallbackUrlDesc": "Redirect URL when payment fails or is cancelled."
+                },
+                "KeysModal": {
+                    "title": "Your Application API Keys",
+                    "appCreated": "Your application was created successfully!",
+                    "warning": "These keys will not be shown again. Copy and store them in a safe place. If you lose them, you will need to generate new ones.",
+                    "publicKey": "Public Key",
+                    "secretKey": "Secret Key",
+                    "copy": "Copy",
+                    "copied": "Copied!",
+                    "download": "Download keys (.txt)",
+                    "downloaded": "File downloaded!",
+                    "confirmSaved": "I have saved my keys somewhere safe",
+                    "confirmOnce": "Please confirm one last time that you have saved your keys.",
+                    "confirmFinal": "Yes, I’ve saved them — Continue"
                 },
                 "APIKeys": {
                     "title": "API Keys",
@@ -443,7 +497,14 @@
                     "reveal": "Reveal",
                     "hide": "Hide",
                     "copy": "Copy",
-                    "copied": "Copied!"
+                    "copied": "Copied!",
+                    "regenTitle": "Regenerate Keys",
+                    "regenDesc": "Old keys will be immediately revoked.",
+                    "regenButton": "Generate New Keys",
+                    "regenConfirmMessage": "Confirm revocation?",
+                    "regenConfirm": "Confirm",
+                    "regenCancel": "Cancel",
+                    "regenSuccess": "New API keys generated successfully."
                 },
                 "Webhooks": {
                     "title": "Webhooks",

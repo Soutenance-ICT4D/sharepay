@@ -2,86 +2,93 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Copy, CheckCircle2 } from "lucide-react";
+import { Key, RefreshCw, AlertTriangle } from "lucide-react";
+import { toast } from "sonner";
 
 interface AppKeysSectionProps {
-    publicKey: string;
-    secretKey: string;
+    publicKeyPrefix: string;   // ex: "pk_live_a1b2c3"
+    secretKeyPrefix: string;   // ex: "sk_live_d4e5f6"
+    onRegenerateKeys?: () => void;
 }
 
-export function AppKeysSection({ publicKey, secretKey }: AppKeysSectionProps) {
+export function AppKeysSection({ publicKeyPrefix, secretKeyPrefix, onRegenerateKeys }: AppKeysSectionProps) {
     const t = useTranslations("Dashboard.Apps.Form.APIKeys");
-    const [showSecret, setShowSecret] = useState(false);
-    const [copiedPub, setCopiedPub] = useState(false);
-    const [copiedSec, setCopiedSec] = useState(false);
+    const [isConfirmingRegen, setIsConfirmingRegen] = useState(false);
 
-    const handleCopy = (text: string, type: 'public' | 'secret') => {
-        navigator.clipboard.writeText(text);
-        if (type === 'public') {
-            setCopiedPub(true);
-            setTimeout(() => setCopiedPub(false), 2000);
-        } else {
-            setCopiedSec(true);
-            setTimeout(() => setCopiedSec(false), 2000);
+    const handleRegenClick = () => {
+        if (!isConfirmingRegen) {
+            setIsConfirmingRegen(true);
+            return;
         }
+        // Confirmed — trigger the actual regen
+        onRegenerateKeys?.();
+        setIsConfirmingRegen(false);
+        toast.success(t("regenSuccess"));
     };
 
     return (
-        <div className="space-y-6">
-            <div>
+        <section>
+            <div className="flex items-center gap-2 mb-6">
+                <Key className="text-primary w-6 h-6" />
                 <h3 className="text-lg font-bold">{t("title")}</h3>
-                <p className="text-sm text-muted-foreground">{t("description")}</p>
             </div>
 
-            <div className="grid gap-5">
-                {/* Public Key */}
-                <div className="space-y-2">
-                    <Label>{t("publicKey")}</Label>
-                    <div className="flex gap-2">
-                        <Input value={publicKey} readOnly className="font-mono text-sm" />
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            size="icon"
-                            onClick={() => handleCopy(publicKey, 'public')}
-                        >
-                            {copiedPub ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-                        </Button>
+            <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-6">
+
+                {/* Keys display */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    {/* Public Key */}
+                    <div className="space-y-2">
+                        <Label className="text-xs text-muted-foreground uppercase tracking-wider">{t("publicKey")}</Label>
+                        <div className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2.5 font-mono text-sm">
+                            <span className="text-foreground">{publicKeyPrefix}</span>
+                            <span className="text-muted-foreground tracking-widest">••••••••••••</span>
+                        </div>
                     </div>
+
+                    {/* Secret Key */}
+                    <div className="space-y-2">
+                        <Label className="text-xs text-muted-foreground uppercase tracking-wider">{t("secretKey")}</Label>
+                        <div className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2.5 font-mono text-sm">
+                            <span className="text-foreground">{secretKeyPrefix}</span>
+                            <span className="text-muted-foreground tracking-widest">••••••••••••</span>
+                        </div>
+                    </div>
+
                 </div>
 
-                {/* Secret Key */}
-                <div className="space-y-2">
-                    <Label>{t("secretKey")}</Label>
-                    <div className="flex gap-2">
-                        <Input
-                            value={secretKey}
-                            type={showSecret ? "text" : "password"}
-                            readOnly
-                            className="font-mono text-sm"
-                        />
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => setShowSecret(!showSecret)}
-                        >
-                            {showSecret ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Button>
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            size="icon"
-                            onClick={() => handleCopy(secretKey, 'secret')}
-                        >
-                            {copiedSec ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-                        </Button>
+                {/* Regen section */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border">
+                    <div className="space-y-0.5">
+                        <p className="text-sm font-medium">{t("regenTitle")}</p>
+                        <p className="text-xs text-muted-foreground">{t("regenDesc")}</p>
                     </div>
+
+                    {isConfirmingRegen ? (
+                        <div className="flex items-center gap-2 shrink-0">
+                            <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 text-xs font-medium">
+                                <AlertTriangle className="w-3.5 h-3.5" />
+                                {t("regenConfirmMessage")}
+                            </div>
+                            <Button type="button" variant="destructive" size="sm" onClick={handleRegenClick}>
+                                {t("regenConfirm")}
+                            </Button>
+                            <Button type="button" variant="ghost" size="sm" onClick={() => setIsConfirmingRegen(false)}>
+                                {t("regenCancel")}
+                            </Button>
+                        </div>
+                    ) : (
+                        <Button type="button" variant="outline" size="sm" className="shrink-0 gap-2" onClick={handleRegenClick}>
+                            <RefreshCw className="w-4 h-4" />
+                            {t("regenButton")}
+                        </Button>
+                    )}
                 </div>
+
             </div>
-        </div>
+        </section>
     );
 }

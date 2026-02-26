@@ -32,7 +32,7 @@ export default function NewPaymentLinkPage() {
     const [logoMode, setLogoMode] = useState<"none" | "upload" | "url">("none");
     const [logoUrlInput, setLogoUrlInput] = useState<string>("");
     const [logoDataUrl, setLogoDataUrl] = useState<string>("");
-    const [themeColor, setThemeColor] = useState<string>("#0f172a");
+    const [themeColor, setThemeColor] = useState<string>("#088a5c");
     const [error, setError] = useState<string | null>(null);
 
     const canSubmit = useMemo(() => {
@@ -92,7 +92,7 @@ export default function NewPaymentLinkPage() {
                         <BrandingSection
                             logoMode={logoMode} setLogoMode={setLogoMode}
                             logoUrlInput={logoUrlInput} setLogoUrlInput={setLogoUrlInput}
-                            setLogoDataUrl={setLogoDataUrl}
+                            logoDataUrl={logoDataUrl} setLogoDataUrl={setLogoDataUrl}
                             themeColor={themeColor} setThemeColor={setThemeColor}
                         />
 

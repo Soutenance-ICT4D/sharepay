@@ -324,6 +324,11 @@
                 "logoNone": "Pas de logo",
                 "logoUrl": "Lien URL",
                 "logoUpload": "Fichier local",
+                "logoSelectFile": "Choisir un fichier",
+                "logoChangeFile": "Changer de fichier",
+                "logoRemove": "Supprimer",
+                "logoFileTypes": "PNG, JPG, SVG ou WebP — max 2 Mo",
+                "logoDefaultCaption": "Le logo SharePay sera utilisé par défaut.",
                 "colorLabel": "Couleur d'accentuation",
                 "redirectLabel": "Redirection après succès",
                 "redirectPlaceholder": "https://votre-site.com/merci",
@@ -397,18 +402,29 @@
             "Filters": {
                 "searchPlaceholder": "Rechercher par nom...",
                 "envAll": "Tous les environnements",
-                "envLive": "Production",
-                "envTest": "Test",
+                "envLive": "PRODUCTION",
+                "envTest": "SANDBOX",
                 "sortNewest": "Plus récentes",
                 "sortOldest": "Plus anciennes"
             },
             "Card": {
-                "statusLive": "En production",
-                "statusTest": "En test",
+                "statusLive": "PRODUCTION",
+                "statusTest": "SANDBOX",
                 "createdAt": "Créée le",
                 "transactions": "transactions",
                 "settings": "Paramètres",
-                "viewDetails": "Voir les détails"
+                "actions": "Actions",
+                "delete": "Supprimer"
+            },
+            "DeleteDialog": {
+                "title": "Supprimer l'application",
+                "description": "Cette action est irréversible. Toutes les clés API associées seront révoquées et l'accès aux services SharePay pour cette application sera coupé.",
+                "confirmText": "Pour confirmer, veuillez saisir le nom de l'application :",
+                "placeholder": "Nom de l'application",
+                "cancel": "Annuler",
+                "confirm": "Supprimer définitivement",
+                "success": "L'application a été supprimée avec succès.",
+                "error": "Une erreur est survenue lors de la suppression."
             },
             "Form": {
                 "backToApps": "Retour aux applications",
@@ -419,21 +435,59 @@
                 "cancel": "Annuler",
                 "submitCreate": "Créer l'application",
                 "submitEdit": "Enregistrer les modifications",
+                "submitting": "Enregistrement en cours…",
                 "General": {
                     "title": "Informations générales",
                     "description": "Détails de base concernant votre application.",
                     "nameLabel": "Nom de l'application",
                     "namePlaceholder": "Ex: Mon Super Site E-commerce",
                     "descLabel": "Description courte",
-                    "descPlaceholder": "Où cette intégration sera-t-elle utilisée ?"
+                    "descPlaceholder": "Où cette intégration sera-t-elle utilisée ?",
+                    "siteUrlLabel": "Lien du site",
+                    "siteUrlPlaceholder": "https://votresite.com"
                 },
                 "Branding": {
                     "title": "Personnalisation",
                     "description": "Personnalisez l'apparence de votre application sur la page de paiement.",
                     "themeColor": "Couleur du thème",
                     "logo": "Logo de l'application",
-                    "logoUpload": "Importer un logo",
-                    "logoRemove": "Supprimer le logo"
+                    "logoNone": "Aucun",
+                    "logoUrl": "Lien vers l'image",
+                    "logoUpload": "Importer un fichier...",
+                    "logoSelectFile": "Choisir un fichier",
+                    "logoChangeFile": "Changer de fichier",
+                    "logoRemove": "Supprimer",
+                    "logoFileTypes": "PNG, JPG, SVG ou WebP — max 2 Mo",
+                    "logoDefaultCaption": "Le logo SharePay sera utilisé par défaut."
+                },
+                "Configuration": {
+                    "title": "Configuration",
+                    "environmentLabel": "Environnement",
+                    "envLive": "Production (Mode Live)",
+                    "envLiveDesc": "Transactions réelles",
+                    "envTest": "Test (Mode Bac à sable)",
+                    "envTestDesc": "Tests sans impact financier",
+                    "environmentDesc": "Détermine si cette application traitera de vraies transactions.",
+                    "webhookUrlLabel": "URL du Webhook",
+                    "webhookUrlPlaceholder": "https://api.votresite.com/sharepay/webhook",
+                    "webhookUrlDesc": "Nous enverrons les événements de paiement à cette adresse.",
+                    "fallbackUrlLabel": "URL de Secours",
+                    "fallbackUrlPlaceholder": "https://votresite.com/paiement-echoue",
+                    "fallbackUrlDesc": "Redirection en cas d'échec ou d'annulation du paiement."
+                },
+                "KeysModal": {
+                    "title": "Clés API de votre application",
+                    "appCreated": "Votre application a été créée avec succès !",
+                    "warning": "Ces clés ne seront plus affichées. Copiez-les et conservez-les en lieu sûr. Si vous les perdez, vous devrez en générer de nouvelles.",
+                    "publicKey": "Clé Publique",
+                    "secretKey": "Clé Secrète",
+                    "copy": "Copier",
+                    "copied": "Copié !",
+                    "download": "Télécharger les clés (.txt)",
+                    "downloaded": "Fichier téléchargé !",
+                    "confirmSaved": "J'ai sauvegardé mes clés en lieu sûr",
+                    "confirmOnce": "Confirmez une dernière fois que vous avez bien sauvegardé vos clés.",
+                    "confirmFinal": "Oui, j'ai sauvegardé — Continuer"
                 },
                 "APIKeys": {
                     "title": "Clés API",
@@ -443,7 +497,14 @@
                     "reveal": "Révéler",
                     "hide": "Masquer",
                     "copy": "Copier",
-                    "copied": "Copié !"
+                    "copied": "Copié !",
+                    "regenTitle": "Régénérer les clés",
+                    "regenDesc": "Les anciennes clés seront immédiatement révoquées.",
+                    "regenButton": "Générer de nouvelles clés",
+                    "regenConfirmMessage": "Confirmer la révocation ?",
+                    "regenConfirm": "Confirmer",
+                    "regenCancel": "Annuler",
+                    "regenSuccess": "Nouvelles clés API générées avec succès."
                 },
                 "Webhooks": {
                     "title": "Webhooks",

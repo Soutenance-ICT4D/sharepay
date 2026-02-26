@@ -5,18 +5,15 @@ import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Copy, CheckCircle2, RefreshCw } from "lucide-react";
+import { Eye, EyeOff, Copy, CheckCircle2, RefreshCw, Webhook } from "lucide-react";
 
 interface AppWebhooksSectionProps {
-    webhookUrl: string;
-    setWebhookUrl: (val: string) => void;
     webhookSecret: string;
     onGenerateNewSecret: () => void;
+    // URL removed from props since it's handled in Configuration section
 }
 
 export function AppWebhooksSection({
-    webhookUrl,
-    setWebhookUrl,
     webhookSecret,
     onGenerateNewSecret
 }: AppWebhooksSectionProps) {
@@ -31,33 +28,23 @@ export function AppWebhooksSection({
     };
 
     return (
-        <div className="space-y-6">
-            <div>
+        <section>
+            <div className="flex items-center gap-2 mb-6">
+                <Webhook className="text-primary w-6 h-6" />
                 <h3 className="text-lg font-bold">{t("title")}</h3>
-                <p className="text-sm text-muted-foreground">{t("description")}</p>
             </div>
 
-            <div className="grid gap-5">
-                {/* Webhook URL */}
-                <div className="space-y-2">
-                    <Label htmlFor="webhookUrl">{t("urlLabel")}</Label>
-                    <Input
-                        id="webhookUrl"
-                        placeholder={t("urlPlaceholder")}
-                        value={webhookUrl}
-                        onChange={(e) => setWebhookUrl(e.target.value)}
-                    />
-                </div>
+            <div className="grid gap-6 bg-card p-6 rounded-xl border border-border shadow-sm">
 
                 {/* Webhook Secret */}
-                <div className="space-y-2">
+                <div className="space-y-4">
                     <Label>{t("secretLabel")}</Label>
                     <div className="flex gap-2">
                         <Input
                             value={webhookSecret}
                             type={showSecret ? "text" : "password"}
                             readOnly
-                            className="font-mono text-sm"
+                            className="font-mono text-sm bg-background"
                         />
                         <Button
                             type="button"
@@ -81,13 +68,14 @@ export function AppWebhooksSection({
                 <Button
                     type="button"
                     variant="outline"
-                    className="w-full sm:w-auto mt-2"
+                    className="w-full sm:w-auto"
                     onClick={onGenerateNewSecret}
                 >
                     <RefreshCw className="h-4 w-4 mr-2" />
                     {t("generateNew")}
                 </Button>
+
             </div>
-        </div>
+        </section>
     );
 }
