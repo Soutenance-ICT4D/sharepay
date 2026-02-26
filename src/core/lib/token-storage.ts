@@ -16,17 +16,13 @@ const KEYS = {
 const isBrowser = () => typeof window !== "undefined";
 
 export const tokenStorage = {
-  /**
-   * Récupère le mode de persistance choisi par l'utilisateur
-   */
+  // Récupère le mode de persistance choisi par l'utilisateur
   getPersistMode(): TokenPersistMode {
     if (!isBrowser()) return "session";
     return (localStorage.getItem(KEYS.PERSIST) as TokenPersistMode) ?? "session";
   },
 
-  /**
-   * Récupère les tokens depuis le storage approprié (session ou local)
-   */
+  // Récupère les tokens depuis le storage approprié (session ou local)
   get(): AuthTokens | null {
     if (!isBrowser()) return null;
 
@@ -42,10 +38,7 @@ export const tokenStorage = {
     return { accessToken, refreshToken, tokenType };
   },
 
-  /**
-  /**
-   * Enregistre les tokens et gère la stratégie de persistance
-   */
+  // Enregistre les tokens et gère la stratégie de persistance
   set(tokens: AuthTokens, options?: { persist?: boolean }) {
     if (!isBrowser()) return;
 
@@ -78,9 +71,7 @@ export const tokenStorage = {
     document.cookie = `${cookieName}=true${expires}; path=/${secure}${sameSite}`;
   },
 
-  /**
-   * Supprime tous les tokens des deux storages (Logout)
-   */
+  // Supprime tous les tokens des deux storages (Logout)
   clear() {
     if (!isBrowser()) return;
     this._clearStorage(localStorage);
@@ -90,18 +81,14 @@ export const tokenStorage = {
     document.cookie = "sharepay_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   },
 
-  /**
-   * Utile pour les headers Authorization des requêtes API
-   */
+  // Utile pour les headers Authorization des requêtes API
   getAuthorizationHeader(): string | null {
     const tokens = this.get();
     if (!tokens) return null;
     return `${tokens.tokenType} ${tokens.accessToken}`;
   },
 
-  /**
-   * Méthode interne pour nettoyer un storage spécifique
-   */
+  // Méthode interne pour nettoyer un storage spécifique
   _clearStorage(storage: Storage) {
     storage.removeItem(KEYS.ACCESS);
     storage.removeItem(KEYS.REFRESH);

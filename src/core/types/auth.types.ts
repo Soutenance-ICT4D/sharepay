@@ -1,9 +1,17 @@
-// Wrapper standard API Response
-export interface ApiResponse<T = void> {
+/*
+    Wrapper standard de toutes les réponses du backend Sharepay.
+
+    Le backend utilise @JsonInclude(NON_NULL) sur le champ `data` :
+        - Succès  → data est présent et typé en T
+        - Erreur  → data est omis (désérialisé en `null` côté JS)
+
+    Toujours consommer via `parseApiResponse()` de `@/core/lib/api-response`.
+ */
+export interface ApiResponse<T = null> {
     success: boolean;
-    code: string; // ex: "SUCCESS", "AUTH_INVALID_CREDENTIALS"
+    code: string;
     message: string;
-    data: T;
+    data: T | null;
     timestamp: string;
 }
 
@@ -12,9 +20,9 @@ export interface RegisterRequest {
     fullName: string;
     email: string;
     phone: string;
-    password?: string; // Optionnel si OAUTH, mais requis par API standard
-    role?: "USER" | "MERCHANT" | "ADMIN"; // Default MERCHANT
-    countryCode: string; // Requis pour le backend (ex: "+237")
+    password?: string;
+    role?: "MERCHANT" | "ADMIN";
+    countryCode: string;
 }
 
 // Réponse suite à une inscription/vérification (User object)
@@ -43,7 +51,7 @@ export interface LoginRequest {
 export interface AuthTokenData {
     accessToken: string;
     refreshToken: string;
-    tokenType: string; // "Bearer"
+    tokenType: string;
     expiresIn: number;
 }
 
@@ -54,7 +62,7 @@ export interface ForgotPasswordRequest {
 
 // 6. Vérifier OTP Reset
 export interface VerifyResetCodeRequest {
-    email: string; // Requis selon context, souvent utile pour identifier le user
+    email: string;
     otpCode: string;
 }
 

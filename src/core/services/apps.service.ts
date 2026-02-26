@@ -1,4 +1,5 @@
 import { client } from "@/core/api/client";
+import { parseApiResponse } from "@/core/lib/api-response";
 import { ApiResponse } from "@/core/types/auth.types";
 import {
     AppResponse,
@@ -7,150 +8,86 @@ import {
     UpdateAppRequest,
 } from "@/core/types/apps.types";
 
-/** Extracts a typed error from an Axios response. */
-function extractError(error: unknown): never {
-    const apiError = (error as { response?: { data?: ApiResponse } }).response?.data;
-    throw new Error(apiError?.code || apiError?.message || "UNKNOWN_ERROR");
-}
-
+/**
+ * Service de gestion des applications marchandes.
+ * Toutes les erreurs sont des `ApiError` — utiliser `isApiError(e)` pour les gérer.
+ */
 export const appsService = {
 
-    /**
-     * GET /api/v1/apps
-     * Returns all apps belonging to the current merchant.
-     */
+    // ── Applications ──────────────────────────────────────────────────────────
+
+    /** GET /apps — Toutes les apps du marchand connecté */
     async list(): Promise<AppResponse[]> {
-        try {
-            const response = await client.get<ApiResponse<AppResponse[]>>("/apps");
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data ?? [];
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.get<ApiResponse<AppResponse[]>>("/apps");
+        return parseApiResponse(response.data, response.status) ?? [];
     },
 
-    /**
-     * GET /api/v1/apps/production
-     * Returns only PRODUCTION apps.
-     */
+    /** GET /apps/production — Apps en environnement PRODUCTION uniquement */
     async listProduction(): Promise<AppResponse[]> {
-        try {
-            const response = await client.get<ApiResponse<AppResponse[]>>("/apps/production");
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data ?? [];
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.get<ApiResponse<AppResponse[]>>("/apps/production");
+        return parseApiResponse(response.data, response.status) ?? [];
     },
 
-    /**
-     * GET /api/v1/apps/sandbox
-     * Returns only SANDBOX apps.
-     */
+    /** GET /apps/sandbox — Apps en environnement SANDBOX uniquement */
     async listSandbox(): Promise<AppResponse[]> {
-        try {
-            const response = await client.get<ApiResponse<AppResponse[]>>("/apps/sandbox");
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data ?? [];
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.get<ApiResponse<AppResponse[]>>("/apps/sandbox");
+        return parseApiResponse(response.data, response.status) ?? [];
     },
 
-    /**
-     * GET /api/v1/apps/{id}
-     * Returns a single app by its ID.
-     */
+    /** GET /apps/{id} — Détail d'une application par son ID */
     async getById(id: string): Promise<AppResponse> {
-        try {
-            const response = await client.get<ApiResponse<AppResponse>>(`/apps/${id}`);
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data;
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.get<ApiResponse<AppResponse>>(`/apps/${id}`);
+        return parseApiResponse(response.data, response.status)!;
     },
 
     /**
-     * POST /api/v1/apps
-     * Creates a new app. Returns AppResponse with apiKeys (PUBLIC + SECRET) visible only now.
+     * POST /apps — Crée une nouvelle application.
+     * La réponse inclut les `apiKeys` (PUBLIC + SECRET) — visibles UNE SEULE FOIS.
      */
     async create(data: CreateAppRequest): Promise<AppResponse> {
-        try {
-            const response = await client.post<ApiResponse<AppResponse>>("/apps", data);
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data;
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.post<ApiResponse<AppResponse>>("/apps", data);
+        return parseApiResponse(response.data, response.status)!;
     },
 
     /**
-     * PUT /api/v1/apps/{id}
-     * Updates mutable app fields. Environment is not changeable after creation.
+     * PUT /apps/{id} — Met à jour les champs modifiables de l'app.
+     * L'environnement (PRODUCTION/SANDBOX) n'est pas modifiable après création.
      */
     async update(id: string, data: UpdateAppRequest): Promise<AppResponse> {
-        try {
-            const response = await client.put<ApiResponse<AppResponse>>(`/apps/${id}`, data);
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data;
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.put<ApiResponse<AppResponse>>(`/apps/${id}`, data);
+        return parseApiResponse(response.data, response.status)!;
     },
 
-    /**
-     * DELETE /api/v1/apps/{id}
-     * Deletes an app.
-     */
+    /** DELETE /apps/{id} — Supprime une application */
     async remove(id: string): Promise<void> {
-        try {
-            await client.delete<ApiResponse>(`/apps/${id}`);
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.delete<ApiResponse<null>>(`/apps/${id}`);
+        parseApiResponse(response.data, response.status);
     },
 
-    // ── API Keys ──────────────────────────────────────────────────────────────
+    // ── Clés API ──────────────────────────────────────────────────────────────
 
     /**
-     * GET /api/v1/apps/{appId}/keys
-     * Lists current API keys (secretKey not included).
+     * GET /apps/{appId}/keys — Liste les clés API actives.
+     * Note : `secretKey` n'est jamais retourné ici (uniquement à la création/rotation).
      */
     async getKeys(appId: string): Promise<ApiKeyResponse[]> {
-        try {
-            const response = await client.get<ApiResponse<ApiKeyResponse[]>>(`/apps/${appId}/keys`);
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data ?? [];
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.get<ApiResponse<ApiKeyResponse[]>>(`/apps/${appId}/keys`);
+        return parseApiResponse(response.data, response.status) ?? [];
     },
 
     /**
-     * POST /api/v1/apps/{appId}/keys
-     * Revokes all active keys and generates new ones.
-     * Returns ApiKeyResponse[] with secretKey visible only now.
+     * POST /apps/{appId}/keys — Régénère toutes les clés (rotation).
+     * Révoque toutes les clés actives et en génère de nouvelles.
+     * Les `secretKey` sont visibles UNE SEULE FOIS dans la réponse.
      */
     async rotateKeys(appId: string): Promise<ApiKeyResponse[]> {
-        try {
-            const response = await client.post<ApiResponse<ApiKeyResponse[]>>(`/apps/${appId}/keys`);
-            if (!response.data.success) throw new Error(response.data.code || "UNKNOWN_ERROR");
-            return response.data.data ?? [];
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.post<ApiResponse<ApiKeyResponse[]>>(`/apps/${appId}/keys`);
+        return parseApiResponse(response.data, response.status) ?? [];
     },
 
-    /**
-     * DELETE /api/v1/apps/{appId}/keys/{keyId}
-     * Revokes a single API key.
-     */
+    /** DELETE /apps/{appId}/keys/{keyId} — Révoque une clé API spécifique */
     async revokeKey(appId: string, keyId: string): Promise<void> {
-        try {
-            await client.delete<ApiResponse>(`/apps/${appId}/keys/${keyId}`);
-        } catch (error) {
-            extractError(error);
-        }
+        const response = await client.delete<ApiResponse<null>>(`/apps/${appId}/keys/${keyId}`);
+        parseApiResponse(response.data, response.status);
     },
 };
