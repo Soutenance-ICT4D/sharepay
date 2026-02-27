@@ -35,6 +35,7 @@ export default async function RootLayout({
     }
 
     const messages = await getMessages();
+    console.log(`[RootLayout] Rendering for locale: ${locale}, messages keys: ${Object.keys(messages)}`);
 
     // 2. LECTURE DU COOKIE CÔTÉ SERVEUR
     const cookieStore = await cookies();
