@@ -27,5 +27,9 @@ export function formatAmount(amount: number, currencyName: string, locale: strin
 
   const formattedAmount = decPart === "00" ? intPart : `${intPart}${decimalSeparator}${decPart}`;
 
+  if (currencyName == '$') {
+    return `${currencyName} ${formattedAmount}`;
+  }
+
   return `${formattedAmount} ${currencyName}`;
 }

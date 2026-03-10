@@ -6,6 +6,7 @@ import { Link } from "@/core/i18n/routing";
 import { motion } from "framer-motion";
 import { ArrowRight, Play, CheckCircle2 } from "lucide-react";
 import { HeroBackground } from "@/components/public/landing/animations/hero-background";
+import { DemoModal } from "@/components/public/landing/animations/demo-modal";
 import Image from "next/image";
 
 export function HeroSection() {
@@ -65,12 +66,12 @@ export function HeroSection() {
                             <ArrowRight className="ml-2 h-5 w-5" />
                         </Link>
                     </Button>
-                    <Button size="lg" variant="outline" className="rounded-full text-base h-14 px-10 border-2 hover:bg-muted/50 w-full sm:w-auto" asChild>
-                        <Link href="/demo">
+                    <DemoModal>
+                        <Button size="lg" variant="outline" className="rounded-full text-base h-14 px-10 border-2 hover:bg-muted/50 w-full sm:w-auto cursor-pointer">
                             <Play className="mr-2 h-4 w-4 fill-current" />
                             {t('ctaDemo')}
-                        </Link>
-                    </Button>
+                        </Button>
+                    </DemoModal>
                 </motion.div>
 
                 {/* Reassurance */}
@@ -96,7 +97,7 @@ export function HeroSection() {
                     <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-8">
                         {t('trustedBy')}
                     </p>
-                    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 transition-all duration-500">
                         {[
                             { name: "MTN", src: "/images/partners/mtn.png" },
                             { name: "Orange", src: "/images/partners/orange.png" },

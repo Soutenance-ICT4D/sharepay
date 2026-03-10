@@ -35,6 +35,7 @@ export interface CheckoutSessionInfo {
     paymentMethod?: PaymentMethodType;
     fullName?: string;
     email?: string;
+    collectCustomerInfo?: boolean;
 }
 
 export type PaymentMethodType = 'ORANGE_MONEY' | 'MTN_MONEY';

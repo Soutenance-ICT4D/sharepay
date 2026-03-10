@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Phone, CreditCard, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "../../ui/alert";
+import { toast } from "sonner";
 import Image from "next/image";
 import { PhoneInput } from "@/components/ui/phone-input";
 
@@ -31,7 +31,6 @@ export function PaymentMethodsForm({ id, type, amount, customerInfo, collectCust
     const [phone, setPhone] = useState(initialPhone || "");
 
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<PaymentProcessResponse | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -40,23 +39,22 @@ export function PaymentMethodsForm({ id, type, amount, customerInfo, collectCust
         // Basic Validation for mandatory customer info
         if (collectCustomerInfo) {
             if (!customerInfo?.fullName?.trim()) {
-                setError("Veuillez saisir votre nom complet.");
+                toast.error("Veuillez saisir votre nom complet.");
                 return;
             }
             if (!customerInfo?.email?.trim() || !customerInfo.email.includes('@')) {
-                setError("Veuillez saisir une adresse email valide.");
+                toast.error("Veuillez saisir une adresse email valide.");
                 return;
             }
         }
 
         // Validation for amount
         if (!amount || amount <= 0) {
-            setError("Le montant du paiement doit être supérieur à 0.");
+            toast.error("Le montant du paiement doit être supérieur à 0.");
             return;
         }
 
         setIsLoading(true);
-        setError(null);
 
         try {
             const response = await paymentService.processPayment({
@@ -74,7 +72,7 @@ export function PaymentMethodsForm({ id, type, amount, customerInfo, collectCust
                 onSuccess(response);
             }
         } catch (err: any) {
-            setError(err.message || "Une erreur est survenue lors du paiement.");
+            toast.error(err.message || "Une erreur est survenue lors du paiement.");
         } finally {
             setIsLoading(false);
         }
@@ -102,13 +100,6 @@ export function PaymentMethodsForm({ id, type, amount, customerInfo, collectCust
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-6">
-                    {error && (
-                        <Alert variant="destructive">
-                            <AlertCircle className="h-4 w-4" />
-                            <AlertTitle>Erreur</AlertTitle>
-                            <AlertDescription>{error}</AlertDescription>
-                        </Alert>
-                    )}
 
                     <RadioGroup defaultValue={method} value={method} onValueChange={(v) => setMethod(v as PaymentMethodType)}>
                         <div className="grid grid-cols-2 gap-3">

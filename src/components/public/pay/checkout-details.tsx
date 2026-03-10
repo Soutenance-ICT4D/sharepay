@@ -12,10 +12,11 @@ import { Label } from "@/components/ui/label";
 
 interface CheckoutDetailsProps {
     session: CheckoutSessionInfo;
+    collectCustomerInfo?: boolean;
     onCustomerInfoChange?: (info: { fullName: string; email: string }) => void;
 }
 
-export function CheckoutDetails({ session, onCustomerInfoChange }: CheckoutDetailsProps) {
+export function CheckoutDetails({ session, collectCustomerInfo = false, onCustomerInfoChange }: CheckoutDetailsProps) {
     const locale = useLocale();
     const [timeLeft, setTimeLeft] = useState<string>("--:--");
     const [fullName, setFullName] = useState(session.fullName || "");
@@ -40,8 +41,8 @@ export function CheckoutDetails({ session, onCustomerInfoChange }: CheckoutDetai
     }, [session.expiresAt]);
 
     return (
-        <Card className="w-full h-full shadow-sm border-primary/5">
-            <CardHeader className="pb-0">
+        <Card className="w-full h-full shadow-sm border-primary/5 flex flex-col justify-between">
+            <CardHeader>
                 <div className="flex items-center justify-between">
                     <CardTitle>
                         Détails du paiement <span className="text-primary ml-1">({session.currency})</span>
@@ -75,12 +76,18 @@ export function CheckoutDetails({ session, onCustomerInfoChange }: CheckoutDetai
                     <div className="space-y-4 pt-4 border-t border-dashed">
                         <div className="space-y-2">
                             <Label htmlFor="cust-name">
-                                Votre nom complet <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                                Votre nom complet
+                                {collectCustomerInfo ? (
+                                    <span className="text-destructive ml-1">*</span>
+                                ) : (
+                                    <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                                )}
                             </Label>
                             <Input
                                 id="cust-name"
                                 placeholder="Jean Dupont"
                                 value={fullName}
+                                required={collectCustomerInfo}
                                 onChange={(e) => {
                                     setFullName(e.target.value);
                                     onCustomerInfoChange?.({ fullName: e.target.value, email });
@@ -89,13 +96,19 @@ export function CheckoutDetails({ session, onCustomerInfoChange }: CheckoutDetai
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="cust-email">
-                                Votre adresse email <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                                Votre adresse email
+                                {collectCustomerInfo ? (
+                                    <span className="text-destructive ml-1">*</span>
+                                ) : (
+                                    <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                                )}
                             </Label>
                             <Input
                                 id="cust-email"
                                 type="email"
                                 placeholder="jean.dupont@example.com"
                                 value={email}
+                                required={collectCustomerInfo}
                                 onChange={(e) => {
                                     setEmail(e.target.value);
                                     onCustomerInfoChange?.({ fullName, email: e.target.value });

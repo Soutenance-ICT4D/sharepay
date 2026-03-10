@@ -23,6 +23,8 @@ export function PaymentLinkDetails({ paymentLink, onAmountChange, onCustomerInfo
     const locale = useLocale();
     const t = useTranslations("Footer"); // For general labels or use own namespace
 
+    const collectCustomerInfo = paymentLink.collectCustomerInfo;
+
     const [editableAmount, setEditableAmount] = useState(paymentLink.amount.toString());
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
@@ -31,7 +33,7 @@ export function PaymentLinkDetails({ paymentLink, onAmountChange, onCustomerInfo
 
     return (
         <Card className="w-full h-full shadow-sm border-primary/5">
-            <CardHeader pb-0>
+            <CardHeader className="pb-0">
                 <CardTitle>
                     Montant à payer <span className="text-primary ml-1">({paymentLink.currency})</span>
                 </CardTitle>
@@ -55,13 +57,18 @@ export function PaymentLinkDetails({ paymentLink, onAmountChange, onCustomerInfo
                 <div className="space-y-4 pt-4 border-t border-dashed">
                     <div className="space-y-2">
                         <Label htmlFor="cust-name">
-                            Votre nom complet <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                            Votre nom complet
+                            {collectCustomerInfo ? (
+                                <span className="text-destructive ml-1">*</span>
+                            ) : (
+                                <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                            )}
                         </Label>
                         <Input
                             id="cust-name"
                             placeholder="Jean Dupont"
                             value={fullName}
-                            required={false}
+                            required={collectCustomerInfo}
                             onChange={(e) => {
                                 setFullName(e.target.value);
                                 onCustomerInfoChange?.({ fullName: e.target.value, email });
@@ -70,14 +77,19 @@ export function PaymentLinkDetails({ paymentLink, onAmountChange, onCustomerInfo
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="cust-email">
-                            Votre adresse email <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                            Votre adresse email
+                            {collectCustomerInfo ? (
+                                <span className="text-destructive ml-1">*</span>
+                            ) : (
+                                <span className="text-muted-foreground text-[10px] ml-1 uppercase">(Optionnel)</span>
+                            )}
                         </Label>
                         <Input
                             id="cust-email"
                             type="email"
                             placeholder="jean.dupont@example.com"
                             value={email}
-                            required={false}
+                            required={collectCustomerInfo}
                             onChange={(e) => {
                                 setEmail(e.target.value);
                                 onCustomerInfoChange?.({ fullName, email: e.target.value });

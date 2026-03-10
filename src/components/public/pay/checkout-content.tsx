@@ -31,6 +31,7 @@ export function CheckoutContent({ id, sessionInfo }: CheckoutContentProps) {
                 <div className="space-y-6">
                     <CheckoutDetails
                         session={sessionInfo}
+                        collectCustomerInfo={sessionInfo.collectCustomerInfo || false}
                         onCustomerInfoChange={setCustomerInfo}
                     />
                 </div>
@@ -42,7 +43,7 @@ export function CheckoutContent({ id, sessionInfo }: CheckoutContentProps) {
                         type="CHECKOUT"
                         amount={sessionInfo.amount}
                         customerInfo={customerInfo}
-                        collectCustomerInfo={false} // Always optional as requested
+                        collectCustomerInfo={sessionInfo.collectCustomerInfo || false}
                         initialMethod={sessionInfo.paymentMethod}
                         initialPhone={sessionInfo.phoneNumber}
                     />

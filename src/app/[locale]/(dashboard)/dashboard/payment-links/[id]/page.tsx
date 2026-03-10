@@ -96,7 +96,7 @@ export default function EditPaymentLinkPage(props: { params: Promise<{ id: strin
                         <BrandingSection
                             logoMode={logoMode} setLogoMode={setLogoMode}
                             logoUrlInput={logoUrlInput} setLogoUrlInput={setLogoUrlInput}
-                            setLogoDataUrl={setLogoDataUrl}
+                            logoDataUrl={logoDataUrl} setLogoDataUrl={setLogoDataUrl}
                             themeColor={themeColor} setThemeColor={setThemeColor}
                         />
 
