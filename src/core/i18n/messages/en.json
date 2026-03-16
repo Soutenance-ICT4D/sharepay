@@ -4,21 +4,9 @@
         "register": "Sign up",
         "features": "Features",
         "pricing": "Pricing",
-        "developers": "Developers",
-        "company": "Company",
-        "menu_payments": "Payments",
-        "menu_transfers": "Transfers",
-        "menu_cards": "Virtual Cards",
-        "menu_api": "API Documentation",
-        "menu_status": "System Status",
-        "menu_about": "About",
-        "menu_contact": "Contact",
-        "desc_payments": "Accept payments from around the world.",
-        "desc_transfers": "Send money to any bank account.",
-        "desc_api": "Integrate SharePay in just a few lines of code.",
-        "desc_status": "Check the availability of our services.",
-        "desc_dashboard": "Track your finances in real-time.",
-        "desc_security": "PCI-DSS standards and encryption.",
+        "api_lab": "API Lab",
+        "documentation": "Documentation",
+        "about": "About",
         "terms": "Terms of Service",
         "privacy": "Privacy Policy"
     },
@@ -27,12 +15,13 @@
         "product": "Product",
         "features": "Features",
         "pricing": "Pricing",
-        "api": "API & Docs",
+        "api": "Docs",
+        "api_lab": "API Lab",
         "status": "System Status",
         "company": "Company",
         "about": "About",
         "blog": "Blog",
-        "careers": "Careers",
+        "faq": "FAQ",
         "contact": "Contact",
         "legal": "Legal",
         "privacy": "Privacy Policy",
@@ -40,43 +29,104 @@
         "security": "Security",
         "cookies": "Cookies",
         "systemStatus": "All systems operational",
-        "copyright": "© 2026 SharePay Inc. All rights reserved."
+        "copyright": "© 2026 SharePay Inc. All rights reserved.",
+        "newsletterTitle": "Stay Updated",
+        "newsletterDesc": "Get our latest updates and articles directly in your inbox.",
+        "newsletterPlaceholder": "Your email",
+        "newsletterBtn": "Subscribe",
+        "preStartTitle": "Ready to power up your payments?",
+        "preStartDesc": "Join thousands of businesses that trust SharePay for their growth.",
+        "preStartCTA": "Get started for free",
+        "contactBtn": "Contact us",
+        "developedBy": "Developed by"
     },
     "Landing": {
         "Hero": {
-            "title": "Cash in the moment.",
-            "subtitle": "The aggregator that turns payment complexity into just a few lines of code. Integrate, connect, and watch your business breathe.",
+            "title": "Accept payments everywhere, by any method",
+            "subtitle": "Turn payment complexity into a few lines of code. A single API to centralize your transactions and unlock your business growth.",
             "ctaStart": "Start Integration",
             "ctaDemo": "View Live Demo",
             "reassurance": "Ready in 5 minutes. No endless paperwork.",
-            "trustedBy": "Trusted by industry leaders"
+            "supportedMethods": "Payment Methods",
+            "mobilePayment": "Mobile Payment"
         },
-        "Connectivity": {
-            "title": "Global reach, local roots",
-            "subtitle": "Direct connections to card networks and local mobile money providers.",
-            "nodes": {
-                "visa": "Visa",
-                "mastercard": "Mastercard",
-                "mtn": "MTN MoMo",
-                "orange": "Orange Money",
-                "wave": "Wave"
+        "HowItWorks": {
+            "badge": "Process",
+            "title": "How it works",
+            "subtitle": "Three simple steps to revolutionize your payments.",
+            "step1": {
+                "title": "Lightning Fast Signup",
+                "description": "Create your account in minutes and start exploring the dashboard immediately."
+            },
+            "step2": {
+                "title": "Easy Integration",
+                "description": "Copy a few lines of code to your app or use our ready-to-go plugins."
+            },
+            "step3": {
+                "title": "Go Live",
+                "description": "Accept your first payment instantly with our ultra-secure infrastructure."
+            }
+        },
+        "PaymentMethod": {
+            "badge": "Omnicanal",
+            "title": "Payment Methods",
+            "subtitle": "We partner with the best providers to offer you a wide range of payment options.",
+            "mtnName": "MTN Mobile Money",
+            "mtnDesc": "Instant & secure payment",
+            "orangeName": "Orange Money",
+            "orangeDesc": "Real-time secure transfer"
+        },
+        "WhyChoose": {
+            "title": "Why Choose SharePay?",
+            "subtitle": "Simplicity meets performance to power your growth.",
+            "feature1": {
+                "title": "Radical Simplicity",
+                "description": "No more multiple contracts with each provider. One single interface to manage everything."
+            },
+            "feature2": {
+                "title": "Deployment Speed",
+                "description": "Go from idea to production payment in record time thanks to our SDKs."
+            },
+            "feature3": {
+                "title": "Maximum Security",
+                "description": "End-to-end encryption and compliance with the strictest industry standards."
+            },
+            "feature4": {
+                "title": "Expert Support",
+                "description": "A dedicated team of developers to support you at every stage."
             }
         },
         "Integration": {
             "title": "Designed for developers",
             "subtitle": "Integrate our unified API in minutes, not weeks.",
+            "check1": "RESTful API using resource-oriented URLs",
+            "check2": "Real-time webhooks for all events",
+            "check3": "Performant SDKs (Node, Python, PHP, mobile)",
+            "check4": "Exhaustive documentation and interactive guides",
+            "sdkComment": "// Initialize payment request",
             "consoleLabel": "Try it live",
-            "runBtn": "Run Request"
-        },
-        "Security": {
-            "title": "Banking-grade security",
-            "subtitle": "Your data is encrypted at rest and in transit.",
-            "vaultLabel": "Encryption Vault"
+            "liveEnv": "Live Environment",
+            "runBtn": "Run Request",
+            "sending": "Sending...",
+            "serverResp": "Server Response"
         },
         "Pricing": {
+            "badge": "Pricing",
             "title": "Simple, transparent pricing",
             "subtitle": "No setup fees, monthly fees, or hidden costs.",
-            "sliderLabel": "Estimated Monthly Volume"
+            "sliderLabel": "Estimated Monthly Volume",
+            "perMonth": "/ month",
+            "start": "Start",
+            "highVol": "High Vol.",
+            "platformFee": "Platform Fee",
+            "estimatedCost": "Estimated Cost",
+            "everythingIncluded": "Everything included",
+            "featAccept": "Accept all payment methods",
+            "featDashboard": "Real-time dashboards",
+            "featFraud": "Fraud detection included",
+            "featSupport": "24/7 Developer support",
+            "featPayout": "Automatic payouts",
+            "featCurrencies": "Multiple currencies"
         }
     },
     "HomePage": {
@@ -115,6 +165,20 @@
             "noAccount": "Don't have an account?",
             "registerLink": "Sign Up",
             "successMessage": "Login successful."
+        },
+        "AdminLogin": {
+            "title": "SharePay Administration",
+            "description": "Access restricted to administrative personnel",
+            "loginLabel": "Login / Username",
+            "submitBtn": "Admin Login",
+            "successMessage": "Admin authentication successful."
+        },
+        "SupportLogin": {
+            "title": "Support Center",
+            "description": "SharePay technical assistance portal",
+            "loginLabel": "Login / Username",
+            "submitBtn": "Support Login",
+            "successMessage": "Support authentication successful."
         },
         "Register": {
             "title": "Create an account",
@@ -578,6 +642,24 @@
                     "save": "Save Settings"
                 }
             }
+        }
+    },
+    "Admin": {
+        "Sidebar": {
+            "overview": "Global System",
+            "merchants": "Merchant Management",
+            "logs": "Audit Logs",
+            "settings": "System Settings",
+            "status": "Infrastructure Status"
+        }
+    },
+    "Support": {
+        "Sidebar": {
+            "overview": "Agent Dashboard",
+            "tickets": "Pending Tickets",
+            "merchants": "Merchant Search",
+            "help": "Knowledge Base",
+            "settings": "Support Settings"
         }
     },
     "NotFound": {

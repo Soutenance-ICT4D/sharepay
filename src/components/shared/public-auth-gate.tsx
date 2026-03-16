@@ -1,36 +1,31 @@
 "use client";
 
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "@/core/i18n/routing";
 import { tokenStorage } from "@/core/lib/token-storage";
 import { LoaderPage } from "@/components/shared/loader-page";
 
 export function PublicAuthGate({ children }: { children: ReactNode }) {
   const router = useRouter();
-
-  const loaderRef = useRef<HTMLDivElement | null>(null);
-  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
     const tokens = tokenStorage.get();
     if (tokens?.accessToken) {
       router.push("/dashboard");
-      return;
+    } else {
+      setShouldRender(true);
     }
-
-    if (loaderRef.current) loaderRef.current.style.display = "none";
-    if (contentRef.current) contentRef.current.style.display = "block";
   }, [router]);
 
-  return (
-    <>
-      <div ref={loaderRef}>
-        <LoaderPage />
-      </div>
+  // Pendant que l'on vérifie l'auth ou que l'on redirige, on affiche le loader
+  if (!shouldRender) {
+    return <LoaderPage />;
+  }
 
-      <div ref={contentRef} style={{ display: "none" }}>
-        {children}
-      </div>
-    </>
+  return (
+    <div className="animate-in fade-in duration-500">
+      {children}
+    </div>
   );
 }

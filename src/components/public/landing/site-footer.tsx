@@ -1,95 +1,174 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { Link } from "@/core/i18n/routing";
 import Image from "next/image";
-import { Facebook, Twitter, Linkedin, Github, CheckCircle2 } from "lucide-react";
+import { Facebook, Linkedin, Github, CheckCircle2, Mail, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.494h2.039L6.486 3.24H4.298l13.311 17.407z" />
+  </svg>
+);
 
 export function SiteFooter() {
   const t = useTranslations('Footer');
 
-  // Liens des réseaux sociaux (Mets tes vrais liens ici plus tard)
   const socialLinks = [
-    { icon: Twitter, href: "#" },
-    { icon: Github, href: "#" },
-    { icon: Linkedin, href: "#" },
-    { icon: Facebook, href: "#" },
+    { icon: XIcon, href: "#", label: "X" },
+    { icon: Github, href: "#", label: "GitHub" },
+    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Facebook, href: "#", label: "Facebook" },
   ];
 
+  const footerLinks = {
+    product: [
+      { name: t('features'), href: "/features" },
+      { name: t('pricing'), href: "/pricing" },
+      { name: t('api_lab'), href: "/api-lab" },
+      { name: t('api'), href: "/docs" },
+    ],
+    company: [
+      { name: t('about'), href: "/about" },
+      { name: t('blog'), href: "/blog" },
+      { name: t('faq'), href: "/faq" },
+      { name: t('contact'), href: "/contact" },
+    ],
+    legal: [
+      { name: t('privacy'), href: "/legal/privacy" },
+      { name: t('terms'), href: "/legal/terms" },
+      { name: t('security'), href: "/legal/security" },
+      { name: t('cookies'), href: "/legal/cookies" },
+    ]
+  };
+
   return (
-    <footer className="border-t bg-muted/30 pt-16 pb-8">
-      <div className="container mx-auto px-4">
+    <footer className="relative bg-[#fcfcfd] dark:bg-[#030711] border-t border-border/40 pt-16 pb-8 overflow-hidden">
+      {/* Subtile top line gradient */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      
+      <div className="container mx-auto px-4 relative z-10">
         
-        {/* --- PARTIE HAUTE : GRILLE DE LIENS --- */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 mb-12">
+        {/* --- SECTION PRINCIPALE --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           
-          {/* Colonne 1 : Branding (Prend 2 colonnes sur mobile, 1 sur PC) */}
-          <div className="col-span-2 md:col-span-1 space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-                <div className="relative h-8 w-8">
-                    <Image 
-                        src="/images/logo_sharepay_bg_remove_svg.svg" 
-                        alt="SharePay Logo" 
-                        fill
-                        className="object-contain"
-                    />
-                </div>
-                <span className="font-bold text-xl text-primary">SharePay</span>
+          {/* Marque & Actions (Prend 2 colonnes sur grand écran) */}
+          <div className="lg:col-span-2 space-y-6">
+            <Link href="/" className="flex items-center gap-3 w-fit">
+              <Image 
+                src="/images/logo_sharepay_bg_remove_svg.svg" 
+                alt="SharePay Logo" 
+                width={32} 
+                height={32} 
+                className="object-contain"
+              />
+              <span className="font-semibold text-xl tracking-tight text-primary">
+                SharePay
+              </span>
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+            
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
               {t('tagline')}
             </p>
+
+            {/* Boutons d'action subtils */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Button asChild size="sm" className="rounded-full shadow-none hover:bg-primary/90">
+                <Link href="/register">
+                  {t('preStartCTA')}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="sm" className="rounded-full bg-transparent hover:bg-muted">
+                <Link href="/contact">
+                  <Mail className="mr-2 h-4 w-4" />
+                  {t('contactBtn')}
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Liens de navigation */}
+          <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-8">
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-foreground">{t('product')}</h3>
+              <ul className="space-y-3">
+                {footerLinks.product.map((link) => (
+                  <li key={link.name}>
+                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-foreground">{t('company')}</h3>
+              <ul className="space-y-3">
+                {footerLinks.company.map((link) => (
+                  <li key={link.name}>
+                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-foreground">{t('legal')}</h3>
+              <ul className="space-y-3">
+                {footerLinks.legal.map((link) => (
+                  <li key={link.name}>
+                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* --- SECTION INFÉRIEURE --- */}
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6" suppressHydrationWarning>
+          <div className="flex flex-col md:flex-row items-center gap-3 text-center md:text-left">
+            <p className="text-sm text-muted-foreground" suppressHydrationWarning>
+              {t('copyright')}
+            </p>
+            <span className="hidden md:inline text-border/50">•</span>
             
-            {/* Indicateur de Status (Crédibilité Fintech) */}
-            <div className="flex items-center gap-2 text-sm font-medium text-green-600 bg-green-500/10 px-3 py-1.5 rounded-full w-fit dark:text-green-400 dark:bg-green-500/20">
-              <CheckCircle2 className="h-4 w-4" />
+            {/* Crédit TEASEA Incubator */}
+            <p className="text-sm text-muted-foreground" suppressHydrationWarning>
+              {t('developedBy')}{' '}
+              <a 
+                href="https://www.teasea-incubator.com" /* Remplace par le vrai lien si différent */
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-medium hover:text-primary transition-colors duration-200"
+              >
+                TEASEA Incubator
+              </a>
+            </p>
+
+            <span className="hidden md:inline text-border/50">•</span>
+            <div className="flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20" suppressHydrationWarning>
+              <CheckCircle2 className="h-3 w-3" />
               <span>{t('systemStatus')}</span>
             </div>
           </div>
 
-          {/* Colonne 2 : Produit */}
-          <div className="flex flex-col gap-3">
-            <h3 className="font-semibold text-foreground">{t('product')}</h3>
-            <Link href="/#features" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('features')}</Link>
-            <Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('pricing')}</Link>
-            <Link href="/docs" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('api')}</Link>
-            <Link href="/status" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('status')}</Link>
-          </div>
-
-          {/* Colonne 3 : Entreprise */}
-          <div className="flex flex-col gap-3">
-            <h3 className="font-semibold text-foreground">{t('company')}</h3>
-            <Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('about')}</Link>
-            <Link href="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('blog')}</Link>
-            <Link href="/careers" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('careers')}</Link>
-            <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('contact')}</Link>
-          </div>
-
-          {/* Colonne 4 : Légal */}
-          <div className="flex flex-col gap-3">
-            <h3 className="font-semibold text-foreground">{t('legal')}</h3>
-            <Link href="/legal/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('privacy')}</Link>
-            <Link href="/legal/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('terms')}</Link>
-            <Link href="/legal/security" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('security')}</Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t('cookies')}</Link>
-          </div>
-        </div>
-
-        {/* --- SÉPARATEUR --- */}
-        <div className="h-px w-full bg-border my-8" />
-
-        {/* --- PARTIE BASSE : COPYRIGHT & SOCIALS --- */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground text-center md:text-left">
-            {t('copyright')}
-          </p>
-
           <div className="flex items-center gap-4">
-            {socialLinks.map((social, index) => (
+            {socialLinks.map((social) => (
               <a 
-                key={index}
+                key={social.label}
                 href={social.href} 
                 target="_blank" 
                 rel="noreferrer"
-                className="text-muted-foreground hover:text-primary hover:bg-primary/10 p-2 rounded-full transition-all"
+                aria-label={social.label}
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <social.icon className="h-5 w-5" />
               </a>

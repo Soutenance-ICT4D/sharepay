@@ -21,13 +21,9 @@ import { authService } from "@/core/services/auth.service";
 import {
     Menu,
     X,
-    ChevronDown,
-    CreditCard,
-    ArrowRightLeft,
-    Code,
-    Activity,
     LayoutDashboard,
-    ShieldCheck
+    LogIn,
+    LogOut,
 } from "lucide-react";
 
 export function SiteHeader() {
@@ -58,56 +54,13 @@ export function SiteHeader() {
         router.push('/');
     };
 
-    // Configuration des menus avec Descriptions
+    // Configuration des menus avec liens directs
     const menuItems = [
-        {
-            label: t('features'),
-            children: [
-                {
-                    label: t('menu_payments'),
-                    description: t('desc_payments'),
-                    href: '/features/payments',
-                    icon: CreditCard
-                },
-                {
-                    label: t('menu_transfers'),
-                    description: t('desc_transfers'),
-                    href: '/features/transfers',
-                    icon: ArrowRightLeft
-                },
-                {
-                    label: "Dashboard",
-                    description: t('desc_dashboard'),
-                    href: '/dashboard',
-                    icon: LayoutDashboard
-                },
-            ]
-        },
-        {
-            label: t('developers'),
-            children: [
-                {
-                    label: t('menu_api'),
-                    description: t('desc_api'),
-                    href: '/docs',
-                    icon: Code
-                },
-                {
-                    label: t('menu_status'),
-                    description: t('desc_status'),
-                    href: '/status',
-                    icon: Activity
-                },
-                {
-                    label: "Sécurité",
-                    description: t('desc_security'),
-                    href: '/security',
-                    icon: ShieldCheck
-                },
-            ]
-        },
+        { label: t('features'), href: '/features' },
         { label: t('pricing'), href: '/pricing' },
-        { label: t('company'), href: '/about' },
+        { label: t('api_lab'), href: '/api-lab' },
+        { label: t('documentation'), href: '/docs' },
+        { label: t('about'), href: '/about' },
     ];
 
     return (
@@ -132,54 +85,16 @@ export function SiteHeader() {
                     {/* --- 2. NAVIGATION DESKTOP --- */}
                     <nav className="hidden lg:flex items-center gap-8">
                         {menuItems.map((item, index) => (
-                            <div key={index} className="relative group h-full flex items-center">
-                                {item.children ? (
-                                    <>
-                                        <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2 focus:outline-none">
-                                            {item.label}
-                                            <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
-                                        </button>
-
-                                        {/* --- DROPDOWN AMÉLIORÉ --- */}
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top translate-y-2 group-hover:translate-y-0">
-                                            <div className="w-[360px] rounded-2xl border bg-card p-2 shadow-2xl ring-1 ring-border z-50 overflow-hidden">
-                                                <div className="grid gap-1">
-                                                    {item.children.map((child, idx) => (
-                                                        <Link
-                                                            key={idx}
-                                                            href={child.href}
-                                                            className="flex items-start gap-4 rounded-xl p-3 hover:bg-muted/80 transition-colors group/item"
-                                                        >
-                                                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover/item:bg-primary group-hover/item:text-primary-foreground transition-colors duration-300">
-                                                                {child.icon && <child.icon className="h-5 w-5" />}
-                                                            </div>
-                                                            <div className="flex flex-col gap-1">
-                                                                <div className="text-sm font-semibold text-foreground group-hover/item:text-primary transition-colors">
-                                                                    {child.label}
-                                                                </div>
-                                                                {child.description && (
-                                                                    <p className="text-xs text-muted-foreground line-clamp-2">
-                                                                        {child.description}
-                                                                    </p>
-                                                                )}
-                                                            </div>
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <Link
-                                        href={item.href || '#'}
-                                        className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-                                    >
-                                        {item.label}
-                                    </Link>
-                                )}
-                            </div>
+                            <Link
+                                key={index}
+                                href={item.href || '#'}
+                                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus:outline-none"
+                            >
+                                {item.label}
+                            </Link>
                         ))}
                     </nav>
+
 
                     {/* --- 3. ACTIONS --- */}
                     <div className="flex items-center gap-4 sm:gap-6">
@@ -219,6 +134,7 @@ export function SiteHeader() {
                                                 {headerT('settings')}
                                             </DropdownMenuItem>
                                             <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
+                                                <LogOut className="h-4 w-4 mr-2" />
                                                 {headerT('logout')}
                                             </DropdownMenuItem>
                                         </DropdownMenuContent>
@@ -227,7 +143,10 @@ export function SiteHeader() {
                             ) : (
                                 <>
                                     <Button variant="ghost" size="sm" className="font-medium rounded-full" asChild>
-                                        <Link href="/login">{t('login')}</Link>
+                                        <Link href="/login">
+                                            <LogIn className="h-4 w-4 mr-2" />
+                                            {t('login')}
+                                        </Link>
                                     </Button>
                                     <Button size="sm" asChild className="font-bold rounded-full shadow-md hover:shadow-lg transition-all">
                                         <Link href="/register">{t('register')}</Link>
@@ -252,41 +171,14 @@ export function SiteHeader() {
                     <div className="absolute top-full left-0 right-0 mt-4 mx-4 rounded-2xl border bg-card p-6 shadow-2xl animate-in slide-in-from-top-5 duration-200">
                         <nav className="flex flex-col gap-6 max-h-[70vh] overflow-y-auto">
                             {menuItems.map((item, index) => (
-                                <div key={index} className="flex flex-col gap-3">
-                                    {item.children ? (
-                                        <>
-                                            <div className="font-bold text-lg text-primary px-2">{item.label}</div>
-                                            <div className="grid grid-cols-1 gap-2 pl-2">
-                                                {item.children.map((child, idx) => (
-                                                    <Link
-                                                        key={idx}
-                                                        href={child.href}
-                                                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-muted active:bg-muted"
-                                                        onClick={() => setIsMobileMenuOpen(false)}
-                                                    >
-                                                        <div className="p-2 bg-primary/10 rounded-lg text-primary mt-0.5">
-                                                            {child.icon && <child.icon className="h-4 w-4" />}
-                                                        </div>
-                                                        <div className="flex flex-col">
-                                                            <span className="text-foreground font-medium text-base">{child.label}</span>
-                                                            {child.description && (
-                                                                <span className="text-xs text-muted-foreground mt-0.5">{child.description}</span>
-                                                            )}
-                                                        </div>
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <Link
-                                            href={item.href || '#'}
-                                            className="block font-bold text-lg text-foreground hover:text-primary px-2"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            {item.label}
-                                        </Link>
-                                    )}
-                                </div>
+                                <Link
+                                    key={index}
+                                    href={item.href || '#'}
+                                    className="block font-bold text-lg text-foreground hover:text-primary px-2"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    {item.label}
+                                </Link>
                             ))}
 
                             <div className="h-px bg-border w-full my-2" />
@@ -320,13 +212,17 @@ export function SiteHeader() {
                                             <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>Accéder au Dashboard</Link>
                                         </Button>
                                         <Button variant="outline" className="w-full h-12 text-base rounded-xl text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => { setIsMobileMenuOpen(false); handleLogout(); }}>
+                                            <LogOut className="h-5 w-5 mr-3" />
                                             {headerT('logout')}
                                         </Button>
                                     </>
                                 ) : (
                                     <>
                                         <Button variant="outline" className="w-full h-12 text-base rounded-xl" asChild>
-                                            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>{t('login')}</Link>
+                                            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                                <LogIn className="h-5 w-5 mr-3" />
+                                                {t('login')}
+                                            </Link>
                                         </Button>
                                         <Button className="w-full h-12 text-base shadow-lg rounded-xl" asChild>
                                             <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>{t('register')}</Link>

@@ -43,7 +43,11 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground outline-none cursor-pointer transition-colors hover:text-primary px-2 py-1.5 rounded-lg">
+        <button
+          type="button"
+          suppressHydrationWarning
+          className="flex items-center gap-2 text-sm font-medium text-muted-foreground outline-none cursor-pointer transition-colors hover:text-primary px-2 py-1.5 rounded-lg border-none bg-transparent"
+        >
           {/* Spinner si chargement, sinon Drapeau Actuel */}
           {isPending ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -56,10 +60,10 @@ export function LanguageSwitcher() {
               />
             </div>
           )}
-
+ 
           <span className="uppercase font-semibold">{locale}</span>
-          <ChevronDown className="h-3 w-3 opacity-50 transition-transform duration-300 data-[state=open]:rotate-180" />
-        </div>
+          <ChevronDown className="h-3 w-3 opacity-50 transition-transform duration-300" />
+        </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-40 p-1">

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Play, Copy, Terminal } from "lucide-react";
+import { Check, Play, Copy, Terminal, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function IntegrationSection() {
@@ -47,103 +47,176 @@ const payment = await client.payments.create({
         }, 1500);
     };
 
-    return (
-        <section className="py-24 overflow-hidden relative">
-            <div className="container mx-auto px-4">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
+    const smoothEase: [number, number, number, number] = [0.25, 1, 0.5, 1];
 
+    return (
+        <section className="py-24 overflow-hidden relative bg-background">
+            {/* Background Decorations */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
+            
+            <div className="container mx-auto px-4 relative z-10">
+                <div className="text-center max-w-3xl mx-auto mb-20">
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.1, ease: smoothEase }}
+                        className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6"
+                    >
+                        {t('title')}
+                    </motion.h2>
+                    
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: smoothEase }}
+                        className="text-lg text-muted-foreground"
+                    >
+                        {t('subtitle')}
+                    </motion.p>
+                </div>
+
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
                     {/* Left Content */}
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 text-sm font-medium mb-6">
-                            <Terminal className="h-4 w-4" />
-                            <span>Developer First</span>
-                        </div>
-                        <h2 className="text-3xl lg:text-4xl font-bold mb-4">{t('title')}</h2>
-                        <p className="text-lg text-muted-foreground mb-8">
-                            {t('subtitle')}
-                        </p>
-
-                        <ul className="space-y-4">
+                        <motion.ul 
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, delay: 0.4 }}
+                            className="space-y-6"
+                        >
                             {[
-                                "RESTful API with predictable resource-oriented URLs",
-                                "Real-time webhooks for events",
-                                "SDKs for Node, Python, PHP, and more",
-                                "Comprehensive documentation and guides"
+                                t('check1'),
+                                t('check2'),
+                                t('check3'),
+                                t('check4')
                             ].map((item, i) => (
-                                <li key={i} className="flex items-center gap-3">
-                                    <div className="h-6 w-6 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
-                                        <Check className="h-3.5 w-3.5 text-green-600" />
+                                <motion.li 
+                                    key={i} 
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: 0.5 + (i * 0.1) }}
+                                    className="flex items-center gap-4 group"
+                                >
+                                    <div className="h-7 w-7 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 border border-emerald-500/20 group-hover:scale-110 transition-transform">
+                                        <Check className="h-4 w-4 text-emerald-500" />
                                     </div>
-                                    <span className="text-foreground/80">{item}</span>
-                                </li>
+                                    <span className="text-foreground/90 font-medium">{item}</span>
+                                </motion.li>
                             ))}
-                        </ul>
+                        </motion.ul>
                     </div>
 
                     {/* Right Interactive Console */}
-                    <div className="relative">
-                        {/* Decoration Circles */}
-                        <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
-                        <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl" />
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: smoothEase }}
+                        className="relative"
+                    >
+                        {/* Glow effect */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-blue-500/30 rounded-[2rem] blur-2xl opacity-50" />
 
-                        <div className="bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden border border-white/10">
-                            {/* Window Controls */}
-                            <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5">
+                        <div className="relative bg-[#0d0d0d] rounded-[2rem] shadow-2xl overflow-hidden border border-white/10 backdrop-blur-xl">
+                            {/* Window Header */}
+                            <div className="flex items-center justify-between px-6 py-4 bg-white/[0.03] border-b border-white/5">
                                 <div className="flex gap-2">
-                                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                                    <div className="w-3.5 h-3.5 rounded-full bg-[#ff5f56]" />
+                                    <div className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e]" />
+                                    <div className="w-3.5 h-3.5 rounded-full bg-[#27c93f]" />
                                 </div>
-                                <div className="text-xs text-muted-foreground font-mono">
-                                    POST /v1/payments
+                                <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10">
+                                    <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Post</span>
+                                    <span className="text-[10px] text-gray-400 font-mono">/v1/payments</span>
                                 </div>
                             </div>
 
-                            {/* Code Area */}
-                            <div className="p-6 font-mono text-sm overflow-x-auto">
-                                <div className="text-blue-400 mb-4">// Initialize payment request</div>
-                                <pre className="text-gray-300">
-                                    {codeSnippet}
-                                </pre>
+                            {/* Code Content */}
+                            <div className="p-8 font-mono text-xs sm:text-sm overflow-x-auto min-h-[300px]">
+                                <div className="flex gap-4">
+                                    <div className="flex flex-col text-gray-600 select-none border-r border-white/5 pr-4 text-right">
+                                        {Array.from({ length: 12 }).map((_, i) => (
+                                            <span key={i}>{i + 1}</span>
+                                        ))}
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="text-emerald-500/60 italic mb-4">{t('sdkComment')}</div>
+                                        <div className="text-gray-300 leading-relaxed whitespace-pre font-mono">
+                                            {codeSnippet.split('\n').map((line, i) => {
+                                                // Minimal syntax highlighting
+                                                const highlightedLine = line
+                                                    .replace(/(require|new|await|const)/g, '<span class="text-purple-400">$1</span>')
+                                                    .replace(/(\.payments\.create)/g, '<span class="text-blue-400">$1</span>')
+                                                    .replace(/('.*')/g, '<span class="text-amber-300">$1</span>')
+                                                    .replace(/(\d+)/g, '<span class="text-orange-400">$1</span>');
+                                                
+                                                return (
+                                                    <div 
+                                                        key={i} 
+                                                        dangerouslySetInnerHTML={{ __html: highlightedLine || '&nbsp;' }} 
+                                                    />
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            {/* Actions Bar */}
-                            <div className="px-4 py-3 bg-white/5 border-t border-white/5 flex justify-between items-center">
-                                <div className="text-xs text-gray-500">Node.js SDK v2.0</div>
+                            {/* Console Actions */}
+                            <div className="px-6 py-4 bg-white/[0.02] border-t border-white/5 flex justify-between items-center">
+                                <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase tracking-widest font-bold">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                    {t('liveEnv')}
+                                </div>
                                 <Button
                                     size="sm"
                                     onClick={runRequest}
                                     disabled={isRunning || !!response}
-                                    className={`transition-all ${response ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                                    className={`h-9 px-5 rounded-full font-bold transition-all duration-300 ${
+                                        response 
+                                        ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
+                                        : 'bg-primary hover:scale-105 active:scale-95'
+                                    }`}
                                 >
                                     {isRunning ? (
-                                        <span className="animate-pulse">Running...</span>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                            <span>{t('sending')}</span>
+                                        </div>
                                     ) : response ? (
-                                        <>
-                                            <Check className="h-4 w-4 mr-2" />
-                                            200 OK
-                                        </>
+                                        <div className="flex items-center gap-2">
+                                            <Check className="h-4 w-4" />
+                                            <span>200 OK</span>
+                                        </div>
                                     ) : (
-                                        <>
-                                            <Play className="h-4 w-4 mr-2" />
-                                            {t('runBtn')}
-                                        </>
+                                        <div className="flex items-center gap-2">
+                                            <Play className="h-4 w-4 fill-current" />
+                                            <span>{t('runBtn')}</span>
+                                        </div>
                                     )}
                                 </Button>
                             </div>
 
-                            {/* Response Area */}
+                            {/* Results Panel */}
                             <AnimatePresence>
                                 {response && (
                                     <motion.div
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: 'auto', opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
-                                        className="border-t border-white/10 bg-[#151515]"
+                                        transition={{ duration: 0.5, ease: smoothEase }}
+                                        className="border-t border-white/10 bg-[#050505]"
                                     >
-                                        <div className="p-4 font-mono text-sm">
-                                            <div className="text-green-400 mb-2">// Server Response (200 OK)</div>
-                                            <pre className="text-green-300/90 whitespace-pre-wrap">
+                                        <div className="p-6 font-mono text-xs sm:text-sm">
+                                            <div className="flex items-center gap-2 text-emerald-500 mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                                <Sparkles className="h-3 w-3" />
+                                                {t('serverResp')}
+                                            </div>
+                                            <pre className="text-emerald-400/90 whitespace-pre-wrap leading-relaxed bg-emerald-500/5 p-4 rounded-xl border border-emerald-500/10">
                                                 {response}
                                             </pre>
                                         </div>
@@ -151,7 +224,7 @@ const payment = await client.payments.create({
                                 )}
                             </AnimatePresence>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

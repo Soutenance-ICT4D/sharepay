@@ -16,12 +16,14 @@ export function DemoModal({ children }: DemoModalProps) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                {children || (
-                    <Button size="lg" variant="outline" className="rounded-full text-base h-14 px-10 border-2 shadow-sm hover:bg-muted/50 w-full sm:w-auto transition-all duration-300">
-                        <Play className="mr-2 h-4 w-4 fill-current" />
-                        {t('ctaDemo')}
-                    </Button>
-                )}
+                <div suppressHydrationWarning className="contents">
+                    {children || (
+                        <Button size="lg" variant="outline" className="rounded-full text-base h-14 px-10 border-2 shadow-sm hover:bg-muted/50 w-full sm:w-auto transition-all duration-300">
+                            <Play className="mr-2 h-4 w-4 fill-current" />
+                            {t('ctaDemo')}
+                        </Button>
+                    )}
+                </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-4xl p-0 overflow-hidden bg-black/95 border-none">
                 <DialogTitle className="sr-only">Live Demo</DialogTitle>

@@ -4,21 +4,9 @@
         "register": "S'inscrire",
         "features": "Fonctionnalités",
         "pricing": "Tarifs",
-        "developers": "Développeurs",
-        "company": "Entreprise",
-        "menu_payments": "Paiements",
-        "menu_transfers": "Virements",
-        "menu_cards": "Cartes Virtuelles",
-        "menu_api": "Documentation API",
-        "menu_status": "État du système",
-        "menu_about": "À propos",
-        "menu_contact": "Contact",
-        "desc_payments": "Acceptez des paiements du monde entier.",
-        "desc_transfers": "Envoyez de l'argent vers n'importe quel compte.",
-        "desc_api": "Intégrez SharePay en quelques lignes de code.",
-        "desc_status": "Vérifiez la disponibilité de nos services.",
-        "desc_dashboard": "Suivez vos finances en temps réel.",
-        "desc_security": "Normes PCI-DSS et chiffrement.",
+        "api_lab": "API Lab",
+        "documentation": "Documentations",
+        "about": "À propos",
         "terms": "Conditions d'utilisation",
         "privacy": "Termes de confidentialité"
     },
@@ -27,56 +15,118 @@
         "product": "Produit",
         "features": "Fonctionnalités",
         "pricing": "Tarifs",
-        "api": "API & Docs",
+        "api": "Docs",
+        "api_lab": "API Lab",
         "status": "État du système",
         "company": "Entreprise",
         "about": "À propos",
         "blog": "Blog",
-        "careers": "Carrières",
+        "faq": "FAQ",
         "contact": "Contact",
         "legal": "Légal",
-        "privacy": "Termes de confidentialité",
-        "terms": "Conditions d'utilisation",
+        "privacy": "Confidentialité",
+        "terms": "Conditions",
         "security": "Sécurité",
         "cookies": "Cookies",
         "systemStatus": "Tous les systèmes opérationnels",
-        "copyright": "© 2026 SharePay Inc. Tous droits réservés."
+        "copyright": "© 2026 SharePay Inc. Tous droits réservés.",
+        "newsletterTitle": "Restez informé",
+        "newsletterDesc": "Recevez nos dernières mises à jour et articles directement dans votre boîte mail.",
+        "newsletterPlaceholder": "Votre email",
+        "newsletterBtn": "S'abonner",
+        "preStartTitle": "Prêt à propulser vos paiements ?",
+        "preStartDesc": "Rejoignez des milliers d'entreprises qui font confiance à SharePay pour leur croissance.",
+        "preStartCTA": "Commencer gratuitement",
+        "contactBtn": "Nous contacter",
+        "developedBy": "Développé par"
     },
     "Landing": {
         "Hero": {
-            "title": "Encaissez l'instant.",
-            "subtitle": "L'agrégateur qui transforme la complexité des paiements en quelques lignes de code. Intégrez, connectez et voyez votre business respirer.",
+            "title": "Encaissez partout, par tous les moyens",
+            "subtitle": "Transformez la complexité des paiements en quelques lignes de code. Une seule API pour centraliser vos encaissements et libérer la croissance de votre entreprise.",
             "ctaStart": "Lancer l'intégration",
             "ctaDemo": "Voir la démo live",
             "reassurance": "Prêt en 5 minutes. Sans paperasse interminable.",
-            "trustedBy": "Ils nous font confiance"
+            "supportedMethods": "Méthodes de paiement",
+            "mobilePayment": "Paiement mobile"
         },
-        "Connectivity": {
-            "title": "Portée mondiale, racines locales",
-            "subtitle": "Connexions directes aux réseaux de cartes et aux opérateurs de mobile money locaux.",
-            "nodes": {
-                "visa": "Visa",
-                "mastercard": "Mastercard",
-                "mtn": "MTN MoMo",
-                "orange": "Orange Money",
-                "wave": "Wave"
+        "HowItWorks": {
+            "badge": "Étapes",
+            "title": "Comment ça marche",
+            "subtitle": "Trois étapes simples pour révolutionner vos paiements.",
+            "step1": {
+                "title": "Inscription éclair",
+                "description": "Créez votre compte en quelques minutes et commencez à explorer le tableau de bord immédiatement."
+            },
+            "step2": {
+                "title": "Intégration facile",
+                "description": "Copiez quelques lignes de code dans votre application ou utilisez nos plugins prêts à l'emploi."
+            },
+            "step3": {
+                "title": "Mise en ligne",
+                "description": "Acceptez votre premier paiement instantanément avec notre infrastructure ultra-sécurisée."
+            }
+        },
+        "PaymentMethod": {
+            "badge": "Omnicanal",
+            "title": "Méthodes de paiement",
+            "subtitle": "Nous collaborons avec les meilleurs prestataires pour vous offrir un large éventail d'options de paiement.",
+            "mtnName": "MTN Mobile Money",
+            "mtnDesc": "Paiement instantané & sécurisé",
+            "orangeName": "Orange Money",
+            "orangeDesc": "Transfert sécurisé en temps réel"
+        },
+        "WhyChoose": {
+            "title": "Pourquoi choisir SharePay ?",
+            "subtitle": "La simplicité rencontre la performance pour propulser votre croissance.",
+            "feature1": {
+                "title": "Simplicité Radicale",
+                "description": "Finis les contrats multiples avec chaque opérateur. Une seule interface pour tout gérer."
+            },
+            "feature2": {
+                "title": "Vitesse de Déploiement",
+                "description": "Passez de l'idée au paiement en production en un temps record grâce à nos SDK."
+            },
+            "feature3": {
+                "title": "Sécurité Maximale",
+                "description": "Chiffrement de bout en bout et conformité aux standards les plus stricts de l'industrie."
+            },
+            "feature4": {
+                "title": "Support Expert",
+                "description": "Une équipe de développeurs dédiée pour vous accompagner à chaque étape."
             }
         },
         "Integration": {
             "title": "Conçu pour les développeurs",
             "subtitle": "Intégrez notre API unifiée en quelques minutes, pas en semaines.",
+            "check1": "API RESTful utilisant des URLs orientées ressources",
+            "check2": "Webhooks en temps réel pour tous les événements",
+            "check3": "SDKs performants (Node, Python, PHP, mobile)",
+            "check4": "Documentation exhaustive et guides interactifs",
+            "sdkComment": "// Initialiser la requête de paiement",
             "consoleLabel": "Essayer en direct",
-            "runBtn": "Exécuter la requête"
-        },
-        "Security": {
-            "title": "Sécurité de niveau bancaire",
-            "subtitle": "Vos données sont chiffrées au repos et en transit.",
-            "vaultLabel": "Coffre-fort de chiffrement"
+            "liveEnv": "Environnement Live",
+            "runBtn": "Exécuter la requête",
+            "sending": "Envoi...",
+            "serverResp": "Réponse du serveur"
         },
         "Pricing": {
+            "badge": "Tarifs",
             "title": "Tarification simple et transparente",
             "subtitle": "Pas de frais d'installation, pas de frais mensuels, pas de coûts cachés.",
-            "sliderLabel": "Volume Mensuel Estimé"
+            "sliderLabel": "Volume Mensuel Estimé",
+            "perMonth": "/ mois",
+            "start": "Début",
+            "highVol": "Gros Vol.",
+            "platformFee": "Frais de Plateforme",
+            "estimatedCost": "Coût Estimé",
+            "everythingIncluded": "Tout inclus",
+            "featAccept": "Acceptez tous les modes de paiement",
+            "featDashboard": "Tableaux de bord en temps réel",
+            "featFraud": "Détection de fraude incluse",
+            "featSupport": "Support Développeur 24/7",
+            "featPayout": "Reversements automatiques",
+            "featCurrencies": "Multi-devises"
         }
     },
     "HomePage": {
@@ -115,6 +165,20 @@
             "noAccount": "Pas encore de compte ?",
             "registerLink": "S'inscrire",
             "successMessage": "Connexion réussie."
+        },
+        "AdminLogin": {
+            "title": "Administration SharePay",
+            "description": "Accès réservé au personnel administratif",
+            "loginLabel": "Identifiant / Login",
+            "submitBtn": "Connexion Administrateur",
+            "successMessage": "Authentification admin réussie."
+        },
+        "SupportLogin": {
+            "title": "Centre de Support",
+            "description": "Portail d'assistance technique SharePay",
+            "loginLabel": "Identifiant / Login",
+            "submitBtn": "Connexion Support",
+            "successMessage": "Authentification support réussie."
         },
         "Register": {
             "title": "Créer un compte",
@@ -578,6 +642,24 @@
                     "save": "Enregistrer les paramètres"
                 }
             }
+        }
+    },
+    "Admin": {
+        "Sidebar": {
+            "overview": "Sytème Global",
+            "merchants": "Gestion Marchands",
+            "logs": "Journaux d'Audit",
+            "settings": "Configurations",
+            "status": "État Infrastructure"
+        }
+    },
+    "Support": {
+        "Sidebar": {
+            "overview": "Tableau de Bord",
+            "tickets": "Tickets en attente",
+            "merchants": "Recherche Marchand",
+            "help": "Base de savoir",
+            "settings": "Mes préférences"
         }
     },
     "NotFound": {

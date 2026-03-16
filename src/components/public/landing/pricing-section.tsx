@@ -2,11 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 export function PricingSection() {
     const t = useTranslations('Landing.Pricing');
     const [sliderValue, setSliderValue] = useState(50); // 0-100 scale
+
+    const smoothEase: [number, number, number, number] = [0.25, 1, 0.5, 1];
 
     // Simulate pricing calculation
     // This is just a visual representation
@@ -15,17 +18,35 @@ export function PricingSection() {
     const cost = volume * (percentage / 100);
 
     const formatCurrency = (val: number) => {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'XAF', maximumFractionDigits: 0 }).format(val);
+        return new Intl.NumberFormat(t('badge') === 'Tarifs' ? 'fr-CM' : 'en-CM', { style: 'currency', currency: 'XAF', maximumFractionDigits: 0 }).format(val);
     };
 
     return (
-        <section className="py-24" id="pricing">
-            <div className="container mx-auto px-4">
-                <div className="max-w-3xl mx-auto text-center mb-12">
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-4">{t('title')}</h2>
-                    <p className="text-lg text-muted-foreground">
+        <section className="py-24 relative overflow-hidden bg-background" id="pricing">
+             {/* Background elements */}
+             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
+             
+            <div className="container mx-auto px-4 relative z-10">
+                <div className="max-w-3xl mx-auto text-center mb-16">
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.1, ease: smoothEase }}
+                        className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6"
+                    >
+                        {t('title')}
+                    </motion.h2>
+                    
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: smoothEase }}
+                        className="text-lg text-muted-foreground"
+                    >
                         {t('subtitle')}
-                    </p>
+                    </motion.p>
                 </div>
 
                 <div className="max-w-4xl mx-auto bg-card border rounded-3xl shadow-xl overflow-hidden">
@@ -38,7 +59,7 @@ export function PricingSection() {
                             <div className="mb-8">
                                 <div className="flex justify-between items-end mb-4">
                                     <span className="text-3xl font-bold">{formatCurrency(volume)}</span>
-                                    <span className="text-sm text-muted-foreground">/ month</span>
+                                    <span className="text-sm text-muted-foreground">{t('perMonth')}</span>
                                 </div>
                                 <input
                                     type="range"
@@ -49,18 +70,18 @@ export function PricingSection() {
                                     className="w-full h-2 bg-primary/20 rounded-lg appearance-none cursor-pointer accent-primary"
                                 />
                                 <div className="flex justify-between text-xs text-muted-foreground mt-2">
-                                    <span>Start</span>
-                                    <span>High Vol.</span>
+                                    <span>{t('start')}</span>
+                                    <span>{t('highVol')}</span>
                                 </div>
                             </div>
 
                             <div className="space-y-4 pt-8 border-t">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-muted-foreground">Platform Fee</span>
+                                    <span className="text-muted-foreground">{t('platformFee')}</span>
                                     <span className="font-mono">1.5%</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-muted-foreground">Estimated Cost</span>
+                                    <span className="text-muted-foreground">{t('estimatedCost')}</span>
                                     <span className="text-xl font-bold text-primary">{formatCurrency(cost)}</span>
                                 </div>
                             </div>
@@ -68,15 +89,15 @@ export function PricingSection() {
 
                         {/* Features Side */}
                         <div className="p-8 lg:p-12 bg-primary text-primary-foreground flex flex-col justify-center">
-                            <h3 className="text-xl font-bold mb-6">Everything included</h3>
+                            <h3 className="text-xl font-bold mb-6">{t('everythingIncluded')}</h3>
                             <ul className="space-y-4">
                                 {[
-                                    "Accept all payment methods",
-                                    "Real-time dashboards",
-                                    "Fraud detection included",
-                                    "24/7 Developer support",
-                                    "Automatic payouts",
-                                    "Multiple currencies"
+                                    t('featAccept'),
+                                    t('featDashboard'),
+                                    t('featFraud'),
+                                    t('featSupport'),
+                                    t('featPayout'),
+                                    t('featCurrencies')
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-3">
                                         <div className="h-6 w-6 rounded-full bg-white/20 flex items-center justify-center">
