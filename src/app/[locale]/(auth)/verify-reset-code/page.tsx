@@ -33,7 +33,7 @@ export default function VerifyResetCodePage() {
         }
         setIsResending(true);
         try {
-            await authService.resendOtp(email);
+            await authService.forgotPassword({ email });
             toast.success(tGlobal('Auth.VerifyEmail.otpResent') || "Verification code sent.");
             startCountdown();
         } catch (error: any) {
