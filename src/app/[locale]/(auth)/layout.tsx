@@ -35,9 +35,9 @@ export default function AuthLayout({
 
                 {/* Footer Links (Optional) */}
                 <div className="mt-6 text-center text-sm text-muted-foreground space-x-4">
-                    <Link href="/terms" className="hover:text-primary transition-colors">{t('terms')}</Link>
+                    <Link href="/legal/terms" className="hover:text-primary transition-colors">{t('terms')}</Link>
                     <span>&middot;</span>
-                    <Link href="/privacy" className="hover:text-primary transition-colors">{t('privacy')}</Link>
+                    <Link href="/legal/privacy" className="hover:text-primary transition-colors">{t('privacy')}</Link>
                 </div>
             </div>
         </div>

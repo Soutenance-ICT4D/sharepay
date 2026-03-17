@@ -6,15 +6,16 @@ import "react-phone-number-input/style.css"; // Import des styles de base
 import { cn } from "@/core/lib/utils";
 
 interface PhoneInputProps {
-    value: string;
-    onChange: (value: string) => void;
+    value?: string;
+    onChange?: (value: string) => void;
     onCountryChange?: (country?: string) => void;
+    defaultCountry?: any;
     className?: string;
     placeholder?: string;
     id?: string;
 }
 
-export function PhoneInput({ value, onChange, onCountryChange, className, id, placeholder }: PhoneInputProps) {
+export function PhoneInput({ value, onChange, onCountryChange, defaultCountry = "CM", className, id, placeholder }: PhoneInputProps) {
     return (
         <div className={cn(
             // --- CONTENEUR PRINCIPAL (Style Shadcn Input) ---
@@ -41,9 +42,9 @@ export function PhoneInput({ value, onChange, onCountryChange, className, id, pl
         )}>
             <PhoneInputFromLib
                 international
-                defaultCountry="CM"
+                defaultCountry={defaultCountry}
                 value={value || undefined}
-                onChange={(val) => onChange(val || "")}
+                onChange={(val) => onChange?.(val || "")}
                 onCountryChange={onCountryChange}
                 placeholder={placeholder}
                 id={id}

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/core/i18n/routing";
 import Image from "next/image";
-import { Facebook, Linkedin, Github, CheckCircle2, Mail, ArrowRight } from "lucide-react";
+import { Facebook, Linkedin, Github, CheckCircle2, Mail, ArrowRight, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -14,6 +14,10 @@ const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export function SiteFooter() {
   const t = useTranslations('Footer');
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const socialLinks = [
     { icon: XIcon, href: "#", label: "X" },
@@ -173,6 +177,18 @@ export function SiteFooter() {
                 <social.icon className="h-5 w-5" />
               </a>
             ))}
+            
+            <div className="h-6 w-px bg-border/50 mx-2 hidden sm:block" />
+            
+            <Button 
+                variant="default" 
+                size="icon" 
+                onClick={scrollToTop}
+                className="h-10 w-10 rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all group bg-primary hover:bg-primary/90"
+                title="Scroll to top"
+            >
+                <ArrowUp className="h-5 w-5 group-hover:-translate-y-1 transition-transform text-primary-foreground" />
+            </Button>
           </div>
         </div>
       </div>

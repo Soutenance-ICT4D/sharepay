@@ -11,7 +11,7 @@ import { Loader2, LockKeyhole } from "lucide-react";
 
 import { authService } from "@/core/services/auth.service";
 import { toast } from "sonner";
-import { getAuthErrorMessage } from "@/core/lib/error-codes";
+import { getAuthErrorMessage, isApiError } from "@/core/lib/error-codes";
 
 export default function ResetPasswordPage() {
     const t = useTranslations('Auth.ResetPassword');
@@ -49,7 +49,8 @@ export default function ResetPasswordPage() {
             // Redirect to login
             router.push('/login');
         } catch (error: any) {
-            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            const code = isApiError(error) ? error.code : (error.message || "UNKNOWN_ERROR");
+            const key = getAuthErrorMessage(code);
             toast.error(tGlobal(`Auth.Errors.${key}`));
         } finally {
             setIsLoading(false);

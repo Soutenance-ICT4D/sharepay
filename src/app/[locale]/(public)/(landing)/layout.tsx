@@ -8,7 +8,7 @@ export default function LandingLayout({ children }: { children: ReactNode }) {
         <PublicAuthGate>
             <div className="flex min-h-screen flex-col">
                 <SiteHeader />
-                <main className="flex-1 container">
+                <main className="flex-1">
                     {children}
                 </main>
                 <SiteFooter />

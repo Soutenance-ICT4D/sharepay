@@ -126,7 +126,161 @@
             "featFraud": "Fraud detection included",
             "featSupport": "24/7 Developer support",
             "featPayout": "Automatic payouts",
-            "featCurrencies": "Multiple currencies"
+            "featCurrencies": "Multiple currencies",
+            "Plans": {
+                "Standard": {
+                    "name": "Standard",
+                    "price": "1.5%",
+                    "desc": "Ideal for startups and SMBs",
+                    "features": ["MTN & Orange Money", "Dashboard", "Email support"]
+                },
+                "Business": {
+                    "name": "Business",
+                    "price": "1.2%",
+                    "desc": "For growing businesses",
+                    "features": ["Everything in Standard", "Priority payouts", "24/7 support"]
+                },
+                "Enterprise": {
+                    "name": "Enterprise",
+                    "price": "Custom",
+                    "desc": "Tailored solutions",
+                    "features": ["Volume discounts", "Account manager", "Dedicated API"]
+                }
+            },
+            "FAQ": {
+                "title": "Frequently Asked Questions",
+                "q1": "Are there any signup fees?",
+                "a1": "No, signing up for SharePay is completely free.",
+                "q2": "How do I get paid?",
+                "a2": "Your funds are transferred automatically or manually to your bank account or mobile money according to your settings.",
+                "q3": "Which countries are supported?",
+                "a3": "We currently operate in Cameroon and plan to expand throughout the CEMAC zone very soon."
+            }
+        },
+        "About": {
+            "Hero": {
+                "badge": "Our Mission",
+                "title": "Democratizing Digital Payments in Africa",
+                "subtitle": "We are building the financial infrastructure that enables every business, large or small, to thrive in the digital economy."
+            },
+            "Stats": {
+                "users": { "value": "2000+", "label": "Active Merchants" },
+                "transactions": { "value": "1M+", "label": "Transactions processed" },
+                "availability": { "value": "99.9%", "label": "Service Availability" },
+                "support": { "value": "24/7", "label": "Responsive Support" }
+            },
+            "Story": {
+                "title": "Our Story",
+                "content": "Born from a desire to simplify complex financial transactions, SharePay has become the trusted partner for thousands of merchants. Our journey is guided by innovation and the desire for real impact on the African entrepreneurial ecosystem."
+            },
+            "Values": {
+                "title": "Our Values",
+                "v1": {
+                    "title": "Innovation",
+                    "desc": "We constantly push technological boundaries."
+                },
+                "v2": {
+                    "title": "Transparency",
+                    "desc": "Total clarity on our rates and processes."
+                },
+                "v3": {
+                    "title": "Security",
+                    "desc": "Protecting your funds is our absolute priority."
+                }
+            }
+        },
+        "Contact": {
+            "title": "Contact us",
+            "subtitle": "Our team of experts is here to help you power your business with the best payment solutions.",
+            "emailTitle": "Email",
+            "phoneTitle": "Phone",
+            "addressTitle": "Address",
+            "hoursTitle": "Opening Hours",
+            "address": "Yaounde, Cameroon, University of Yaounde I, TESEA Incubator",
+            "weekday": "Monday - Friday: 8am - 6pm",
+            "saturday": "Saturday: 9am - 1pm",
+            "support247": "24/7 Online Support",
+            "form": {
+                "fullName": "Full Name",
+                "phone": "Phone Number",
+                "email": "Email Address",
+                "reason": "Reason for Contact",
+                "message": "Message",
+                "placeholderFullName": "Your name",
+                "placeholderPhone": "Your phone number",
+                "placeholderEmail": "Your email",
+                "placeholderReason": "Select a reason",
+                "placeholderMessage": "Your message",
+                "reasonBilling": "Billing",
+                "reasonPartnership": "Partnerships",
+                "reasonGeneral": "General Inquiry",
+                "reasonSupport": "Technical Support",
+                "reasonOther": "Other",
+                "submit": "Send message"
+            }
+        },
+        "Features": {
+            "Hero": {
+                "badge": "Features",
+                "title": "A Complete Payment Infrastructure",
+                "subtitle": "Everything you need to accept payments, manage funds, and grow your business in Africa.",
+                "ctaStart": "Get Started",
+                "ctaDocs": "Read Docs"
+            },
+            "Main": {
+                "title": "Built for Performance",
+                "subtitle": "Explore the tools that make SharePay the trusted partner for growing businesses."
+            },
+            "Grid": {
+                "api": {
+                    "title": "Unified API",
+                    "description": "A single integration to access all local and international payment methods."
+                },
+                "security": {
+                    "title": "Certified Security",
+                    "description": "Fraud protection and bank-grade encryption for every transaction."
+                },
+                "analytics": {
+                    "title": "Real-time Analytics",
+                    "description": "Track your performance live through intuitive and detailed dashboards."
+                },
+                "payout": {
+                    "title": "Flexible Payouts",
+                    "description": "Transfer your funds to your bank or mobile accounts with one click."
+                },
+                "checkout": {
+                    "title": "Optimized Checkout",
+                    "description": "A seamless payment experience designed to maximize your conversion rate."
+                },
+                "developer": {
+                    "title": "Developer Focused",
+                    "description": "Robust SDKs and clear documentation for friction-less integration."
+                }
+            },
+            "Details": {
+                "api": {
+                    "tag": "Integration",
+                    "title": "One API, Infinite Possibilities",
+                    "description": "Stop wasting time on multiple technical integrations. With SharePay, instantly access MTN Mobile Money, Orange Money, and many more via a single REST interface.",
+                    "feature1": "Interactive documentation",
+                    "feature2": "Full sandbox environment",
+                    "feature3": "Real-time webhooks"
+                },
+                "security": {
+                    "tag": "Protection",
+                    "title": "Security at the Core of Every Transaction",
+                    "description": "We use state-of-the-art technologies to secure your data and that of your customers. Our fraud detection system learns from every payment to protect you.",
+                    "feature1": "AES-256 Encryption",
+                    "feature2": "PCI-DSS Compliance",
+                    "feature3": "AI-powered Anti-fraud"
+                }
+            },
+            "CTA": {
+                "title": "Ready to Transform Your Payments?",
+                "subtitle": "Join the SharePay network today and start collecting payments in minutes.",
+                "ctaStart": "Open an Account",
+                "ctaContact": "Contact Us"
+            }
         }
     },
     "HomePage": {
@@ -156,6 +310,7 @@
             "title": "Welcome back",
             "description": "Enter your email to sign in to your account",
             "emailLabel": "Email",
+            "emailPlaceholder": "your@email.com",
             "passwordLabel": "Password",
             "phoneLabel": "Phone number",
             "forgotPassword": "Forgot password?",
@@ -164,14 +319,23 @@
             "orContinueWith": "Or continue with",
             "noAccount": "Don't have an account?",
             "registerLink": "Sign Up",
-            "successMessage": "Login successful."
+            "successMessage": "Login successful.",
+            "googleSuccess": "Logged in with Google.",
+            "googleError": "Google login failed."
         },
         "AdminLogin": {
-            "title": "SharePay Administration",
+            "title": "SharePay Admin",
             "description": "Access restricted to administrative personnel",
             "loginLabel": "Login / Username",
             "submitBtn": "Admin Login",
             "successMessage": "Admin authentication successful."
+        },
+        "SuperAdminLogin": {
+            "title": "SharePay Super Admin",
+            "description": "Access forbiden",
+            "loginLabel": "Login / Username",
+            "submitBtn": "Supper Admin Login",
+            "successMessage": "Welcome in Sharepay"
         },
         "SupportLogin": {
             "title": "Support Center",
@@ -183,19 +347,44 @@
         "Register": {
             "title": "Create an account",
             "description": "Enter your details below to create your account",
+            "fullnameLabel": "Full Name",
+            "fullnamePlaceholder": "Your full name",
+            "phonePlaceholder": "Enter your phone number",
             "submitBtn": "Create Account",
             "haveAccount": "Already have an account?",
             "loginLink": "Sign In",
             "acceptTerms": "I accept the",
             "and": "and the",
-            "successMessage": "Account created successfully. Please verify your email."
+            "termsError": "You must accept the terms of use and privacy terms.",
+            "successMessage": "Account created successfully. Please verify your email.",
+            "googleSuccess": "Account created via Google.",
+            "googleError": "Google registration failed."
         },
         "VerifyEmail": {
             "title": "Verify your email",
-            "description": "We sent a verification code to",
+            "description": "We sent a verification code to <emp>{email}</emp>",
             "submitBtn": "Verify",
+            "notReceived": "Didn't receive code?",
             "resend": "Resend code",
+            "otpResent": "A new verification code has been sent.",
+            "openEmail": "Open Gmail",
+            "changeEmail": "Change email",
+            "checkSpam": "If you don't see the email, please check your spam folder.",
+            "errorMissing": "Email is missing. Please register again.",
             "successMessage": "Email verified successfully."
+        },
+        "VerifyResetCode": {
+            "title": "Enter Security Code",
+            "description": "Enter the 6-digit code sent to <emp>{email}</emp> to verify your identity.",
+            "submitBtn": "Verify Code",
+            "notReceived": "Didn't receive code?",
+            "resend": "Resend",
+            "openEmail": "Open Gmail",
+            "changeEmail": "Change email",
+            "checkSpam": "If you don't see the email, please check your spam folder.",
+            "errorMissing": "Email is missing.",
+            "errorInvalid": "Invalid code.",
+            "successMessage": "Code verified."
         },
         "ForgotPassword": {
             "title": "Forgot password",
@@ -230,7 +419,9 @@
             "account_disabled": "Account disabled. Contact support.",
             "already_verified": "This account is already verified.",
             "invalid_token": "Invalid token.",
-            "token_revoked": "Token revoked. Please login again."
+            "token_revoked": "Token revoked. Please login again.",
+            "malformed_json": "Invalid request format.",
+            "route_not_found": "Resource not found."
         }
     },
     "Dashboard": {

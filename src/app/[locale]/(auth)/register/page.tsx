@@ -13,7 +13,7 @@ import { Loader2 } from "lucide-react";
 
 import { authService } from "@/core/services/auth.service";
 import { toast } from "sonner";
-import { getAuthErrorMessage } from "@/core/lib/error-codes";
+import { getAuthErrorMessage, isApiError } from "@/core/lib/error-codes";
 
 export default function RegisterPage() {
     const t = useTranslations('Auth.Register');
@@ -44,7 +44,7 @@ export default function RegisterPage() {
 
         // Validation de la checkbox
         if (!acceptedTerms) {
-            toast.error("Vous devez accepter les conditions d'utilisation et les termes de confidentialité");
+            toast.error(t('termsError'));
             return;
         }
 
@@ -64,10 +64,11 @@ export default function RegisterPage() {
                 countryCode: countryCode ? `+${getCountryCallingCode(countryCode)}` : "",
                 role: "MERCHANT" // Default role as per plan/docs
             });
-            toast.success(t('successMessage') || "Account created! Please verify your email.");
+            toast.success(t('successMessage'));
             router.push(`/verify-email?email=${encodeURIComponent(email)}`);
         } catch (error: any) {
-            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            const code = isApiError(error) ? error.code : (error.message || "UNKNOWN_ERROR");
+            const key = getAuthErrorMessage(code);
             toast.error(tGlobal(`Auth.Errors.${key}`));
         } finally {
             setIsSubmitting(false);
@@ -79,10 +80,10 @@ export default function RegisterPage() {
         setIsGoogleLoading(true);
         try {
             await authService.loginWithGoogle();
-            toast.success("Account created via Google");
+            toast.success(t('googleSuccess'));
             router.push('/dashboard');
         } catch (error) {
-            toast.error("Google registration failed");
+            toast.error(t('googleError'));
         } finally {
             setIsGoogleLoading(false);
         }
@@ -101,10 +102,10 @@ export default function RegisterPage() {
                 {/* Full Name field could be added here, currently sticking to email/password for simplicity or we can add Name later */}
 
                 <div className="space-y-2">
-                    <Label htmlFor="fullname">Full Name</Label>
+                    <Label htmlFor="fullname">{t('fullnameLabel')}</Label>
                     <Input
                         id="fullname"
-                        placeholder="John Doe"
+                        placeholder={t('fullnamePlaceholder')}
                         type="text"
                         autoCapitalize="words"
                         autoComplete="name"
@@ -120,7 +121,7 @@ export default function RegisterPage() {
                     <Label htmlFor="email">{tLogin('emailLabel')}</Label>
                     <Input
                         id="email"
-                        placeholder="name@example.com"
+                        placeholder={tLogin('emailPlaceholder')}
                         type="email"
                         autoCapitalize="none"
                         autoComplete="email"
@@ -136,7 +137,7 @@ export default function RegisterPage() {
                     <Label htmlFor="phone">{tLogin('phoneLabel')}</Label>
                     <PhoneInput
                         id="phone"
-                        placeholder="Enter phone number"
+                        placeholder={t('phonePlaceholder')}
                         value={phoneValue}
                         onChange={setPhoneValue}
                         onCountryChange={(c) => setCountryCode(c as Country)}
@@ -192,6 +193,7 @@ export default function RegisterPage() {
                 </Button>
             </form>
 
+{/* 
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
@@ -203,7 +205,6 @@ export default function RegisterPage() {
                 </div>
             </div>
 
-            {/* GOOGLE */}
             <div className="flex flex-col gap-4">
                 <Button
                     variant="outline"
@@ -223,6 +224,7 @@ export default function RegisterPage() {
                     Google
                 </Button>
             </div>
+            */}
 
             <div className="text-center text-sm text-muted-foreground">
                 {t('haveAccount')}{" "}

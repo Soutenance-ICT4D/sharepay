@@ -7,13 +7,13 @@ import { PricingSection } from "@/components/public/landing/pricing-section";
 
 export default function Home() {
     return (
-        <main className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen">
             <HeroSection />
             <PaymentMethodSection />
             <HowItWorksSection />
             <IntegrationSection />
             <WhyChooseSection />
             <PricingSection />
-        </main>
+        </div>
     );
 }

@@ -10,7 +10,7 @@ import { Loader2, ArrowLeft } from "lucide-react";
 
 import { authService } from "@/core/services/auth.service";
 import { toast } from "sonner";
-import { getAuthErrorMessage } from "@/core/lib/error-codes";
+import { getAuthErrorMessage, isApiError } from "@/core/lib/error-codes";
 
 export default function ForgotPasswordPage() {
     const t = useTranslations('Auth.ForgotPassword');
@@ -32,7 +32,8 @@ export default function ForgotPasswordPage() {
             // Redirect to verify-reset-code
             router.push(`/verify-reset-code?email=${encodeURIComponent(email)}`);
         } catch (error: any) {
-            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            const code = isApiError(error) ? error.code : (error.message || "UNKNOWN_ERROR");
+            const key = getAuthErrorMessage(code);
             toast.error(tGlobal(`Auth.Errors.${key}`));
         } finally {
             setIsLoading(false);

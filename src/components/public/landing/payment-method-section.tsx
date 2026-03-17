@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 export function PaymentMethodSection() {
@@ -17,7 +16,6 @@ export function PaymentMethodSection() {
             borderColor: "border-[#FFCC00]/20",
             hoverBorder: "hover:border-[#FFCC00]/80",
             glowColor: "shadow-[0_20px_50px_rgba(255,204,0,0.1)]",
-            hoverGlow: "hover:shadow-[0_20px_50px_rgba(255,204,0,0.3)]"
         },
         {
             name: t('orangeName'),
@@ -28,67 +26,40 @@ export function PaymentMethodSection() {
             borderColor: "border-[#FF7900]/20",
             hoverBorder: "hover:border-[#FF7900]/80",
             glowColor: "shadow-[0_20px_50px_rgba(255,121,0,0.1)]",
-            hoverGlow: "hover:shadow-[0_20px_50px_rgba(255,121,0,0.3)]"
         }
     ];
 
-    const smoothEase: [number, number, number, number] = [0.25, 1, 0.5, 1];
-
     return (
-        <section className="py-24 md:py-32 relative overflow-hidden bg-background">
+        <section className="py-16 md:py-20 relative overflow-hidden bg-background">
             <div className="container mx-auto px-4 relative z-10">
                 
                 {/* En-tête de section */}
-                <div className="text-center max-w-3xl mx-auto mb-20 md:mb-24">
-                    <motion.h2 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, delay: 0.1, ease: smoothEase }}
-                        className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8 text-balance"
-                    >
+                <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8 text-balance">
                         {t('title')}
-                    </motion.h2>
+                    </h2>
                     
-                    <motion.p 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: smoothEase }}
-                        className="text-lg md:text-xl text-muted-foreground text-pretty max-w-2xl mx-auto leading-relaxed"
-                    >
+                    <p className="text-lg md:text-xl text-muted-foreground text-pretty max-w-2xl mx-auto leading-relaxed">
                         {t('subtitle')}
-                    </motion.p>
+                    </p>
                 </div>
 
                 {/* Cartes de paiement */}
                 <div className="flex flex-col lg:flex-row justify-center items-stretch gap-8 max-w-5xl mx-auto h-full">
                     {methods.map((method, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.8, delay: 0.2 + (index * 0.15), ease: smoothEase }}
-                            className="w-full lg:flex-1 group relative"
-                        >
+                        <div key={index} className="w-full lg:flex-1 group relative">
                             <div className={`
                                 relative overflow-hidden
                                 p-8 md:p-10 rounded-[2.5rem]
                                 bg-card/30 backdrop-blur-xl
                                 border border-border/40 ${method.hoverBorder}
-                                transition-all duration-700 ease-out
-                                ${method.glowColor} ${method.hoverGlow}
-                                hover:-translate-y-3 cursor-default flex flex-col items-center text-center
+                                transition-all duration-500 ease-out
+                                ${method.glowColor}
+                                cursor-default flex flex-col items-center text-center
                             `}>
                                 
                                 {/* Logo XL */}
-                                <div className={`
-                                    w-24 h-24 md:w-32 md:h-32 flex items-center justify-center mb-10
-                                    transition-all duration-700 ease-out 
-                                    group-hover:scale-110 group-hover:rotate-3
-                                    filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]
-                                `}>
+                                <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center mb-10 drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]">
                                     <div className="relative w-full h-full">
                                         <Image 
                                             src={method.logo} 
@@ -112,7 +83,7 @@ export function PaymentMethodSection() {
                                 {/* Background Decorative element */}
                                 <div className={`absolute top-0 right-0 w-32 h-32 ${method.color} opacity-[0.03] blur-3xl -mr-10 -mt-10 rounded-full`} />
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

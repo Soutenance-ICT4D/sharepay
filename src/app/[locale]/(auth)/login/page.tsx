@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import { authService } from "@/core/services/auth.service";
 import { toast } from "sonner";
 
-import { getAuthErrorMessage } from "@/core/lib/error-codes";
+import { getAuthErrorMessage, isApiError } from "@/core/lib/error-codes";
 
 export default function LoginPage() {
     const t = useTranslations('Auth.Login');
@@ -35,7 +35,8 @@ export default function LoginPage() {
             toast.success(t('successMessage'));
             router.push('/dashboard');
         } catch (error: any) {
-            const key = getAuthErrorMessage(error.message || "UNKNOWN_ERROR");
+            const code = isApiError(error) ? error.code : (error.message || "UNKNOWN_ERROR");
+            const key = getAuthErrorMessage(code);
             toast.error(tGlobal(`Auth.Errors.${key}`));
         } finally {
             setIsSubmitting(false);
@@ -47,10 +48,10 @@ export default function LoginPage() {
         setIsGoogleLoading(true);
         try {
             await authService.loginWithGoogle();
-            toast.success("Logged in with Google");
+            toast.success(t('googleSuccess'));
             router.push('/dashboard');
         } catch (error) {
-            toast.error("Google login failed");
+            toast.error(t('googleError'));
         } finally {
             setIsGoogleLoading(false);
         }
@@ -70,7 +71,7 @@ export default function LoginPage() {
                     <Label htmlFor="email">{t('emailLabel')}</Label>
                     <Input
                         id="email"
-                        placeholder="name@example.com"
+                        placeholder={t('emailPlaceholder')}
                         type="email"
                         autoCapitalize="none"
                         autoComplete="email"
@@ -118,6 +119,7 @@ export default function LoginPage() {
                 </Button>
             </form>
 
+{/* 
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
@@ -129,7 +131,6 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* GOOGLE */}
             <div className="flex flex-col gap-4">
                 <Button
                     variant="outline"
@@ -149,6 +150,7 @@ export default function LoginPage() {
                     Google
                 </Button>
             </div>
+            */}
 
             <div className="text-center text-sm text-muted-foreground">
                 {t('noAccount')}{" "}

@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Check, Play, Copy, Terminal, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -47,77 +46,44 @@ const payment = await client.payments.create({
         }, 1500);
     };
 
-    const smoothEase: [number, number, number, number] = [0.25, 1, 0.5, 1];
-
     return (
-        <section className="py-24 overflow-hidden relative bg-background">
+        <section className="py-16 md:py-20 overflow-hidden relative bg-background">
             {/* Background Decorations */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
             
             <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center max-w-3xl mx-auto mb-20">
-                    <motion.h2 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.1, ease: smoothEase }}
-                        className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6"
-                    >
+                <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6">
                         {t('title')}
-                    </motion.h2>
+                    </h2>
                     
-                    <motion.p 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: smoothEase }}
-                        className="text-lg text-muted-foreground"
-                    >
+                    <p className="text-lg text-muted-foreground">
                         {t('subtitle')}
-                    </motion.p>
+                    </p>
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
                     {/* Left Content */}
                     <div>
-                        <motion.ul 
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: 0.4 }}
-                            className="space-y-6"
-                        >
+                        <ul className="space-y-6">
                             {[
                                 t('check1'),
                                 t('check2'),
                                 t('check3'),
                                 t('check4')
                             ].map((item, i) => (
-                                <motion.li 
-                                    key={i} 
-                                    initial={{ opacity: 0, x: -10 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.5 + (i * 0.1) }}
-                                    className="flex items-center gap-4 group"
-                                >
+                                <li key={i} className="flex items-center gap-4 group">
                                     <div className="h-7 w-7 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 border border-emerald-500/20 group-hover:scale-110 transition-transform">
                                         <Check className="h-4 w-4 text-emerald-500" />
                                     </div>
                                     <span className="text-foreground/90 font-medium">{item}</span>
-                                </motion.li>
+                                </li>
                             ))}
-                        </motion.ul>
+                        </ul>
                     </div>
 
                     {/* Right Interactive Console */}
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, ease: smoothEase }}
-                        className="relative"
-                    >
+                    <div className="relative">
                         {/* Glow effect */}
                         <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-blue-500/30 rounded-[2rem] blur-2xl opacity-50" />
 
@@ -202,29 +168,21 @@ const payment = await client.payments.create({
                             </div>
 
                             {/* Results Panel */}
-                            <AnimatePresence>
-                                {response && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.5, ease: smoothEase }}
-                                        className="border-t border-white/10 bg-[#050505]"
-                                    >
-                                        <div className="p-6 font-mono text-xs sm:text-sm">
-                                            <div className="flex items-center gap-2 text-emerald-500 mb-3 text-[10px] font-bold uppercase tracking-widest">
-                                                <Sparkles className="h-3 w-3" />
-                                                {t('serverResp')}
-                                            </div>
-                                            <pre className="text-emerald-400/90 whitespace-pre-wrap leading-relaxed bg-emerald-500/5 p-4 rounded-xl border border-emerald-500/10">
-                                                {response}
-                                            </pre>
+                            {response && (
+                                <div className="border-t border-white/10 bg-[#050505] transition-all duration-500 overflow-hidden">
+                                    <div className="p-6 font-mono text-xs sm:text-sm">
+                                        <div className="flex items-center gap-2 text-emerald-500 mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                            <Sparkles className="h-3 w-3" />
+                                            {t('serverResp')}
                                         </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                                        <pre className="text-emerald-400/90 whitespace-pre-wrap leading-relaxed bg-emerald-500/5 p-4 rounded-xl border border-emerald-500/10">
+                                            {response}
+                                        </pre>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

@@ -1,16 +1,24 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { PricingHero } from "@/components/public/landing/pricing/pricing-hero";
+import { PricingPlans } from "@/components/public/landing/pricing/pricing-plans";
+import { PricingFAQ } from "@/components/public/landing/pricing/pricing-faq";
+import { PricingSection } from "@/components/public/landing/pricing-section"; // Calculator
+import { FeaturesCTA } from "@/components/public/landing/features/feature-detail-sections";
 
 export default function PricingPage() {
-    const t = useTranslations('Navigation');
-
     return (
-        <div className="container mx-auto px-4 py-24 min-h-[60vh] flex flex-col items-center justify-center text-center">
-            <h1 className="text-4xl font-bold mb-4">{t('pricing')}</h1>
-            <p className="text-xl text-muted-foreground">
-                Cette page est en cours de construction. Bientôt, vous y découvrirez nos tarifs transparents.
-            </p>
+        <div className="flex flex-col min-h-screen">
+            <PricingHero />
+            <PricingPlans />
+            {/* Reuse the interactive calculator for more engagement */}
+            <div className="py-20 bg-background text-center">
+                <div className="container mx-auto px-6 mb-12">
+                    <h2 className="text-3xl font-bold tracking-tight">Estimez vos frais</h2>
+                    <p className="text-muted-foreground mt-4">Utilisez notre simulateur pour voir combien vous économisez avec SharePay.</p>
+                </div>
+                <PricingSection />
+            </div>
+            <PricingFAQ />
+            <FeaturesCTA />
         </div>
     );
 }

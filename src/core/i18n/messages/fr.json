@@ -126,7 +126,161 @@
             "featFraud": "Détection de fraude incluse",
             "featSupport": "Support Développeur 24/7",
             "featPayout": "Reversements automatiques",
-            "featCurrencies": "Multi-devises"
+            "featCurrencies": "Multi-devises",
+            "Plans": {
+                "Standard": {
+                    "name": "Standard",
+                    "price": "1.5%",
+                    "desc": "Idéal pour les startups et PME",
+                    "features": ["MTN & Orange Money", "Tableau de bord", "Support par email"]
+                },
+                "Business": {
+                    "name": "Business",
+                    "price": "1.2%",
+                    "desc": "Pour les entreprises en croissance",
+                    "features": ["Tout du Standard", "Reversements prioritaires", "Support 24/7"]
+                },
+                "Enterprise": {
+                    "name": "Entreprise",
+                    "price": "Sur mesure",
+                    "desc": "Solutions personnalisées",
+                    "features": ["Tarifs dégressifs", "Gestionnaire de compte", "API dédiée"]
+                }
+            },
+            "FAQ": {
+                "title": "Questions Fréquentes",
+                "q1": "Y a-t-il des frais d'inscription ?",
+                "a1": "Non, l'inscription sur SharePay est totalement gratuite.",
+                "q2": "Comment suis-je payé ?",
+                "a2": "Vos fonds sont reversés automatiquement ou manuellement sur votre compte bancaire ou mobile money selon vos réglages.",
+                "q3": "Quels pays sont supportés ?",
+                "a3": "Nous opérons actuellement au Cameroun et prévoyons une expansion dans toute la zone CEMAC très prochainement."
+            }
+        },
+        "About": {
+            "Hero": {
+                "badge": "Notre Mission",
+                "title": "Démocratiser les paiements digitaux en Afrique",
+                "subtitle": "Nous construisons l'infrastructure financière qui permet à chaque entreprise, petite ou grande, de prospérer dans l'économie numérique."
+            },
+            "Stats": {
+                "users": { "value": "2000+", "label": "Marchands actifs" },
+                "transactions": { "value": "1M+", "label": "Transactions traitées" },
+                "availability": { "value": "99.9%", "label": "Disponibilité service" },
+                "support": { "value": "24/7", "label": "Support réactif" }
+            },
+            "Story": {
+                "title": "Notre Histoire",
+                "content": "Né de la volonté de simplifier les transactions financières complexes, SharePay est devenu le partenaire de confiance de milliers de marchands. Notre parcours est guidé par l'innovation et le désir d'impact réel sur l'écosystème entrepreneurial africain."
+            },
+            "Values": {
+                "title": "Nos Valeurs",
+                "v1": {
+                    "title": "Innovation",
+                    "desc": "Nous repoussons sans cesse les limites technologiques."
+                },
+                "v2": {
+                    "title": "Transparence",
+                    "desc": "Clarté totale sur nos tarifs et nos processus."
+                },
+                "v3": {
+                    "title": "Sécurité",
+                    "desc": "La protection de vos fonds est notre priorité absolue."
+                }
+            }
+        },
+        "Contact": {
+            "title": "Contactez-nous",
+            "subtitle": "Notre équipe d'experts est là pour vous aider à propulser votre business avec les meilleures solutions de paiement.",
+            "emailTitle": "Email",
+            "phoneTitle": "Téléphone",
+            "addressTitle": "Adresse",
+            "hoursTitle": "Horaires d'ouverture",
+            "address": "Yaoundé, Cameroun, Université de Yaoundé I, Incubateur TESEA",
+            "weekday": "Lundi - Vendredi: 8h - 18h",
+            "saturday": "Samedi: 9h - 13h",
+            "support247": "Support 24/7 en ligne",
+            "form": {
+                "fullName": "Nom Complet",
+                "phone": "Numéro de Téléphone",
+                "email": "Adresse Email",
+                "reason": "Raison du Contact",
+                "message": "Message",
+                "placeholderFullName": "Votre nom",
+                "placeholderPhone": "Votre numéro",
+                "placeholderEmail": "Votre email",
+                "placeholderReason": "Choisissez une raison",
+                "placeholderMessage": "Votre message",
+                "reasonBilling": "Facturation",
+                "reasonPartnership": "Partenariats",
+                "reasonGeneral": "Question Générale",
+                "reasonSupport": "Support Technique",
+                "reasonOther": "Autre",
+                "submit": "Envoyer le message"
+            }
+        },
+        "Features": {
+            "Hero": {
+                "badge": "Fonctionnalités",
+                "title": "Une infrastructure de paiement complète",
+                "subtitle": "Tout ce dont vous avez besoin pour accepter des paiements, gérer vos fonds et développer votre entreprise en Afrique.",
+                "ctaStart": "Commencer",
+                "ctaDocs": "Lire la doc"
+            },
+            "Main": {
+                "title": "Conçu pour la performance",
+                "subtitle": "Explorez les outils qui font de SharePay le partenaire de confiance des entreprises en croissance."
+            },
+            "Grid": {
+                "api": {
+                    "title": "API Unifiée",
+                    "description": "Une seule intégration pour accéder à tous les modes de paiement locaux et internationaux."
+                },
+                "security": {
+                    "title": "Sécurité Certifiée",
+                    "description": "Protection contre la fraude et chiffrement de niveau bancaire pour chaque transaction."
+                },
+                "analytics": {
+                    "title": "Analyses en Temps Réel",
+                    "description": "Suivez vos performances en direct grâce à des tableaux de bord intuitifs et détaillés."
+                },
+                "payout": {
+                    "title": "Retraits Flexibles",
+                    "description": "Transférez vos fonds vers vos comptes bancaires ou mobiles en un clic."
+                },
+                "checkout": {
+                    "title": "Checkout Optimisé",
+                    "description": "Une expérience de paiement fluide conçue pour maximiser votre taux de conversion."
+                },
+                "developer": {
+                    "title": "Focus Développeur",
+                    "description": "Des SDKs robustes et une documentation claire pour une intégration sans friction."
+                }
+            },
+            "Details": {
+                "api": {
+                    "tag": "Intégration",
+                    "title": "Une seule API, des possibilités infinies",
+                    "description": "Ne perdez plus de temps à multiplier les intégrations techniques. Avec SharePay, accédez instantanément à MTN Mobile Money, Orange Money et bien d'autres via une interface REST unique.",
+                    "feature1": "Documentation interactive",
+                    "feature2": "Environnement de test complet",
+                    "feature3": "Webhooks temps réel"
+                },
+                "security": {
+                    "tag": "Protection",
+                    "title": "La sécurité au cœur de chaque transaction",
+                    "description": "Nous utilisons les technologies de pointe pour sécuriser vos données et celles de vos clients. Notre système de détection de fraude apprend de chaque paiement pour vous protéger.",
+                    "feature1": "Chiffrement AES-256",
+                    "feature2": "Conformité PCI-DSS",
+                    "feature3": "Anti-fraude par IA"
+                }
+            },
+            "CTA": {
+                "title": "Prêt à transformer vos paiements ?",
+                "subtitle": "Rejoignez le réseau SharePay aujourd'hui et commencez à encaisser en quelques minutes.",
+                "ctaStart": "Ouvrir un compte",
+                "ctaContact": "Nous contacter"
+            }
         }
     },
     "HomePage": {
@@ -156,6 +310,7 @@
             "title": "Bon retour",
             "description": "Entrez votre email pour vous connecter",
             "emailLabel": "Email",
+            "emailPlaceholder": "votre@email.com",
             "passwordLabel": "Mot de passe",
             "phoneLabel": "Numéro de téléphone",
             "forgotPassword": "Mot de passe oublié ?",
@@ -164,14 +319,23 @@
             "orContinueWith": "Ou continuer avec",
             "noAccount": "Pas encore de compte ?",
             "registerLink": "S'inscrire",
-            "successMessage": "Connexion réussie."
+            "successMessage": "Connexion réussie.",
+            "googleSuccess": "Connexion réussie avec Google.",
+            "googleError": "Échec de la connexion avec Google."
         },
         "AdminLogin": {
-            "title": "Administration SharePay",
+            "title": "Admin SharePay",
             "description": "Accès réservé au personnel administratif",
             "loginLabel": "Identifiant / Login",
             "submitBtn": "Connexion Administrateur",
             "successMessage": "Authentification admin réussie."
+        },
+         "SuperAdminLogin": {
+            "title": "Super Admin SharePay",
+            "description": "Accès interdit",
+            "loginLabel": "Identifiant / Login",
+            "submitBtn": "Connexion Super Admin",
+            "successMessage": "Bienvenu dans Sharepay."
         },
         "SupportLogin": {
             "title": "Centre de Support",
@@ -183,19 +347,44 @@
         "Register": {
             "title": "Créer un compte",
             "description": "Entrez vos détails ci-dessous pour créer votre compte",
+            "fullnameLabel": "Nom complet",
+            "fullnamePlaceholder": "Votre nom complet",
+            "phonePlaceholder": "Entrez votre numéro de téléphone",
             "submitBtn": "Créer un compte",
             "haveAccount": "Déjà un compte ?",
             "loginLink": "Se connecter",
             "acceptTerms": "J'accepte les",
             "and": "et les",
-            "successMessage": "Compte créé avec succès. Veuillez vérifier votre email."
+            "termsError": "Vous devez accepter les conditions d'utilisation et les termes de confidentialité.",
+            "successMessage": "Compte créé avec succès. Veuillez vérifier votre email.",
+            "googleSuccess": "Compte créé via Google.",
+            "googleError": "Échec de l'inscription avec Google."
         },
         "VerifyEmail": {
             "title": "Vérifiez votre email",
-            "description": "Nous avons envoyé un code de vérification à",
+            "description": "Nous avons envoyé un code de vérification à <emp>{email}</emp>",
             "submitBtn": "Vérifier",
+            "notReceived": "Vous n'avez pas reçu le code ?",
             "resend": "Renvoyer le code",
+            "otpResent": "Un nouveau code de vérification a été envoyé.",
+            "openEmail": "Ouvrir Gmail",
+            "changeEmail": "Modifier l'email",
+            "checkSpam": "Si vous ne voyez pas l'email, veuillez vérifier votre dossier de courriers indésirables.",
+            "errorMissing": "Email manquant. Veuillez vous réinscrire.",
             "successMessage": "Email vérifié avec succès."
+        },
+        "VerifyResetCode": {
+            "title": "Saisir le code de sécurité",
+            "description": "Entrez le code à 6 chiffres envoyé à <emp>{email}</emp> pour vérifier votre identité.",
+            "submitBtn": "Vérifier le code",
+            "notReceived": "Vous n'avez pas reçu le code ?",
+            "resend": "Renvoyer",
+            "openEmail": "Ouvrir Gmail",
+            "changeEmail": "Modifier l'email",
+            "checkSpam": "Si vous ne voyez pas l'email, veuillez vérifier votre dossier de courriers indésirables.",
+            "errorMissing": "L'email est manquant.",
+            "errorInvalid": "Code invalide.",
+            "successMessage": "Code vérifié."
         },
         "ForgotPassword": {
             "title": "Mot de passe oublié",
@@ -230,7 +419,9 @@
             "account_disabled": "Compte désactivé. Contactez le support.",
             "already_verified": "Ce compte est déjà vérifié.",
             "invalid_token": "Jeton invalide.",
-            "token_revoked": "Jeton révoqué. Veuillez vous reconnecter."
+            "token_revoked": "Jeton révoqué. Veuillez vous reconnecter.",
+            "malformed_json": "Format de requête invalide.",
+            "route_not_found": "Ressource introuvable."
         }
     },
     "Dashboard": {

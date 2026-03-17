@@ -2,14 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 export function PricingSection() {
     const t = useTranslations('Landing.Pricing');
     const [sliderValue, setSliderValue] = useState(50); // 0-100 scale
-
-    const smoothEase: [number, number, number, number] = [0.25, 1, 0.5, 1];
 
     // Simulate pricing calculation
     // This is just a visual representation
@@ -22,31 +19,19 @@ export function PricingSection() {
     };
 
     return (
-        <section className="py-24 relative overflow-hidden bg-background" id="pricing">
+        <section className="py-16 md:py-20 relative overflow-hidden bg-background" id="pricing">
              {/* Background elements */}
              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
              
             <div className="container mx-auto px-4 relative z-10">
-                <div className="max-w-3xl mx-auto text-center mb-16">
-                    <motion.h2 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.1, ease: smoothEase }}
-                        className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6"
-                    >
+                <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6">
                         {t('title')}
-                    </motion.h2>
+                    </h2>
                     
-                    <motion.p 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: smoothEase }}
-                        className="text-lg text-muted-foreground"
-                    >
+                    <p className="text-lg text-muted-foreground">
                         {t('subtitle')}
-                    </motion.p>
+                    </p>
                 </div>
 
                 <div className="max-w-4xl mx-auto bg-card border rounded-3xl shadow-xl overflow-hidden">
