@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SharePay - Lien de Paiement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0D9488',
+                            foreground: '#FFFFFF',
+                        },
+                        border: 'hsl(240 5.9% 90%)',
+                        background: 'hsl(0 0% 100%)',
+                        foreground: 'hsl(240 10% 3.9%)',
+                        muted: {
+                            DEFAULT: 'hsl(240 4.8% 95.9%)',
+                            foreground: 'hsl(240 3.8% 46.1%)',
+                        },
+                        card: {
+                            DEFAULT: 'hsl(0 0% 100%)',
+                            foreground: 'hsl(240 10% 3.9%)',
+                        }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '3xl': '1.5rem',
+                        '2xl': '1rem',
+                        'xl': '0.75rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: hsl(240 10% 3.9%); }
+        h1, h2, h3, .font-outfit { font-family: 'Outfit', sans-serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .payment-option:hover { border-color: #0D9488; background: rgba(13, 148, 136, 0.03); }
+        .payment-option.active { border-color: #0D9488; background: rgba(13, 148, 136, 0.05); }
+    </style>
+</head>
+<body class="min-h-screen py-12 px-4">
+    <div class="max-w-6xl mx-auto space-y-10">
+        
+        <!-- Header / Merchant Info -->
+        <div class="flex flex-col items-center text-center space-y-4">
+            <div class="h-24 w-24 rounded-3xl border-2 border-primary/10 shadow-sm bg-white flex items-center justify-center overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-500">
+                <img src="https://via.placeholder.com/100" alt="Logo Marchand" class="h-full w-full object-cover">
+            </div>
+            <div class="space-y-1">
+                <h2 class="text-3xl font-extrabold tracking-tight">Support "Projet X"</h2>
+                <p class="text-muted-foreground max-w-md mx-auto italic font-medium">Aidez-nous à financer le développement de notre nouvelle plateforme.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Variable Payment Links Details -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-3xl border border-border/50 shadow-sm overflow-hidden p-8 space-y-8">
+                    <h3 class="text-lg font-bold">Montant à payer <span class="text-primary ml-1">(XAF)</span></h3>
+                    
+                    <!-- Amount Input (Editable or Fixed) -->
+                    <div class="space-y-4">
+                        <div class="relative group">
+                            <span class="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-bold text-muted-foreground group-focus-within:text-primary transition-colors">XAF</span>
+                            <input type="number" value="10000" class="w-full h-20 pl-20 pr-8 text-3xl font-black rounded-2xl border-2 border-border focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary bg-muted/5 transition-all text-right">
+                        </div>
+                        <p class="text-xs text-muted-foreground font-medium text-center uppercase tracking-widest">Saisissez le montant que vous souhaitez payer</p>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-2">
+                        <button class="py-2 px-1 text-xs font-bold border rounded-xl hover:bg-primary/5 hover:border-primary/30 transition-all">+ 1 000</button>
+                        <button class="py-2 px-1 text-xs font-bold border rounded-xl hover:bg-primary/5 hover:border-primary/30 transition-all">+ 5 000</button>
+                        <button class="py-2 px-1 text-xs font-bold border rounded-xl hover:bg-primary/5 hover:border-primary/30 transition-all">+ 10 000</button>
+                        <button class="py-2 px-1 text-xs font-bold border rounded-xl hover:bg-primary/5 hover:border-primary/30 transition-all">Personnaliser</button>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <div class="space-y-4 pt-8 border-t border-dashed">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold">Nom complet <span class="text-muted-foreground text-[10px] uppercase ml-1">(Optionnel)</span></label>
+                                <input type="text" placeholder="Jean Dupont" class="w-full h-12 px-4 rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-muted/20 transition-all">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold">Email <span class="text-muted-foreground text-[10px] uppercase ml-1">(Optionnel)</span></label>
+                                <input type="email" placeholder="jean@mail.com" class="w-full h-12 px-4 rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-muted/20 transition-all">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Methods & Security -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-3xl border border-border/50 shadow-sm overflow-hidden p-8 space-y-8">
+                    <h3 class="text-lg font-bold">Choix du paiement</h3>
+                    
+                    <!-- Form Mockup -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="payment-option relative p-4 border-2 border-primary rounded-2xl bg-primary/5 transition-all text-center">
+                            <img src="/images/partners/orange.png" alt="Orange" class="h-10 mx-auto mb-2 object-contain">
+                            <span class="text-[10px] font-bold uppercase tracking-widest leading-none">Orange Money</span>
+                            <div class="absolute top-2 right-2 h-4 w-4 bg-primary rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                        </div>
+                        <div class="payment-option relative p-4 border-2 border-border rounded-2xl bg-white transition-all text-center opacity-60 hover:opacity-100">
+                            <img src="/images/partners/mtn.png" alt="MTN" class="h-10 mx-auto mb-2 object-contain">
+                            <span class="text-[10px] font-bold uppercase tracking-widest leading-none">MTN Money</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold">Numéro Mobile Money</label>
+                        <input type="tel" placeholder="+237 6XXXXXXXX" class="w-full h-14 px-5 text-lg font-bold rounded-2xl border-2 border-border focus:outline-none focus:border-primary transition-all">
+                    </div>
+
+                    <button class="w-full h-16 bg-primary text-white text-lg font-black rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest">
+                        Payer maintenant
+                    </button>
+                    
+                    <div class="flex items-center justify-center space-x-2 opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span class="text-[10px] font-bold">PAIEMENT SÉCURISÉ PAR SHAREPAY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

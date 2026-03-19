@@ -60,6 +60,7 @@ export function SiteHeader() {
         { label: t('pricing'), href: '/pricing' },
         { label: t('api_lab'), href: '/api-lab' },
         { label: t('documentation'), href: '/docs' },
+        { label: t('blog'), href: '/blog'},
         { label: t('about'), href: '/about' },
     ];
 
