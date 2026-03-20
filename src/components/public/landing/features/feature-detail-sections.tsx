@@ -17,7 +17,7 @@ export function FeatureDetail() {
                     <div className="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-xs font-semibold mb-6">
                         {t('api.tag')}
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-6">
                         {t('api.title')}
                     </h2>
                     <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
@@ -50,7 +50,7 @@ export function FeatureDetail() {
                     <div className="inline-block px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 text-xs font-semibold mb-6">
                         {t('security.tag')}
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-6">
                         {t('security.title')}
                     </h2>
                     <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
@@ -83,7 +83,7 @@ export function FeaturesCTA() {
                 <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-black/5 blur-3xl animate-pulse" />
 
                 <div className="relative z-10">
-                    <h2 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-8">
+                    <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-8">
                         {t('title')}
                     </h2>
                     <p className="text-primary-foreground/80 max-w-2xl mx-auto text-lg mb-12">

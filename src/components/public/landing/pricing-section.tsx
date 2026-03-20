@@ -25,7 +25,7 @@ export function PricingSection() {
              
             <div className="container mx-auto px-4 relative z-10">
                 <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
-                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6">
+                    <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-6">
                         {t('title')}
                     </h2>
                     

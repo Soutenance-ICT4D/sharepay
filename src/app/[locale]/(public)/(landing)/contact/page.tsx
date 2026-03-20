@@ -31,52 +31,62 @@ export default function ContactPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                     {/* Infos de contact */}
-                    <div className="lg:col-span-5 space-y-8">
-                        <div className="flex gap-4 items-start p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
-                            <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0">
-                                <Mail className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-lg mb-1">{t('emailTitle')}</h3>
-                                <p className="text-muted-foreground">contact@sharepay.com</p>
-                                <p className="text-muted-foreground">support@sharepay.com</p>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-4 items-start p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
-                            <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0">
-                                <Phone className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-lg mb-1">{t('phoneTitle')}</h3>
-                                <p className="text-muted-foreground">+237 600 00 00 00</p>
-                                <p className="text-muted-foreground">+237 600 00 00 01</p>
+                    <div className="lg:col-span-5 space-y-6">
+                        {/* Horaires (Plus visible) */}
+                        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm transition-all duration-300 hover:shadow-md group mb-8">
+                            <div className="flex gap-4 items-start">
+                                <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                                    <Clock className="h-6 w-6" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-lg mb-1">{t('hoursTitle')}</h3>
+                                    <p className="text-muted-foreground leading-relaxed">{t('weekday')}</p>
+                                    <p className="text-muted-foreground leading-relaxed">{t('saturday')}</p>
+                                    <div className="mt-4 text-emerald-500 text-sm font-bold flex items-center gap-2 bg-emerald-500/10 px-3 py-1 rounded-full w-fit">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                        {t('support247')}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="flex gap-4 items-start p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
-                            <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0">
-                                <MapPin className="h-6 w-6" />
+                        {/* Informations de contact regroupées */}
+                        <div className="grid grid-cols-1 gap-4">
+                            <div className="flex gap-4 items-center p-5 rounded-2xl border border-border/50 bg-card/50 hover:bg-muted/30 transition-all duration-300 group">
+                                <div className="bg-primary/10 p-3 rounded-xl text-primary group-hover:scale-110 transition-transform duration-300">
+                                    <Mail className="h-6 w-6" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">{t('emailTitle')}</p>
+                                    <div className="space-y-0.5">
+                                        <p className="font-semibold text-foreground">contact@sharepay.com</p>
+                                        <p className="text-sm text-muted-foreground">support@sharepay.com</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="font-bold text-lg mb-1">{t('addressTitle')}</h3>
-                                <p className="text-muted-foreground leading-relaxed">
-                                    {t('address')}
-                                </p>
-                            </div>
-                        </div>
 
-                        <div className="flex gap-4 items-start p-4 rounded-xl hover:bg-muted/50 transition-colors duration-200">
-                            <div className="bg-primary/10 p-3 rounded-xl text-primary shrink-0">
-                                <Clock className="h-6 w-6" />
+                            <div className="flex gap-4 items-center p-5 rounded-2xl border border-border/50 bg-card/50 hover:bg-muted/30 transition-all duration-300 group">
+                                <div className="bg-primary/10 p-3 rounded-xl text-primary group-hover:scale-110 transition-transform duration-300">
+                                    <Phone className="h-6 w-6" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">{t('phoneTitle')}</p>
+                                    <div className="space-y-0.5">
+                                        <p className="font-semibold text-foreground">+237 600 00 00 00</p>
+                                        <p className="text-sm text-muted-foreground">+237 600 00 00 01</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="font-bold text-lg mb-1">{t('hoursTitle')}</h3>
-                                <p className="text-muted-foreground">{t('weekday')}</p>
-                                <p className="text-muted-foreground">{t('saturday')}</p>
-                                <div className="mt-2 text-emerald-500 text-sm font-semibold flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                    {t('support247')}
+
+                            <div className="flex gap-4 items-center p-5 rounded-2xl border border-border/50 bg-card/50 hover:bg-muted/30 transition-all duration-300 group">
+                                <div className="bg-primary/10 p-3 rounded-xl text-primary group-hover:scale-110 transition-transform duration-300">
+                                    <MapPin className="h-6 w-6" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">{t('addressTitle')}</p>
+                                    <p className="font-semibold text-foreground leading-snug">
+                                        {t('address')}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +100,7 @@ export default function ContactPage() {
                                 <Input 
                                     id="fullName"
                                     placeholder={t('form.placeholderFullName')}
-                                    className="rounded-md"
+                                    className="rounded-xl border-border/50 focus:border-primary/50 transition-all"
                                 />
                             </div>
 
@@ -99,7 +109,7 @@ export default function ContactPage() {
                                 <PhoneInput 
                                     id="phone"
                                     defaultCountry="CM"
-                                    className="rounded-md"
+                                    className="rounded-xl overflow-hidden"
                                     placeholder={t('form.placeholderPhone')}
                                 />
                             </div>
@@ -110,14 +120,14 @@ export default function ContactPage() {
                                     id="email"
                                     type="email"
                                     placeholder={t('form.placeholderEmail')}
-                                    className="rounded-md"
+                                    className="rounded-xl border-border/50 focus:border-primary/50 transition-all"
                                 />
                             </div>
 
                             <div className="space-y-2">
                                 <Label>{t('form.reason')}</Label>
                                 <Select>
-                                    <SelectTrigger className="rounded-md bg-transparent">
+                                    <SelectTrigger className="rounded-xl bg-transparent border-border/50 focus:border-primary/50 transition-all">
                                         <SelectValue placeholder={t('form.placeholderReason')} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -134,14 +144,14 @@ export default function ContactPage() {
                                 <Label htmlFor="message">{t('form.message')}</Label>
                                 <Textarea 
                                     id="message"
-                                    className="min-h-[180px] rounded-md resize-none" 
+                                    className="min-h-[180px] rounded-xl border-border/50 focus:border-primary/50 transition-all resize-none" 
                                     placeholder={t('form.placeholderMessage')} 
                                 />
                             </div>
 
-                            <Button className="w-full rounded-md h-11 font-semibold transition-all flex items-center justify-center gap-2">
+                            <Button className="w-full rounded-full h-12 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-2 mt-4">
                                 {t('form.submit')}
-                                <Send className="h-4 w-4" />
+                                <Send className="h-5 w-5" />
                             </Button>
                         </form>
                     </div>

@@ -12,7 +12,7 @@ export function HeroSection() {
     const t = useTranslations('Landing.Hero');
 
     return (
-        <section className="relative flex flex-col pt-16 md:pt-40 overflow-hidden">
+        <section className="relative flex flex-col pt-32 md:pt-40 overflow-hidden">
 
             {/* Background Animation */}
             <HeroBackground />
@@ -21,7 +21,7 @@ export function HeroSection() {
             <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center max-w-5xl mb-12 md:mb-16">
 
                 {/* Title */}
-                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-[1.1] text-foreground mx-auto max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-1000">
+                <h1 className="text-3xl md:text-6xl font-extrabold tracking-tight mb-8 leading-tight text-foreground mx-auto max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-1000">
                     {t('title')}
                 </h1>
 

@@ -10,22 +10,22 @@ export function PaymentMethodSection() {
         {
             name: t('mtnName'),
             description: t('mtnDesc'),
-            logo: "/images/partners/mtn.png",
+            logo: "/images/partners/logo_momo.png",
             color: "bg-gradient-to-br from-[#FFCC00] to-[#FFB900]",
             textColor: "text-black",
             borderColor: "border-[#FFCC00]/20",
             hoverBorder: "hover:border-[#FFCC00]/80",
-            glowColor: "shadow-[0_20px_50px_rgba(255,204,0,0.1)]",
+            hoverGlow: "group-hover:shadow-[0_20px_50px_rgba(255,204,0,0.15)]",
         },
         {
             name: t('orangeName'),
             description: t('orangeDesc'),
-            logo: "/images/partners/Orange_white.png",
+            logo: "/images/partners/logo_orange_money.png",
             color: "bg-gradient-to-br from-[#FF7900] to-[#E66D00]",
             textColor: "text-white",
             borderColor: "border-[#FF7900]/20",
             hoverBorder: "hover:border-[#FF7900]/80",
-            glowColor: "shadow-[0_20px_50px_rgba(255,121,0,0.1)]",
+            hoverGlow: "group-hover:shadow-[0_20px_50px_rgba(255,121,0,0.15)]",
         }
     ];
 
@@ -35,7 +35,7 @@ export function PaymentMethodSection() {
                 
                 {/* En-tête de section */}
                 <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8 text-balance">
+                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-8 text-balance">
                         {t('title')}
                     </h2>
                     
@@ -50,11 +50,12 @@ export function PaymentMethodSection() {
                         <div key={index} className="w-full lg:flex-1 group relative">
                             <div className={`
                                 relative overflow-hidden
-                                p-8 md:p-10 rounded-[2.5rem]
+                                p-8 md:p-10 rounded-3xl
                                 bg-card/30 backdrop-blur-xl
                                 border border-border/40 ${method.hoverBorder}
                                 transition-all duration-500 ease-out
-                                ${method.glowColor}
+                                shadow-lg hover:shadow-xl ${method.hoverGlow}
+                                group-hover:-translate-y-2
                                 cursor-default flex flex-col items-center text-center
                             `}>
                                 
@@ -72,7 +73,7 @@ export function PaymentMethodSection() {
                                 
                                 {/* Info Text */}
                                 <div className="space-y-4">
-                                    <h3 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight">
+                                    <h3 className="text-xl md:text-3xl font-extrabold text-foreground tracking-tight">
                                         {method.name}
                                     </h3>
                                     <p className="text-sm md:text-base font-medium text-muted-foreground/80 leading-relaxed px-4">
