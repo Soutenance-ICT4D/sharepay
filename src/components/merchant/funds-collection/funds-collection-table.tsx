@@ -13,7 +13,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { Copy, Search, RefreshCw, Link2, SlidersHorizontal, X } from "lucide-react";
+import { Copy, ExternalLink, Search, RefreshCw, Link2, SlidersHorizontal, X } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/routing";
@@ -120,10 +120,17 @@ export function FundsCollectionTable({ data, onRefresh, isLoading = false }: Fun
             cell: ({ row }) => {
                 const url = row.original.collectUrl;
                 return (
-                    <div className="flex items-center gap-2 max-w-[220px]">
-                        <span className="truncate text-sm text-primary underline underline-offset-4">
-                            {url}
-                        </span>
+                    <div className="flex items-center gap-1 max-w-[380px]">
+                        <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="truncate text-sm text-primary underline underline-offset-4 hover:text-primary/80 flex items-center gap-1 min-w-0"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <span className="truncate">{url}</span>
+                            <ExternalLink className="h-3 w-3 shrink-0" />
+                        </a>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -236,7 +243,7 @@ export function FundsCollectionTable({ data, onRefresh, isLoading = false }: Fun
 
             {isLoading ? (
                 /* ── Skeleton ─────────────────────────────────────────────── */
-                <div className="rounded-md border">
+                <div className="rounded-md border min-h-[578px]">
                     <Table wrapperClassName="max-h-[578px]">
                         <TableHeader className="sticky top-0 bg-background z-10 shadow-sm">
                             {table.getHeaderGroups().map((headerGroup) => (
@@ -250,7 +257,7 @@ export function FundsCollectionTable({ data, onRefresh, isLoading = false }: Fun
                             ))}
                         </TableHeader>
                         <TableBody>
-                            {Array.from({ length: 5 }).map((_, i) => (
+                            {Array.from({ length: 10 }).map((_, i) => (
                                 <TableRow key={i}>
                                     <TableCell><Skeleton className="h-4 w-6" /></TableCell>
                                     <TableCell><Skeleton className="h-4 w-40" /></TableCell>
@@ -304,7 +311,7 @@ export function FundsCollectionTable({ data, onRefresh, isLoading = false }: Fun
             ) : (
                 /* ── Table ────────────────────────────────────────────────── */
                 <>
-                    <div className="rounded-md border">
+                    <div className="rounded-md border min-h-[578px]">
                         <Table wrapperClassName="max-h-[578px]">
                             <TableHeader className="sticky top-0 bg-background z-10 shadow-sm">
                                 {table.getHeaderGroups().map((headerGroup) => (

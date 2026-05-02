@@ -24,6 +24,9 @@ interface AppGeneralSectionProps {
     websiteUrl: string;
     setWebsiteUrl: (val: string) => void;
     currency: string;
+    nameError?: string;
+    descError?: string;
+    forceShowWebsiteUrlError?: boolean;
 }
 
 export function AppGeneralSection({
@@ -34,12 +37,15 @@ export function AppGeneralSection({
     websiteUrl,
     setWebsiteUrl,
     currency,
+    nameError,
+    descError,
+    forceShowWebsiteUrlError,
 }: AppGeneralSectionProps) {
     const t = useTranslations("Dashboard.Apps.Form.General");
     const [websiteUrlTouched, setWebsiteUrlTouched] = useState(false);
 
     const websiteUrlError =
-        websiteUrlTouched && websiteUrl.trim() !== "" && !isValidUrl(websiteUrl.trim());
+        (websiteUrlTouched || forceShowWebsiteUrlError) && websiteUrl.trim() !== "" && !isValidUrl(websiteUrl.trim());
 
     return (
         <section className="flex flex-col">
@@ -68,9 +74,9 @@ export function AppGeneralSection({
                         value={name}
                         onChange={(e) => setName(e.target.value.slice(0, 50))}
                         maxLength={50}
-                        required
-                        className="bg-background"
+                        className={`bg-background ${nameError ? "border-destructive" : ""}`}
                     />
+                    {nameError && <p className="text-xs text-destructive">{nameError}</p>}
                 </div>
 
                 {/* Description */}
@@ -88,12 +94,13 @@ export function AppGeneralSection({
                     </div>
                     <textarea
                         id="appDescription"
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                        className={`flex min-h-[80px] w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none ${descError ? "border-destructive" : "border-input"}`}
                         placeholder={t("descPlaceholder")}
                         value={description}
                         onChange={(e) => setDescription(e.target.value.slice(0, 100))}
                         maxLength={100}
                     />
+                    {descError && <p className="text-xs text-destructive">{descError}</p>}
                 </div>
 
                 {/* Website URL */}

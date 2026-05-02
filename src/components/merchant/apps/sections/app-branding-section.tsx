@@ -21,6 +21,7 @@ interface AppBrandingSectionProps {
     logoUrlInput: string;
     setLogoUrlInput: (val: string) => void;
     simple?: boolean;
+    forceShowErrors?: boolean;
     // Full mode only (optional when simple={true})
     themeColor?: string;
     setThemeColor?: (val: string) => void;
@@ -36,6 +37,7 @@ export function AppBrandingSection({
     logoUrlInput,
     setLogoUrlInput,
     simple = false,
+    forceShowErrors,
     themeColor = "#088a5c",
     setThemeColor = () => {},
     logoMode = "none",
@@ -48,7 +50,7 @@ export function AppBrandingSection({
     const [logoUrlTouched, setLogoUrlTouched] = useState(false);
 
     const logoUrlError =
-        logoUrlTouched && logoUrlInput.trim() !== "" && !isValidUrl(logoUrlInput.trim());
+        (logoUrlTouched || forceShowErrors) && logoUrlInput.trim() !== "" && !isValidUrl(logoUrlInput.trim());
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];

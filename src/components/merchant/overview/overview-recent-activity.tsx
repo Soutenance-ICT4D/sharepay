@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { OverviewActivityItem } from "@/lib/data/dashboard";
 import { Activity } from "lucide-react";
 
@@ -7,12 +8,14 @@ export function OverviewRecentActivity({
     title,
     viewAllLabel,
     items,
+    isLoading,
     onViewAll,
     onLoadMore,
 }: {
     title?: string;
     viewAllLabel?: string;
     items: OverviewActivityItem[];
+    isLoading?: boolean;
     onViewAll?: () => void;
     onLoadMore?: () => void;
 }) {
@@ -33,7 +36,23 @@ export function OverviewRecentActivity({
             </div>
 
             <div className="flex-1 overflow-y-auto max-h-[450px]">
-                {items.length === 0 ? (
+                {isLoading ? (
+                    <div className="divide-y">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                            <div key={i} className="flex items-center gap-3 p-4">
+                                <Skeleton className="h-10 w-10 rounded-full shrink-0" />
+                                <div className="flex-1 space-y-2">
+                                    <Skeleton className="h-3.5 w-36" />
+                                    <Skeleton className="h-3 w-24" />
+                                </div>
+                                <div className="text-right space-y-2 shrink-0">
+                                    <Skeleton className="h-3.5 w-20 ml-auto" />
+                                    <Skeleton className="h-2.5 w-12 ml-auto" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : items.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-3 py-16 px-6 text-center">
                         <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
                             <Activity className="h-6 w-6 text-muted-foreground" />

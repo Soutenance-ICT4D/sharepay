@@ -762,7 +762,7 @@
         "expiresLabel": "Date d'expiration",
         "collectLabel": "Collecter le nom et l'email du client lors du paiement",
         "cancel": "Annuler",
-        "submit": "Générer ma collecte SharePay",
+        "submit": "Créer ma collecte SharePay",
         "submitting": "Création en cours…",
         "appRequired": "Veuillez sélectionner une application",
         "successMessage": "Collecte créée avec succès !",
@@ -783,7 +783,18 @@
         "logoUrlCaption": "Laissez vide pour utiliser l'image SharePay par défaut",
         "logoUrlInvalid": "L'URL doit commencer par https://",
         "expiresTooltip": "La collecte ne sera plus accessible après cette date et heure",
-        "collectTooltip": "Si activé, les clients devront saisir leur nom et e-mail avant de payer"
+        "collectTooltip": "Si activé, les clients devront saisir leur nom et e-mail avant de payer",
+        "validation": {
+          "appRequired": "Veuillez sélectionner une application",
+          "titleTooShort": "Le titre doit contenir au moins 3 caractères",
+          "amountInvalid": "Veuillez saisir un montant valide supérieur à 0"
+        },
+        "NoAppModal": {
+          "title": "Application requise",
+          "description": "Vous devez avoir au moins une application active pour créer une collecte de fonds. Commencez par créer une application.",
+          "createApp": "Créer une application",
+          "goBack": "Retour"
+        }
       },
       "Edit": {
         "title": "Modifier la collecte de fonds",
@@ -862,7 +873,7 @@
       },
       "DeleteDialog": {
         "title": "Supprimer l'application",
-        "description": "Cette action est irréversible. Toutes les clés API associées seront révoquées et l'accès aux services SharePay pour cette application sera coupé.",
+        "description": "Cette action est irréversible. Toutes les clés API associées seront révoquées, les collectes de fonds liées seront supprimées et l'accès aux services SharePay pour cette application sera définitivement coupé.",
         "confirmText": "Pour confirmer, veuillez saisir le nom de l'application :",
         "placeholder": "Nom de l'application",
         "cancel": "Annuler",
@@ -881,11 +892,15 @@
         "submitCreate": "Créer l'application",
         "submitEdit": "Enregistrer les modifications",
         "submitting": "Enregistrement en cours…",
+        "validation": {
+          "nameTooShort": "Le nom doit contenir au moins 2 caractères.",
+          "descTooShort": "La description doit contenir au moins 2 caractères."
+        },
         "noChanges": "Aucune modification",
         "createSuccess": "Application créée avec succès !",
         "updateSuccess": "Application mise à jour avec succès !",
         "dangerZoneTitle": "Supprimer l'application",
-        "dangerZoneDesc": "Cette action est irréversible. Toutes les clés associées seront révoquées.",
+        "dangerZoneDesc": "Cette action est irréversible. Toutes les clés API associées seront révoquées et les collectes de fonds liées seront supprimées.",
         "dangerZoneButton": "Supprimer",
         "General": {
           "title": "Informations générales",

@@ -11,7 +11,6 @@ import { OverviewRecentActivity } from "@/components/merchant/overview/overview-
 import { type OverviewStat, type OverviewActivityItem } from "@/lib/data/dashboard";
 import { useDashboard, TransactionStatus, type TransactionSummary } from "@/features/merchant/dashboard";
 import { formatAmount } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Activity, Banknote, Bolt, ShoppingCart, TriangleAlert, RefreshCw, Hourglass, XCircle } from "lucide-react";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -184,27 +183,13 @@ export default function DashboardPage() {
         <div className="space-y-8">
             <OverviewPageHeading title={t("title")} subtitle={t("welcome")} />
 
-            {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {[0, 1, 2].map((i) => (
-                        <div key={i} className="bg-card rounded-xl border p-6 space-y-4">
-                            <div className="flex justify-between">
-                                <Skeleton className="h-9 w-9 rounded-lg" />
-                                <Skeleton className="h-5 w-16 rounded" />
-                            </div>
-                            <Skeleton className="h-4 w-32 rounded" />
-                            <Skeleton className="h-8 w-40 rounded" />
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <OverviewStatsGrid stats={stats} />
-            )}
+            <OverviewStatsGrid stats={stats} isLoading={loading} />
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <OverviewTransactionChartCard />
                 <OverviewRecentActivity
                     items={activity}
+                    isLoading={loading}
                     onViewAll={() => router.push("/merchant/transactions")}
                     onLoadMore={() => router.push("/merchant/transactions")}
                 />

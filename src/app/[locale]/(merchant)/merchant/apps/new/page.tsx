@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { toast } from "sonner";
@@ -46,23 +46,30 @@ export default function NewAppPage() {
 
     // ── Submission ────────────────────────────────────────────────────────────
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState<{ name?: string; desc?: string }>({});
+    const [forceShowUrlErrors, setForceShowUrlErrors] = useState(false);
 
-    const canSubmit = useMemo(
-        () =>
-            name.trim().length >= 2 &&
-            description.trim().length >= 2 &&
-            urlOk(websiteUrl) &&
-            urlOk(logoUrlInput) &&
-            urlOk(webhookUrl) &&
-            urlOk(successUrl) &&
-            urlOk(cancelUrl),
-        [name, description, websiteUrl, logoUrlInput, webhookUrl, successUrl, cancelUrl]
-    );
+    const clearError = (field: keyof typeof fieldErrors) =>
+        setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        if (!canSubmit || isSubmitting) return;
+        if (isSubmitting) return;
 
+        const errors: typeof fieldErrors = {};
+        if (name.trim().length < 2) errors.name = t("validation.nameTooShort");
+        if (description.trim().length < 2) errors.desc = t("validation.descTooShort");
+
+        const hasUrlError = !urlOk(websiteUrl) || !urlOk(logoUrlInput) || !urlOk(webhookUrl) || !urlOk(successUrl) || !urlOk(cancelUrl);
+
+        if (Object.keys(errors).length > 0 || hasUrlError) {
+            setFieldErrors(errors);
+            if (hasUrlError) setForceShowUrlErrors(true);
+            return;
+        }
+
+        setFieldErrors({});
+        setForceShowUrlErrors(false);
         setIsSubmitting(true);
         try {
             const app = await appsService.create({
@@ -98,10 +105,15 @@ export default function NewAppPage() {
                 {/* General + Branding côte à côte */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
                     <AppGeneralSection
-                        name={name} setName={setName}
-                        description={description} setDescription={setDescription}
+                        name={name}
+                        setName={(v) => { setName(v); clearError("name"); }}
+                        description={description}
+                        setDescription={(v) => { setDescription(v); clearError("desc"); }}
                         websiteUrl={websiteUrl} setWebsiteUrl={setWebsiteUrl}
                         currency="XAF"
+                        nameError={fieldErrors.name}
+                        descError={fieldErrors.desc}
+                        forceShowWebsiteUrlError={forceShowUrlErrors}
                     />
                     <AppBrandingSection
                         simple
@@ -109,6 +121,7 @@ export default function NewAppPage() {
                         setLogoUrlInput={setLogoUrlInput}
                         themeColor={themeColor}
                         setThemeColor={setThemeColor}
+                        forceShowErrors={forceShowUrlErrors}
                     />
                 </div>
 
@@ -117,13 +130,14 @@ export default function NewAppPage() {
                     webhookUrl={webhookUrl} setWebhookUrl={setWebhookUrl}
                     successUrl={successUrl} setSuccessUrl={setSuccessUrl}
                     cancelUrl={cancelUrl} setCancelUrl={setCancelUrl}
+                    forceShowErrors={forceShowUrlErrors}
                 />
 
                 <Button
                     type="submit"
                     size="lg"
-                    disabled={!canSubmit || isSubmitting}
-                    className="w-full h-14 text-lg font-black shadow-xl rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isSubmitting}
+                    className="w-full h-14 text-lg font-black shadow-xl rounded-xl"
                 >
                     {isSubmitting ? t("submitting") : t("submitCreate")}
                 </Button>

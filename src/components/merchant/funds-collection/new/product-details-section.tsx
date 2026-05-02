@@ -1,5 +1,3 @@
-"use client";
-
 import { Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
@@ -14,7 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { useApps } from "@/features/merchant/apps";
+import { AppResponse } from "@/features/merchant/apps";
 
 const TITLE_MAX = 50;
 const DESC_MAX = 150;
@@ -26,6 +24,10 @@ interface ProductDetailsSectionProps {
     setTitle: (value: string) => void;
     description: string;
     setDescription: (value: string) => void;
+    apps: AppResponse[] | null;
+    appsLoading: boolean;
+    appIdError?: string;
+    titleError?: string;
 }
 
 export function ProductDetailsSection({
@@ -35,6 +37,10 @@ export function ProductDetailsSection({
     setTitle,
     description,
     setDescription,
+    apps,
+    appsLoading,
+    appIdError,
+    titleError,
 }: ProductDetailsSectionProps) {
     const t = useTranslations('Dashboard.FundsCollection.New');
 
@@ -48,16 +54,29 @@ export function ProductDetailsSection({
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
                 <div className="space-y-2">
                     <Label>{t("appLabel")}</Label>
-                    <Select value={appId || undefined} onValueChange={setAppId}>
-                        <SelectTrigger>
-                            <SelectValue placeholder={t("appNone")} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="__empty__" disabled className="text-muted-foreground">
-                                {t("appEmpty")}
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
+                    {appsLoading ? (
+                        <Skeleton className="h-10 w-full rounded-md" />
+                    ) : (
+                        <Select value={appId || undefined} onValueChange={setAppId}>
+                            <SelectTrigger className={appIdError ? "border-destructive" : ""}>
+                                <SelectValue placeholder={t("appNone")} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {apps && apps.length > 0 ? (
+                                    apps.map((app) => (
+                                        <SelectItem key={app.id} value={app.id}>
+                                            {app.name}
+                                        </SelectItem>
+                                    ))
+                                ) : (
+                                    <SelectItem value="__empty__" disabled className="text-muted-foreground">
+                                        {t("appEmpty")}
+                                    </SelectItem>
+                                )}
+                            </SelectContent>
+                        </Select>
+                    )}
+                    {appIdError && <p className="text-xs text-destructive">{appIdError}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -78,7 +97,9 @@ export function ProductDetailsSection({
                         value={title}
                         onChange={(e) => setTitle(e.target.value.slice(0, TITLE_MAX))}
                         maxLength={TITLE_MAX}
+                        className={titleError ? "border-destructive" : ""}
                     />
+                    {titleError && <p className="text-xs text-destructive">{titleError}</p>}
                 </div>
 
                 <div className="space-y-2">

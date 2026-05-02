@@ -762,7 +762,7 @@
         "expiresLabel": "Expiration Date",
         "collectLabel": "Collect customer name and email during checkout",
         "cancel": "Cancel",
-        "submit": "Generate my SharePay Collection",
+        "submit": "Create my SharePay Collection",
         "submitting": "Creating…",
         "appRequired": "Please select an application",
         "successMessage": "Collection created successfully!",
@@ -783,7 +783,18 @@
         "logoUrlCaption": "Leave empty to use the default SharePay image",
         "logoUrlInvalid": "The URL must start with https://",
         "expiresTooltip": "The collection will no longer be accessible after this date and time",
-        "collectTooltip": "If enabled, customers must enter their name and email before paying"
+        "collectTooltip": "If enabled, customers must enter their name and email before paying",
+        "validation": {
+          "appRequired": "Please select an application",
+          "titleTooShort": "Title must be at least 3 characters",
+          "amountInvalid": "Please enter a valid amount greater than 0"
+        },
+        "NoAppModal": {
+          "title": "Application required",
+          "description": "You need at least one active application to create a fund collection. Start by creating an application.",
+          "createApp": "Create an application",
+          "goBack": "Go back"
+        }
       },
       "Edit": {
         "title": "Edit Funds Collection",
@@ -862,7 +873,7 @@
       },
       "DeleteDialog": {
         "title": "Delete Application",
-        "description": "This action is irreversible. All associated API keys will be revoked and access to SharePay services for this application will be cut off.",
+        "description": "This action is irreversible. All associated API keys will be revoked, linked fund collections will be deleted, and access to SharePay services for this application will be permanently cut off.",
         "confirmText": "To confirm, please type the name of the application:",
         "placeholder": "Application name",
         "cancel": "Cancel",
@@ -881,11 +892,15 @@
         "submitCreate": "Create Application",
         "submitEdit": "Save Changes",
         "submitting": "Saving…",
+        "validation": {
+          "nameTooShort": "Name must be at least 2 characters.",
+          "descTooShort": "Description must be at least 2 characters."
+        },
         "noChanges": "No Changes",
         "createSuccess": "Application created successfully!",
         "updateSuccess": "Application updated successfully!",
         "dangerZoneTitle": "Delete Application",
-        "dangerZoneDesc": "This action is irreversible. All associated API keys will be revoked.",
+        "dangerZoneDesc": "This action is irreversible. All associated API keys will be revoked and linked fund collections will be deleted.",
         "dangerZoneButton": "Delete",
         "General": {
           "title": "General Information",

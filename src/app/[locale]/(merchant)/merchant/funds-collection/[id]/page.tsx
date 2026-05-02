@@ -14,6 +14,7 @@ import { AdvancedOptionsSection } from "@/components/merchant/funds-collection/n
 import { FundsCollectionPreview } from "@/components/merchant/funds-collection/new/funds-collection-preview";
 
 import { fundCollectionsService, useFundCollection } from "@/features/merchant/fund-collections";
+import { useApps } from "@/features/merchant/apps";
 import { resolveError } from "@/lib/api/response-codes";
 
 export default function EditFundsCollectionPage(props: { params: Promise<{ id: string }> }) {
@@ -23,6 +24,7 @@ export default function EditFundsCollectionPage(props: { params: Promise<{ id: s
     const router = useRouter();
 
     const { data: collection, loading: loadingCollection, error: loadError } = useFundCollection(id);
+    const { data: apps, loading: appsLoading } = useApps();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -131,6 +133,7 @@ export default function EditFundsCollectionPage(props: { params: Promise<{ id: s
                             appId={appId} setAppId={setAppId}
                             title={title} setTitle={setTitle}
                             description={description} setDescription={setDescription}
+                            apps={apps ?? null} appsLoading={appsLoading}
                         />
                         <PricingSection
                             amountType={amountType} setAmountType={setAmountType}

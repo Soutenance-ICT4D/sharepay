@@ -23,6 +23,7 @@ interface AppConfigSectionProps {
     setSuccessUrl: (val: string) => void;
     cancelUrl: string;
     setCancelUrl: (val: string) => void;
+    forceShowErrors?: boolean;
 }
 
 export function AppConfigSection({
@@ -32,15 +33,16 @@ export function AppConfigSection({
     setSuccessUrl,
     cancelUrl,
     setCancelUrl,
+    forceShowErrors,
 }: AppConfigSectionProps) {
     const t = useTranslations("Dashboard.Apps.Form.Configuration");
     const [webhookTouched, setWebhookTouched] = useState(false);
     const [successTouched, setSuccessTouched] = useState(false);
     const [cancelTouched, setCancelTouched] = useState(false);
 
-    const webhookError = webhookTouched && webhookUrl.trim() !== "" && !isValidUrl(webhookUrl.trim());
-    const successError = successTouched && successUrl.trim() !== "" && !isValidUrl(successUrl.trim());
-    const cancelError = cancelTouched && cancelUrl.trim() !== "" && !isValidUrl(cancelUrl.trim());
+    const webhookError = (webhookTouched || forceShowErrors) && webhookUrl.trim() !== "" && !isValidUrl(webhookUrl.trim());
+    const successError = (successTouched || forceShowErrors) && successUrl.trim() !== "" && !isValidUrl(successUrl.trim());
+    const cancelError = (cancelTouched || forceShowErrors) && cancelUrl.trim() !== "" && !isValidUrl(cancelUrl.trim());
 
     return (
         <section>

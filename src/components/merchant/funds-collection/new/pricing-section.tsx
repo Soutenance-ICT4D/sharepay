@@ -16,6 +16,7 @@ interface PricingSectionProps {
     setAmountType: (value: "fixed" | "free") => void;
     amount: string;
     setAmount: (value: string) => void;
+    amountError?: string;
 }
 
 export function PricingSection({
@@ -23,6 +24,7 @@ export function PricingSection({
     setAmountType,
     amount,
     setAmount,
+    amountError,
 }: PricingSectionProps) {
     const t = useTranslations('Dashboard.FundsCollection.New');
 
@@ -66,8 +68,9 @@ export function PricingSection({
                             placeholder={t("pricePlaceholder")}
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            className="text-lg font-bold"
+                            className={`text-lg font-bold ${amountError ? "border-destructive" : ""}`}
                         />
+                        {amountError && <p className="text-xs text-destructive">{amountError}</p>}
                     </div>
                 )}
             </div>
