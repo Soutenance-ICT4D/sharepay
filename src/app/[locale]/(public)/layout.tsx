@@ -1,13 +1,15 @@
-export default function PublicBaseLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+import { ReactNode } from "react";
+import { SiteHeader } from "@/components/public/landing/site-header";
+import { SiteFooter } from "@/components/public/landing/site-footer";
+
+export default function PublicLayout({ children }: { children: ReactNode }) {
     return (
-        <div className="flex flex-col min-h-screen">
-            {/* Shared Public Header could go here */}
-            <main className="flex-1">{children}</main>
-            {/* Shared Public Footer could go here */}
+        <div className="flex min-h-screen flex-col animate-in fade-in duration-500">
+            <SiteHeader />
+            <main className="flex-1">
+                {children}
+            </main>
+            <SiteFooter />
         </div>
     );
 }

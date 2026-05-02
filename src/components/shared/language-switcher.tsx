@@ -1,10 +1,10 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { useRouter, usePathname } from "@/core/i18n/routing";
+import { useRouter, usePathname } from "@/i18n/routing";
 import { useTransition } from "react";
 import { Check, Loader2, ChevronDown } from "lucide-react";
-import { cn } from "@/core/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,

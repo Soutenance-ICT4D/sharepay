@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "@/core/i18n/routing";
+import { usePathname } from "@/i18n/routing";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardHeader } from "@/components/merchant/dashboard-header";
 
 export default function AdminLayout({
     children,

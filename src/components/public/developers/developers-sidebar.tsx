@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { cn } from "@/core/lib/utils";
+import { cn } from "@/lib/utils";
 import { docCategories, DocSection, flatDocStructure, DocSidebarItem } from "./doc-config";
 
 interface DevelopersSidebarProps {

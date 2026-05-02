@@ -1,186 +1,183 @@
 "use client";
 
-import { useState } from "react";
-import { Search, Info, ShieldCheck, ChevronDown, Mail, FileText } from "lucide-react";
-import { cn } from "@/core/lib/utils";
+import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
+import { Search, ChevronDown, Mail, FileText, HelpCircle, CreditCard, ShieldCheck, Code2, Receipt } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
+type Category = "General" | "Payments" | "Security" | "Developer" | "Billing";
+
+const CATEGORY_ICONS: Record<Category, React.ElementType> = {
+    General:   HelpCircle,
+    Payments:  CreditCard,
+    Security:  ShieldCheck,
+    Developer: Code2,
+    Billing:   Receipt,
+};
+
+const CATEGORIES: Category[] = ["General", "Payments", "Security", "Developer", "Billing"];
+
 export function FAQContent() {
-    const [activeTab, setActiveTab] = useState("General");
-    const [openQuestions, setOpenQuestions] = useState<Record<string, boolean>>({});
+    const t = useTranslations("FAQ");
+    const [activeTab, setActiveTab] = useState<Category>("General");
+    const [openId, setOpenId] = useState<string | null>(null);
+    const [search, setSearch] = useState("");
 
-    const toggleQuestion = (id: string) => {
-        setOpenQuestions((prev) => ({
-            ...prev,
-            [id]: !prev[id],
-        }));
-    };
+    const sections = useMemo(() =>
+        CATEGORIES.map(cat => ({
+            cat,
+            title: t(`${cat}.title`),
+            icon: CATEGORY_ICONS[cat],
+            items: (["q1", "q2", "q3", "q4"] as const)
+                .filter(k => {
+                    try { return !!t(`${cat}.${k}`); } catch { return false; }
+                })
+                .map(k => ({
+                    id: `${cat}-${k}`,
+                    q: t(`${cat}.${k}` as any),
+                    a: t(`${cat}.${k.replace("q", "a")}` as any),
+                })),
+        }))
+    , [t]);
 
-    const categories = ["General", "Payments", "Security", "Developer API", "Billing"];
+    const activeSection = sections.find(s => s.cat === activeTab)!;
 
-    const faqData = [
-        {
-            category: "General",
-            icon: Info,
-            title: "General Questions",
-            questions: [
-                {
-                    id: "gen-1",
-                    q: "How do I set up my SharePay account?",
-                    a: "Setting up your SharePay account is simple. Sign up using your business email, complete the identity verification (KYC), and link your settlement bank account. Once verified, you can start accepting payments immediately using our hosted checkout pages."
-                },
-                {
-                    id: "gen-2",
-                    q: "What payment methods are supported?",
-                    a: "We support major credit cards (Visa, Mastercard, AMEX), digital wallets (Apple Pay, Google Pay), and local bank transfer methods across 50+ countries."
-                },
-                {
-                    id: "gen-3",
-                    q: "Is there a limit on transaction volume?",
-                    a: "Standard accounts have dynamic limits based on verification level. Enterprise customers can enjoy unlimited transaction volume after a brief review process."
-                }
-            ]
-        },
-        {
-            category: "Security",
-            icon: ShieldCheck,
-            title: "Security & Compliance",
-            questions: [
-                {
-                    id: "sec-1",
-                    q: "How secure is the SharePay platform?",
-                    a: "SharePay is PCI-DSS Level 1 compliant, the highest standard in the industry. We use AES-256 encryption and multi-factor authentication for all account access."
-                },
-                {
-                    id: "sec-2",
-                    q: "Does SharePay offer fraud protection?",
-                    a: "Yes, every transaction is analyzed by our AI-driven fraud detection engine which uses 300+ signals to block suspicious attempts in real-time."
-                }
-            ]
-        }
-    ];
-
-    const visibleFaqs = activeTab === "General" ? faqData : faqData.filter(section => section.category === activeTab);
+    const filtered = useMemo(() => {
+        if (!search.trim()) return activeSection.items;
+        const q = search.toLowerCase();
+        return activeSection.items.filter(
+            item => item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q)
+        );
+    }, [search, activeSection]);
 
     return (
         <div className="w-full flex-1 flex flex-col bg-background">
-            {/* Hero Search Section */}
-            <section className="px-6 lg:px-40 pt-32 pb-16 bg-muted/30 border-b border-border">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-4xl lg:text-5xl font-black mb-4 tracking-tight">How can we help?</h1>
-                    <p className="text-lg text-muted-foreground mb-8">Search our knowledge base for answers to your payment processing questions.</p>
-                    <div className="relative max-w-2xl mx-auto">
-                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground">
-                            <Search className="h-5 w-5" />
-                        </div>
+
+            {/* ── Hero ──────────────────────────────────────────── */}
+            <section className="pt-28 pb-12 px-4 bg-muted/30 border-b border-border">
+                <div className="max-w-3xl mx-auto text-center space-y-4">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
+                        {t("heroTitle")}
+                    </h1>
+                    <p className="text-muted-foreground text-base sm:text-lg">
+                        {t("heroSubtitle")}
+                    </p>
+                    <div className="relative max-w-xl mx-auto mt-2">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                         <input
-                            className="block w-full pl-12 pr-4 py-4 bg-background border border-input rounded-xl text-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground shadow-sm font-medium"
-                            placeholder="Search help articles, guides, and more..."
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            className="w-full pl-11 pr-4 py-3.5 bg-background border border-input rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground shadow-sm"
+                            placeholder={t("searchPlaceholder")}
                             type="text"
                         />
                     </div>
                 </div>
             </section>
 
-            {/* Categories Tabs */}
-            <div className="px-6 lg:px-40 bg-background border-b border-border sticky top-[73px] z-40">
-                <div className="max-w-5xl mx-auto overflow-x-auto no-scrollbar">
-                    <div className="flex gap-8 whitespace-nowrap">
-                        {categories.map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => setActiveTab(category)}
-                                className={cn(
-                                    "flex flex-col items-center justify-center border-b-2 pb-4 pt-5 px-2 transition-colors focus:outline-none",
-                                    activeTab === category
-                                        ? "border-primary text-primary"
-                                        : "border-transparent text-muted-foreground hover:text-primary"
-                                )}
-                            >
-                                <span className={cn(
-                                    "text-sm tracking-wide",
-                                    activeTab === category ? "font-bold" : "font-semibold"
-                                )}>
-                                    {category}
-                                </span>
-                            </button>
-                        ))}
+            {/* ── Category tabs ─────────────────────────────────── */}
+            <div className="sticky top-16 z-40 bg-background border-b border-border">
+                <div className="max-w-4xl mx-auto px-4 overflow-x-auto">
+                    <div className="flex gap-1 whitespace-nowrap">
+                        {CATEGORIES.map(cat => {
+                            const Icon = CATEGORY_ICONS[cat];
+                            return (
+                                <button
+                                    key={cat}
+                                    onClick={() => { setActiveTab(cat); setSearch(""); setOpenId(null); }}
+                                    className={cn(
+                                        "flex items-center gap-2 px-4 py-4 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap focus:outline-none",
+                                        activeTab === cat
+                                            ? "border-primary text-primary"
+                                            : "border-transparent text-muted-foreground hover:text-foreground"
+                                    )}
+                                >
+                                    <Icon className="h-4 w-4 shrink-0" />
+                                    {t(`cat_${cat}` as any)}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
 
-            {/* FAQ Content Area */}
-            <main className="flex-1 px-6 lg:px-40 py-12 md:py-16">
-                <div className="max-w-3xl mx-auto space-y-12">
-                    {visibleFaqs.length > 0 ? (
-                        visibleFaqs.map((section, idx) => (
-                            <div key={idx} className="mb-12 last:mb-0 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: `${idx * 150}ms` }}>
-                                <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
-                                    <section.icon className="h-6 w-6 text-primary" />
-                                    {section.title}
-                                </h2>
+            {/* ── Questions ─────────────────────────────────────── */}
+            <main className="flex-1 px-4 py-12">
+                <div className="max-w-3xl mx-auto">
+                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                        {(() => { const Icon = activeSection.icon; return <Icon className="h-5 w-5 text-primary" />; })()}
+                        {activeSection.title}
+                    </h2>
 
-                                <div className="space-y-4">
-                                    {section.questions.map((q) => {
-                                        const isOpen = !!openQuestions[q.id];
-                                        return (
-                                            <div key={q.id} className="border border-border rounded-xl overflow-hidden bg-card/50 shadow-sm transition-all hover:border-primary/20">
-                                                <button
-                                                    onClick={() => toggleQuestion(q.id)}
-                                                    className="w-full flex items-center justify-between p-5 text-left hover:bg-muted/50 transition-colors group focus:outline-none"
-                                                    aria-expanded={isOpen}
-                                                >
-                                                    <span className="font-semibold text-foreground text-base">{q.q}</span>
-                                                    <ChevronDown className={cn(
-                                                        "h-5 w-5 text-muted-foreground group-hover:text-primary transition-transform duration-300 shrink-0 ml-4",
-                                                        isOpen && "rotate-180 text-primary"
-                                                    )} />
-                                                </button>
-                                                <div
-                                                    className={cn(
-                                                        "grid transition-all duration-300 ease-in-out",
-                                                        isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                                                    )}
-                                                >
-                                                    <div className="overflow-hidden">
-                                                        <div className="px-5 pb-5 text-muted-foreground leading-relaxed border-t border-border/50 pt-4 text-sm sm:text-base">
-                                                            {q.a}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                    {filtered.length > 0 ? (
+                        <div className="space-y-3">
+                            {filtered.map(item => {
+                                const isOpen = openId === item.id;
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="border border-border rounded-xl overflow-hidden bg-card transition-all hover:border-primary/30"
+                                    >
+                                        <button
+                                            onClick={() => setOpenId(isOpen ? null : item.id)}
+                                            className="w-full flex items-center justify-between p-5 text-left hover:bg-muted/40 transition-colors focus:outline-none group"
+                                            aria-expanded={isOpen}
+                                        >
+                                            <span className="font-semibold text-sm sm:text-base pr-4">{item.q}</span>
+                                            <ChevronDown className={cn(
+                                                "h-5 w-5 text-muted-foreground shrink-0 transition-transform duration-300 group-hover:text-primary",
+                                                isOpen && "rotate-180 text-primary"
+                                            )} />
+                                        </button>
+                                        <div className={cn(
+                                            "grid transition-all duration-300 ease-in-out",
+                                            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                                        )}>
+                                            <div className="overflow-hidden">
+                                                <p className="px-5 pb-5 pt-3 text-sm text-muted-foreground leading-relaxed border-t border-border/50">
+                                                    {item.a}
+                                                </p>
                                             </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        ))
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     ) : (
-                        <div className="text-center py-20 text-muted-foreground animate-in fade-in">
-                            No FAQ items found for the selected category.
+                        <div className="text-center py-20 text-muted-foreground">
+                            <HelpCircle className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                            <p>{t("noResults")}</p>
                         </div>
                     )}
                 </div>
             </main>
 
-            {/* Help Section Footer */}
-            <section className="px-6 lg:px-40 py-16 bg-muted/20 border-t border-border">
-                <div className="max-w-4xl mx-auto rounded-2xl bg-primary/10 dark:bg-primary/5 p-8 lg:p-12 border border-primary/20 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
+            {/* ── Help CTA ──────────────────────────────────────── */}
+            <section className="px-4 py-16 bg-muted/20 border-t border-border">
+                <div className="max-w-3xl mx-auto rounded-2xl bg-primary/10 dark:bg-primary/5 p-8 border border-primary/20 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="text-center md:text-left">
-                        <h3 className="text-2xl font-bold mb-2 text-foreground">Still need help?</h3>
-                        <p className="text-muted-foreground">Can't find the answer you're looking for? Our support team is here for you 24/7.</p>
+                        <h3 className="text-xl font-bold mb-1">{t("helpTitle")}</h3>
+                        <p className="text-sm text-muted-foreground">{t("helpDesc")}</p>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                        <Button size="lg" className="w-full sm:w-auto gap-2 font-bold shadow-md hover:shadow-lg transition-all rounded-xl">
-                            <Mail className="h-5 w-5" />
-                            Contact Support
+                    <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+                        <Button size="lg" className="gap-2 rounded-xl" asChild>
+                            <Link href="/contact">
+                                <Mail className="h-4 w-4" />
+                                {t("contactBtn")}
+                            </Link>
                         </Button>
-                        <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2 font-bold rounded-xl border-input hover:bg-muted/50 transition-all">
-                            <FileText className="h-5 w-5" />
-                            Documentation
+                        <Button variant="outline" size="lg" className="gap-2 rounded-xl" asChild>
+                            <Link href="/docs">
+                                <FileText className="h-4 w-4" />
+                                {t("docsBtn")}
+                            </Link>
                         </Button>
                     </div>
                 </div>
             </section>
+
         </div>
     );
 }

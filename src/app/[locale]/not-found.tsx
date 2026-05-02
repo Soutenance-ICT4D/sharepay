@@ -1,10 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Link } from '@/core/i18n/routing';
+import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { NotFoundHeader } from '@/components/public/layout/not-found-header';
+import { SiteHeader } from '@/components/public/landing/site-header';
 import Image from 'next/image';
 import { SiteFooter } from '@/components/public/landing/site-footer';
 import {
@@ -23,7 +23,7 @@ export default function NotFoundPage() {
 
     return (
         <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background">
-            <NotFoundHeader />
+            <SiteHeader />
 
             <main className="flex-1 flex flex-col items-center justify-center px-6 py-24 sm:py-32 mt-4">
                 <div className="max-w-[800px] w-full text-center">
@@ -84,7 +84,7 @@ export default function NotFoundPage() {
                             <Link href="/help" className="p-3 rounded-lg hover:bg-primary/5 text-muted-foreground hover:text-primary transition-all text-sm flex items-center justify-center gap-2">
                                 <HelpCircle className="h-5 w-5" /> {t('helpCenter')}
                             </Link>
-                            <Link href="/dashboard/transactions" className="p-3 rounded-lg hover:bg-primary/5 text-muted-foreground hover:text-primary transition-all text-sm flex items-center justify-center gap-2">
+                            <Link href="/merchant/transactions" className="p-3 rounded-lg hover:bg-primary/5 text-muted-foreground hover:text-primary transition-all text-sm flex items-center justify-center gap-2">
                                 <History className="h-5 w-5" /> {t('transactions')}
                             </Link>
                             <Link href="/security" className="p-3 rounded-lg hover:bg-primary/5 text-muted-foreground hover:text-primary transition-all text-sm flex items-center justify-center gap-2">

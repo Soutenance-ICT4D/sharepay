@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/core/i18n/routing";
+import { Link } from "@/i18n/routing";
 
 export function FeaturesHero() {
     const t = useTranslations('Landing.Features.Hero');
@@ -34,7 +34,7 @@ export function FeaturesHero() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-6 duration-1000">
                     <Button size="lg" className="rounded-full px-8 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all font-bold" asChild>
-                        <Link href="/register">{t('ctaStart')}</Link>
+                        <Link href="/merchant/register">{t('ctaStart')}</Link>
                     </Button>
                     <Button variant="outline" size="lg" className="rounded-full px-8 border-primary/20 hover:bg-primary/5 hover:border-primary/50 transition-all" asChild>
                         <Link href="/docs">{t('ctaDocs')}</Link>

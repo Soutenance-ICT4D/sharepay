@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/core/i18n/routing";
+import { Link } from "@/i18n/routing";
 
 export function PricingPlans() {
     const t = useTranslations('Landing.Pricing.Plans');
@@ -66,7 +66,7 @@ export function PricingPlans() {
                                         : 'shadow-lg shadow-primary/10'
                                 }`}
                             >
-                                <Link href="/register">
+                                <Link href="/merchant/register">
                                     Commencer
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>

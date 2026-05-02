@@ -1,26 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
-import { OverviewPageHeading } from "@/components/dashboard/overview/overview-page-heading";
-import { OverviewStatsGrid } from "@/components/dashboard/overview/overview-stats-grid";
-import { OverviewTransactionChartCard } from "@/components/dashboard/overview/overview-transaction-chart-card";
-import { OverviewRecentActivity } from "@/components/dashboard/overview/overview-recent-activity";
-import {
-    Activity,
-    Users,
-    Server,
-    ShieldAlert,
-    Database,
-    Zap,
-    Globe,
-    Cpu
-} from "lucide-react";
-
-import { buildSeries } from "@/core/data/dashboard";
+import { OverviewPageHeading } from "@/components/merchant/overview/overview-page-heading";
+import { OverviewStatsGrid } from "@/components/merchant/overview/overview-stats-grid";
+import { OverviewTransactionChartCard } from "@/components/merchant/overview/overview-transaction-chart-card";
+import { OverviewRecentActivity } from "@/components/merchant/overview/overview-recent-activity";
+import { Users, Server, ShieldAlert, Database, Zap, Globe, Cpu } from "lucide-react";
 
 export default function AdminDashboardPage() {
-    const chartData = useMemo(() => buildSeries({ preset: "last30" }), []);
-
     const stats = [
         {
             label: "Volume Global (24h)",
@@ -83,11 +69,7 @@ export default function AdminDashboardPage() {
             <OverviewStatsGrid stats={stats as any} />
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                <OverviewTransactionChartCard
-                    title="Volume de Transactions Global"
-                    subtitle="Performance de tous les marchands"
-                    data={chartData}
-                />
+                <OverviewTransactionChartCard />
                 <OverviewRecentActivity
                     title="Alertes Système & Sécurité"
                     viewAllLabel="Journal complet"

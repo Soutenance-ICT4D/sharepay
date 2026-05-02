@@ -1,0 +1,1203 @@
+{
+  "Navigation": {
+    "login": "Connexion",
+    "register": "Commencer",
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "api_lab": "API Lab",
+    "documentation": "Documentations",
+    "blog": "Blog",
+    "about": "À propos",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Termes de confidentialité"
+  },
+  "Footer": {
+    "tagline": "L'infrastructure de paiement pour l'Afrique de demain.",
+    "product": "Produit",
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "api": "Docs",
+    "api_lab": "API Lab",
+    "status": "État du système",
+    "company": "Entreprise",
+    "about": "À propos",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "legal": "Légal",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "security": "Sécurité",
+    "cookies": "Cookies",
+    "systemStatus": "Tous les systèmes opérationnels",
+    "copyright": "© 2026 SharePay Inc. Tous droits réservés.",
+    "newsletterTitle": "Restez informé",
+    "newsletterDesc": "Recevez nos dernières mises à jour et articles directement dans votre boîte mail.",
+    "newsletterPlaceholder": "Votre email",
+    "newsletterBtn": "S'abonner",
+    "preStartTitle": "Prêt à propulser vos paiements ?",
+    "preStartDesc": "Rejoignez des milliers d'entreprises qui font confiance à SharePay pour leur croissance.",
+    "preStartCTA": "Commencer gratuitement",
+    "contactBtn": "Nous contacter",
+    "developedBy": "Développé par"
+  },
+  "Landing": {
+    "Hero": {
+      "badge": "Nouveau",
+      "badgeText": "Qu'est-ce que vous attendez ?",
+      "title": "Encaissez <accent>partout</accent>,\npar tous les moyens",
+      "subtitle": "Transformez la complexité des paiements en quelques lignes de code. Une seule API pour centraliser vos encaissements et libérer la croissance de votre entreprise.",
+      "ctaStart": "Lancer l'intégration",
+      "ctaDemo": "Voir la démo live",
+      "reassurance1": "Setup en 5 min",
+      "reassurance2": "99.9% de disponibilité",
+      "reassurance3": "Sans frais cachés",
+      "reassurance4": "Chiffrement bout en bout",
+      "trustedBy": "Accepté avec",
+      "stat1Label": "Marchands actifs",
+      "stat2Label": "Méthodes de paiement",
+      "stat3Label": "Pays couverts",
+      "stat4Label": "Pour démarrer",
+      "mockupLive": "En direct",
+      "mockupRevenue": "Revenus ce mois",
+      "mockupTransactions": "Transactions récentes",
+      "supportedMethods": "Méthodes de paiement",
+      "mobilePayment": "Paiement mobile",
+      "statMerchantsLabel": "Marchands actifs",
+      "statTxLabel": "Transactions traitées",
+      "statMethodsLabel": "Méthodes de paiement supportées"
+    },
+    "HowItWorks": {
+      "badge": "Étapes",
+      "title": "Comment ça marche",
+      "subtitle": "Trois étapes simples pour révolutionner vos paiements.",
+      "step1": {
+        "title": "Inscription éclair",
+        "description": "Créez votre compte en quelques minutes et commencez à explorer le tableau de bord immédiatement."
+      },
+      "step2": {
+        "title": "Intégration facile",
+        "description": "Copiez quelques lignes de code dans votre application ou utilisez nos plugins prêts à l'emploi."
+      },
+      "step3": {
+        "title": "Mise en ligne",
+        "description": "Acceptez votre premier paiement instantanément avec notre infrastructure ultra-sécurisée."
+      }
+    },
+    "PaymentMethod": {
+      "badge": "Méthodes de paiement",
+      "title": "Méthodes de paiement acceptées",
+      "subtitle": "Nous collaborons avec les principaux opérateurs de mobile money pour offrir des expériences de paiement fluides et sécurisées.",
+      "mtnName": "MTN Mobile Money",
+      "mtnDesc": "Paiement instantané & sécurisé",
+      "orangeName": "Orange Money",
+      "orangeDesc": "Transfert sécurisé en temps réel",
+      "availableNow": "Disponible",
+      "mtnUsers": "4M+ utilisateurs",
+      "orangeUsers": "3M+ utilisateurs",
+      "comingSoon": "D'autres prestataires bientôt disponibles — Wave, Visa, Mastercard & plus"
+    },
+    "WhyChoose": {
+      "badge": "Avantages",
+      "title": "Pourquoi choisir SharePay ?",
+      "subtitle": "La simplicité rencontre la performance pour propulser votre croissance.",
+      "feature1": {
+        "title": "Simplicité Radicale",
+        "description": "Finis les contrats multiples avec chaque opérateur. Une seule interface pour tout gérer."
+      },
+      "feature2": {
+        "title": "Vitesse de Déploiement",
+        "description": "Passez de l'idée au paiement en production en un temps record grâce à nos SDK."
+      },
+      "feature3": {
+        "title": "Sécurité Maximale",
+        "description": "Chiffrement de bout en bout et conformité aux standards les plus stricts de l'industrie."
+      },
+      "feature4": {
+        "title": "Support Expert",
+        "description": "Une équipe de développeurs dédiée pour vous accompagner à chaque étape."
+      }
+    },
+    "Integration": {
+      "title": "Conçu pour les développeurs",
+      "subtitle": "Nous avons construit SharePay avec une approche API-first. Profitez d'une documentation exhaustive, de Webhooks fiables et d'un environnement bac à sable robuste.",
+      "feat1Title": "Webhooks",
+      "feat1Desc": "Notifications en temps réel.",
+      "feat2Title": "SDKs",
+      "feat2Desc": "JS, Python, PHP, Ruby.",
+      "feat3Title": "Sandbox",
+      "feat3Desc": "Testez sans risque.",
+      "feat4Title": "Sécurité PCI",
+      "feat4Desc": "Conformité de niveau 1.",
+      "liveEnv": "Live",
+      "runBtn": "Exécuter",
+      "sending": "Envoi...",
+      "serverResp": "Réponse"
+    },
+    "Pricing": {
+      "badge": "Tarifs",
+      "title": "Tarification simple et transparente",
+      "subtitle": "Pas de frais d'installation, pas de frais mensuels, pas de coûts cachés.",
+      "planName": "Offre Standard",
+      "sliderLabel": "Volume mensuel estimé",
+      "minVolume": "10K FCFA",
+      "maxVolume": "10M FCFA",
+      "feeLabel": "Frais par transaction",
+      "feeSubLabel": "Mobile Money local",
+      "maintenanceLabel": "Frais de maintenance",
+      "maintenanceSubLabel": "Engagement mensuel nul",
+      "estimatedCost": "Coût estimé",
+      "ctaBtn": "Créer un compte maintenant",
+      "Plans": {
+        "Standard": {
+          "name": "Standard",
+          "price": "1.5%",
+          "desc": "Idéal pour les startups et PME",
+          "features": [
+            "MTN & Orange Money",
+            "Tableau de bord",
+            "Support par email"
+          ]
+        },
+        "Business": {
+          "name": "Business",
+          "price": "1.2%",
+          "desc": "Pour les entreprises en croissance",
+          "features": [
+            "Tout du Standard",
+            "Reversements prioritaires",
+            "Support 24/7"
+          ]
+        },
+        "Enterprise": {
+          "name": "Entreprise",
+          "price": "Sur mesure",
+          "desc": "Solutions personnalisées",
+          "features": [
+            "Tarifs dégressifs",
+            "Gestionnaire de compte",
+            "API dédiée"
+          ]
+        }
+      },
+      "FAQ": {
+        "title": "Questions Fréquentes",
+        "q1": "Y a-t-il des frais d'inscription ?",
+        "a1": "Non, l'inscription sur SharePay est totalement gratuite.",
+        "q2": "Comment suis-je payé ?",
+        "a2": "Vos fonds sont reversés automatiquement ou manuellement sur votre compte bancaire ou mobile money selon vos réglages.",
+        "q3": "Quels pays sont supportés ?",
+        "a3": "Nous opérons actuellement au Cameroun et prévoyons une expansion dans toute la zone CEMAC très prochainement."
+      }
+    },
+    "About": {
+      "Hero": {
+        "badge": "Notre Mission",
+        "title": "Démocratiser les paiements digitaux en Afrique",
+        "subtitle": "Nous construisons l'infrastructure financière qui permet à chaque entreprise, petite ou grande, de prospérer dans l'économie numérique."
+      },
+      "Stats": {
+        "users": {
+          "value": "2000+",
+          "label": "Marchands actifs"
+        },
+        "transactions": {
+          "value": "1M+",
+          "label": "Transactions traitées"
+        },
+        "availability": {
+          "value": "99.9%",
+          "label": "Disponibilité service"
+        },
+        "support": {
+          "value": "24/7",
+          "label": "Support réactif"
+        }
+      },
+      "Story": {
+        "title": "Notre Histoire",
+        "content": "Né de la volonté de simplifier les transactions financières complexes, SharePay est devenu le partenaire de confiance de milliers de marchands. Notre parcours est guidé par l'innovation et le désir d'impact réel sur l'écosystème entrepreneurial africain."
+      },
+      "Values": {
+        "title": "Nos Valeurs",
+        "v1": {
+          "title": "Innovation",
+          "desc": "Nous repoussons sans cesse les limites technologiques."
+        },
+        "v2": {
+          "title": "Transparence",
+          "desc": "Clarté totale sur nos tarifs et nos processus."
+        },
+        "v3": {
+          "title": "Sécurité",
+          "desc": "La protection de vos fonds est notre priorité absolue."
+        }
+      }
+    },
+    "Contact": {
+      "title": "Contactez-nous",
+      "subtitle": "Notre équipe d'experts est là pour vous aider à propulser votre business avec les meilleures solutions de paiement.",
+      "emailTitle": "Email",
+      "phoneTitle": "Téléphone",
+      "addressTitle": "Adresse",
+      "hoursTitle": "Horaires d'ouverture",
+      "address": "Yaoundé, Cameroun, Université de Yaoundé I, Incubateur TESEA",
+      "weekday": "Lundi - Vendredi: 8h - 18h",
+      "saturday": "Samedi: 9h - 13h",
+      "support247": "Support 24/7 en ligne",
+      "form": {
+        "fullName": "Nom Complet",
+        "phone": "Numéro de Téléphone",
+        "email": "Adresse Email",
+        "reason": "Raison du Contact",
+        "message": "Message",
+        "placeholderFullName": "Votre nom",
+        "placeholderPhone": "Votre numéro",
+        "placeholderEmail": "Votre email",
+        "placeholderReason": "Choisissez une raison",
+        "placeholderMessage": "Votre message",
+        "reasonBilling": "Facturation",
+        "reasonPartnership": "Partenariats",
+        "reasonGeneral": "Question Générale",
+        "reasonSupport": "Support Technique",
+        "reasonOther": "Autre",
+        "submit": "Envoyer"
+      }
+    },
+    "Features": {
+      "Hero": {
+        "badge": "Fonctionnalités",
+        "title": "Une infrastructure de paiement complète",
+        "subtitle": "Tout ce dont vous avez besoin pour accepter des paiements, gérer vos fonds et développer votre entreprise en Afrique.",
+        "ctaStart": "Commencer",
+        "ctaDocs": "Lire la doc"
+      },
+      "Main": {
+        "title": "Conçu pour la performance",
+        "subtitle": "Explorez les outils qui font de SharePay le partenaire de confiance des entreprises en croissance."
+      },
+      "Grid": {
+        "api": {
+          "title": "API Unifiée",
+          "description": "Une seule intégration pour accéder à tous les modes de paiement locaux et internationaux."
+        },
+        "security": {
+          "title": "Sécurité Certifiée",
+          "description": "Protection contre la fraude et chiffrement de niveau bancaire pour chaque transaction."
+        },
+        "analytics": {
+          "title": "Analyses en Temps Réel",
+          "description": "Suivez vos performances en direct grâce à des tableaux de bord intuitifs et détaillés."
+        },
+        "payout": {
+          "title": "Retraits Flexibles",
+          "description": "Transférez vos fonds vers vos comptes bancaires ou mobiles en un clic."
+        },
+        "checkout": {
+          "title": "Checkout Optimisé",
+          "description": "Une expérience de paiement fluide conçue pour maximiser votre taux de conversion."
+        },
+        "developer": {
+          "title": "Focus Développeur",
+          "description": "Des SDKs robustes et une documentation claire pour une intégration sans friction."
+        }
+      },
+      "Details": {
+        "api": {
+          "tag": "Intégration",
+          "title": "Une seule API, des possibilités infinies",
+          "description": "Ne perdez plus de temps à multiplier les intégrations techniques. Avec SharePay, accédez instantanément à MTN Mobile Money, Orange Money et bien d'autres via une interface REST unique.",
+          "feature1": "Documentation interactive",
+          "feature2": "Environnement de test complet",
+          "feature3": "Webhooks temps réel"
+        },
+        "security": {
+          "tag": "Protection",
+          "title": "La sécurité au cœur de chaque transaction",
+          "description": "Nous utilisons les technologies de pointe pour sécuriser vos données et celles de vos clients. Notre système de détection de fraude apprend de chaque paiement pour vous protéger.",
+          "feature1": "Chiffrement AES-256",
+          "feature2": "Conformité PCI-DSS",
+          "feature3": "Anti-fraude par IA"
+        }
+      },
+      "CTA": {
+        "title": "Prêt à transformer vos paiements ?",
+        "subtitle": "Rejoignez le réseau SharePay aujourd'hui et commencez à encaisser en quelques minutes.",
+        "ctaStart": "Ouvrir un compte",
+        "ctaContact": "Nous contacter"
+      }
+    }
+  },
+  "HomePage": {
+    "title": "Bienvenue sur SharePay",
+    "description": "La plateforme de partage de paiement unifiée, simple et sécurisée.",
+    "links": {
+      "documentation": "Documentation",
+      "deploy": "Déployer maintenant",
+      "templates": "Modèles",
+      "learning": "Apprentissage"
+    },
+    "start": "Pour commencer, éditez le fichier page.tsx.",
+    "more": "Vous cherchez un point de départ ?",
+    "testConfig": {
+      "themeTitle": "Changement de thème",
+      "themeDesc": "Testez la fonctionnalité de changement de thème. Observez le changement d'icône et la transition de couleur de fond.",
+      "langTitle": "Sélecteur de langue",
+      "langDesc": "Testez le changement de traduction. Le texte ci-dessus devrait se mettre à jour instantanément.",
+      "loaderTitle": "Page de chargement",
+      "loaderDesc": "Cliquez ci-dessous pour afficher le chargeur plein écran pendant 3 secondes.",
+      "loaderBtn": "Tester le chargeur",
+      "loaderLabel": "Test du chargeur (3s)..."
+    }
+  },
+  "Auth": {
+    "Login": {
+      "title": "Bon retour",
+      "description": "Entrez votre email pour vous connecter",
+      "emailLabel": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "passwordLabel": "Mot de passe",
+      "phoneLabel": "Numéro de téléphone",
+      "forgotPassword": "Mot de passe oublié ?",
+      "rememberMe": "Se souvenir de moi",
+      "submitBtn": "Se connecter",
+      "orContinueWith": "Ou continuer avec",
+      "noAccount": "Pas encore de compte ?",
+      "registerLink": "S'inscrire",
+      "successMessage": "Connexion réussie.",
+      "googleSuccess": "Connexion réussie avec Google.",
+      "googleError": "Échec de la connexion avec Google."
+    },
+    "AdminLogin": {
+      "title": "Admin SharePay",
+      "description": "Accès réservé au personnel administratif",
+      "loginLabel": "Identifiant / Login",
+      "submitBtn": "Connexion Administrateur",
+      "successMessage": "Authentification admin réussie."
+    },
+    "SuperAdminLogin": {
+      "title": "Super Admin SharePay",
+      "description": "Accès interdit",
+      "loginLabel": "Identifiant / Login",
+      "submitBtn": "Connexion Super Admin",
+      "successMessage": "Bienvenu dans Sharepay."
+    },
+    "SupportLogin": {
+      "title": "Centre de Support",
+      "description": "Portail d'assistance technique SharePay",
+      "loginLabel": "Identifiant / Login",
+      "submitBtn": "Connexion Support",
+      "successMessage": "Authentification support réussie."
+    },
+    "Register": {
+      "title": "Créer un compte",
+      "description": "Entrez vos détails ci-dessous pour créer votre compte",
+      "fullnameLabel": "Nom complet",
+      "fullnamePlaceholder": "Votre nom complet",
+      "phonePlaceholder": "Entrez votre numéro de téléphone",
+      "submitBtn": "Créer un compte",
+      "haveAccount": "Déjà un compte ?",
+      "loginLink": "Se connecter",
+      "acceptTerms": "J'accepte les",
+      "and": "et les",
+      "termsError": "Vous devez accepter les conditions d'utilisation et les termes de confidentialité.",
+      "successMessage": "Compte créé avec succès. Veuillez vérifier votre email.",
+      "googleSuccess": "Compte créé via Google.",
+      "googleError": "Échec de l'inscription avec Google.",
+      "passwordRules": {
+        "length": "Au moins 8 caractères",
+        "uppercase": "Une lettre majuscule (A-Z)",
+        "lowercase": "Une lettre minuscule (a-z)",
+        "digit": "Un chiffre (0-9)",
+        "special": "Un caractère spécial (@#$%^&+=!*)"
+      }
+    },
+    "VerifyEmail": {
+      "title": "Vérifiez votre email",
+      "description": "Nous avons envoyé un code de vérification à <emp>{email}</emp>",
+      "submitBtn": "Vérifier",
+      "notReceived": "Vous n'avez pas reçu le code ?",
+      "resend": "Renvoyer le code",
+      "otpResent": "Un nouveau code de vérification a été envoyé.",
+      "openEmail": "Ouvrir Gmail",
+      "changeEmail": "Modifier l'email",
+      "checkSpam": "Si vous ne voyez pas l'email, veuillez vérifier votre dossier de courriers indésirables.",
+      "errorMissing": "Email manquant. Veuillez vous réinscrire.",
+      "successMessage": "Email vérifié avec succès."
+    },
+    "VerifyResetCode": {
+      "title": "Saisir le code de sécurité",
+      "description": "Entrez le code à 6 chiffres envoyé à <emp>{email}</emp> pour vérifier votre identité.",
+      "submitBtn": "Vérifier le code",
+      "notReceived": "Vous n'avez pas reçu le code ?",
+      "resend": "Renvoyer",
+      "openEmail": "Ouvrir Gmail",
+      "changeEmail": "Modifier l'email",
+      "checkSpam": "Si vous ne voyez pas l'email, veuillez vérifier votre dossier de courriers indésirables.",
+      "errorMissing": "L'email est manquant.",
+      "errorInvalid": "Code invalide.",
+      "successMessage": "Code vérifié."
+    },
+    "PendingVerification": {
+      "title": "Compte en cours de vérification",
+      "description": "Notre équipe examine actuellement votre compte. Vous recevrez une notification par email dès que la vérification sera terminée.",
+      "userInfoTitle": "Vos informations",
+      "statusLabel": "En attente de vérification",
+      "whatNextTitle": "Que faire maintenant ?",
+      "step1": "Vérifiez votre boîte mail pour les mises à jour de vérification",
+      "step2": "Gardez vos documents KYC prêts si demandé",
+      "step3": "Attendez que l'administrateur termine la révision (24–48h)",
+      "contactTitle": "Besoin d'aide ?",
+      "contactDescription": "Vous avez une question ou souhaitez accélérer le processus ? Notre équipe est là pour vous.",
+      "contactBtn": "Contacter le support",
+      "logout": "Se déconnecter de mon compte"
+    },
+    "ForgotPassword": {
+      "title": "Mot de passe oublié",
+      "description": "Entrez votre email pour réinitialiser votre mot de passe",
+      "submitBtn": "Envoyer le code de réinitialisation",
+      "backToLogin": "Retour à la connexion",
+      "successMessage": "Si un compte existe, un code de réinitialisation a été envoyé."
+    },
+    "ResetPassword": {
+      "title": "Créer un nouveau mot de passe",
+      "description": "Votre nouveau mot de passe doit être différent des précédents.",
+      "labelNew": "Nouveau mot de passe",
+      "labelConfirm": "Confirmer le mot de passe",
+      "submitBtn": "Définir le nouveau mot de passe",
+      "successMessage": "Mot de passe réinitialisé avec succès. Veuillez vous connecter.",
+      "errorMatch": "Les mots de passe ne correspondent pas.",
+      "errorMissing": "Email ou jeton manquant."
+    },
+    "Success": {
+      "login": "Connexion réussie. Bienvenue !",
+      "register": "Compte créé. Vérifiez votre email pour activer votre compte.",
+      "verify_email": "Email vérifié. Vous pouvez maintenant vous connecter.",
+      "resend_otp": "Un nouveau code de vérification a été envoyé à votre adresse email.",
+      "forgot_password": "Si un compte est associé à cet email, vous recevrez un code de réinitialisation.",
+      "verify_reset_code": "Code validé. Définissez maintenant votre nouveau mot de passe.",
+      "reset_password": "Mot de passe modifié avec succès. Toutes vos sessions ont été déconnectées pour votre sécurité."
+    },
+    "Errors": {
+      "invalid_credentials": "Identifiants incorrects. Vérifiez votre email et votre mot de passe.",
+      "user_not_found": "Impossible de traiter cette demande. Vérifiez l'adresse email saisie.",
+      "email_exists": "Un compte est déjà associé à cet email. Connectez-vous ou réinitialisez votre mot de passe.",
+      "not_verified": "Identifiants incorrects ou compte non activé. Consultez votre boîte mail.",
+      "invalid_otp": "Code de vérification invalide. Vérifiez le code reçu.",
+      "otp_expired": "Ce code a expiré. Demandez-en un nouveau.",
+      "otp_not_found": "Aucun code actif trouvé. Veuillez en demander un nouveau.",
+      "account_locked": "Connexion impossible. Contactez le support si le problème persiste.",
+      "session_expired": "Votre session a expiré. Veuillez vous reconnecter.",
+      "compromised_session": "Activité suspecte détectée. Veuillez vous reconnecter pour sécuriser votre compte.",
+      "invalid_reset_token": "Ce lien de réinitialisation est invalide ou expiré. Veuillez recommencer.",
+      "validation_error": "Données invalides. Vérifiez les champs saisis.",
+      "unauthorized": "Accès non autorisé. Veuillez vous connecter.",
+      "access_denied": "Vous n'avez pas les permissions nécessaires pour cette action.",
+      "network_error": "Erreur réseau. Vérifiez votre connexion internet.",
+      "internal_server_error": "Une erreur est survenue côté serveur. Veuillez réessayer.",
+      "unknown_error": "Une erreur inattendue est survenue. Veuillez réessayer.",
+      "auth_failed": "Identifiants incorrects. Vérifiez votre email et votre mot de passe.",
+      "account_disabled": "Connexion impossible. Contactez le support si vous avez besoin d'aide.",
+      "already_verified": "Ce compte est déjà vérifié. Vous pouvez vous connecter.",
+      "invalid_token": "Jeton invalide ou expiré. Veuillez recommencer.",
+      "token_revoked": "Session expirée. Veuillez vous reconnecter.",
+      "malformed_json": "Requête invalide. Veuillez réessayer.",
+      "route_not_found": "La ressource demandée est introuvable.",
+      "too_many_requests": "Trop de tentatives. Veuillez réessayer plus tard.",
+      "too_many_requests_timed": "Trop de tentatives. Veuillez réessayer dans {minutes} minute(s).",
+      "api_key_missing": "Clé API manquante dans la requête.",
+      "api_key_invalid": "Clé API invalide.",
+      "api_key_revoked": "Clé API révoquée. Générez-en une nouvelle dans vos paramètres.",
+      "api_key_not_found": "Aucune clé API active pour cette application.",
+      "api_key_already_active": "Cette application possède déjà une clé API active.",
+      "app_not_found": "Application introuvable.",
+      "app_name_duplicate": "Vous avez déjà une application avec ce nom.",
+      "provider_not_found": "Moyen de paiement introuvable ou indisponible.",
+      "currency_mismatch": "La devise est incompatible avec ce moyen de paiement.",
+      "amount_below_minimum": "Le montant saisi est inférieur au minimum requis.",
+      "amount_above_maximum": "Le montant saisi dépasse le maximum autorisé.",
+      "insufficient_balance": "Solde disponible insuffisant pour effectuer cette opération.",
+      "transaction_not_found": "Transaction introuvable.",
+      "collection_not_found": "Collecte introuvable.",
+      "collection_not_editable": "Cette collecte ne peut plus être modifiée dans son état actuel.",
+      "collection_already_closed": "Cette collecte est déjà clôturée.",
+      "collection_not_closed": "Seules les collectes clôturées peuvent être réouvertes.",
+      "collection_not_available": "Cette collecte n'est plus disponible.",
+      "collection_not_active": "Cette collecte n'est plus active.",
+      "collection_expired": "Cette collecte a expiré.",
+      "amount_required": "Un montant est requis pour cette opération.",
+      "session_not_found": "Session de paiement introuvable.",
+      "invalid_session": "Session de paiement invalide.",
+      "session_already_processed": "Cette session a déjà été traitée.",
+      "webhook_not_configured": "Aucune URL webhook configurée pour cette application.",
+      "webhook_test_failed": "Le test du webhook a échoué. Vérifiez que l'URL est accessible et répond correctement.",
+      "gateway_error": "Le service de paiement est temporairement indisponible. Veuillez réessayer dans quelques instants.",
+      "business_error": "Une erreur est survenue lors du traitement de votre demande.",
+      "payment_link_not_found": "Lien de paiement introuvable.",
+      "payment_link_expired": "Ce lien de paiement a expiré.",
+      "payment_link_inactive": "Ce lien de paiement n'est plus actif."
+    }
+  },
+  "Dashboard": {
+    "title": "Tableau de bord",
+    "nav": {
+      "overview": "Vue d'ensemble",
+      "logout": "Se déconnecter"
+    },
+    "Overview": {
+      "title": "Vue d'ensemble",
+      "welcome": "Bienvenue sur votre tableau de bord SharePay.",
+      "actions": {
+        "paymentLink": "Collecte de fonds",
+        "withdraw": "Retrait"
+      },
+      "stats": {
+        "revenue": "Revenu Total",
+        "activeLinks": "Liens Actifs",
+        "transactions": "Transactions",
+        "customers": "Clients",
+        "txnCount": "{count, plural, =0 {Aucune transaction} one {# transaction} other {# transactions}}",
+        "availableBalance": "Solde disponible",
+        "availableBadge": "Disponible",
+        "pendingBalance": "Règlements en cours",
+        "pendingBadge": "En attente",
+        "dailyVolume": "Volume aujourd'hui"
+      },
+      "recentActivity": {
+        "title": "Activité récente",
+        "viewAll": "Tout voir",
+        "loadMore": "Charger plus d'activité",
+        "emptyTitle": "Aucune activité récente",
+        "emptyDescription": "Vos transactions apparaîtront ici une fois les premiers paiements reçus.",
+        "justNow": "À l'instant",
+        "minutesAgo": "Il y a {count} min",
+        "hoursAgo": "Il y a {count}h",
+        "noProvider": "Sans opérateur",
+        "statuses": {
+          "success": "Succès",
+          "pending": "En attente",
+          "failed": "Échoué",
+          "cancelled": "Annulé",
+          "refunded": "Remboursé"
+        }
+      }
+    },
+    "Chart": {
+      "title": "Flux de transactions",
+      "subtitleCount": "Nombre de transactions par période",
+      "subtitleVolume": "Volume ({currency}) par période",
+      "metricCount": "Nombre",
+      "metricVolume": "Volume",
+      "today": "Aujourd'hui",
+      "last7Days": "7 derniers jours",
+      "last30Days": "30 derniers jours",
+      "groupStatus": "Statut",
+      "groupProvider": "Opérateur",
+      "groupApplication": "Application",
+      "filterMetricLabel": "Ordonnée",
+      "filterIntervalLabel": "Période",
+      "filterGroupLabel": "Grouper par"
+    },
+    "Sidebar": {
+      "overview": "Aperçu",
+      "fundsCollection": "Collecte de fonds",
+      "withdrawals": "Retrait",
+      "transactions": "Transactions",
+      "apps": "Applications",
+      "documentation": "Documentation",
+      "apiLab": "API Lab",
+      "settings": "Paramètres",
+      "faq": "FAQ",
+      "collapseMenu": "Réduire le menu"
+    },
+    "Header": {
+      "searchPlaceholder": "Rechercher...",
+      "profile": "Profil",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    },
+    "Profile": {
+      "title": "Mon Profil",
+      "verified": "Compte Vérifié",
+      "memberSince": "Membre depuis",
+      "Hero": {
+        "editAvatar": "Modifier l'avatar"
+      },
+      "Information": {
+        "title": "Mes Informations",
+        "fullName": "Nom complet",
+        "email": "Email professionnel",
+        "phone": "Numéro de téléphone",
+        "save": "Enregistrer les modifications"
+      },
+      "Security": {
+        "title": "Sécurité du Compte",
+        "passwordTitle": "Mot de passe",
+        "passwordDesc": "Dernière modification il y a",
+        "passwordChange": "Changer le mot de passe",
+        "twoFactorTitle": "Double authentification (2FA)",
+        "twoFactorDesc": "Sécurisez votre compte via SMS ou App d'authentification",
+        "twoFactorActive": "Activé",
+        "sessionsTitle": "Appareils & Sessions",
+        "sessionsDesc": "Gérez vos sessions actives sur différents navigateurs",
+        "sessionsDisconnect": "Tout déconnecter",
+        "sessionCurrent": "Session actuelle",
+        "sessionActive": "Actif"
+      },
+      "DangerZone": {
+        "title": "Zone de danger",
+        "warning": "La suppression du compte est irréversible. Toutes vos données seront effacées après 30 jours.",
+        "deleteAccount": "Supprimer mon compte"
+      }
+    },
+    "Breadcrumbs": {
+      "merchant": "Marchand",
+      "dashboard": "Tableau de bord",
+      "funds-collection": "Collecte de fonds",
+      "withdrawals": "Retraits",
+      "transactions": "Transactions",
+      "apps": "Applications",
+      "docs": "Documentation",
+      "api-lab": "API Lab",
+      "settings": "Paramètres",
+      "profile": "Profil",
+      "notifications": "Notifications",
+      "faq": "FAQ",
+      "edit": "Modifier",
+      "new": "Nouveau"
+    },
+    "FundsCollection": {
+      "title": "Collecte de fonds",
+      "newLink": "Nouvelle collecte",
+      "Stats": {
+        "activeLinks": "Liens actifs",
+        "newThisMonth": "+2 nouveaux ce mois-ci",
+        "totalCollected": "Total encaissé",
+        "comparedToLastMonth": "+15% par rapport au mois dernier",
+        "topPerformance": "Top performance",
+        "topTransactions": "45 transactions (450,000 FCFA)"
+      },
+      "Table": {
+        "name": "Nom du lien",
+        "status": "Statut",
+        "amount": "Montant",
+        "paymentLink": "Lien de paiement",
+        "createdAt": "Date de création",
+        "actions": "Actions",
+        "freeAmount": "Libre",
+        "copyLink": "Copier le lien",
+        "viewPage": "Voir la page de paiement",
+        "edit": "Modifier",
+        "archive": "Archiver",
+        "successCopy": "Lien copié !",
+        "descCopy": "Le lien de paiement a été copié dans le presse-papiers.",
+        "descIdCopy": "L'ID du lien de paiement a été copié dans le presse-papiers.",
+        "filterPlaceholder": "Filtrer par nom...",
+        "statusAll": "Tous les statuts",
+        "statusActive": "Actif",
+        "statusInactive": "Inactif",
+        "statusArchived": "Archivé",
+        "noResults": "Aucun résultat.",
+        "showing": "Affichage de",
+        "elements": "élément(s)",
+        "rowsPerPage": "Lignes par page",
+        "page": "Page",
+        "of": "sur",
+        "previous": "Précédent",
+        "next": "Suivant"
+      },
+      "New": {
+        "title": "Nouvelle collecte de fonds",
+        "subtitle": "Créez une page de collecte personnalisée en quelques clics.",
+        "showPreview": "Afficher l'aperçu",
+        "hidePreview": "Masquer l'aperçu",
+        "viewMobile": "Vue mobile",
+        "viewWeb": "Vue web",
+        "cardTitle": "Détails du lien",
+        "cardDesc": "Saisissez les informations de votre produit ou service.",
+        "nameLabel": "Titre du paiement",
+        "namePlaceholder": "Ex: Abonnement Salle de sport",
+        "typeLabel": "Type de montant",
+        "typePlaceholder": "Sélectionnez le type",
+        "typeFixed": "Montant fixe",
+        "typeFree": "Montant libre",
+        "priceLabel": "Prix",
+        "pricePlaceholder": "Ex: 5000",
+        "descLabel": "Description",
+        "descPlaceholder": "Détails additionnels pour vos clients...",
+        "currencyLabel": "Devise",
+        "statusLabel": "Statut initial",
+        "statusActive": "Actif",
+        "statusExpired": "Expiré",
+        "sectionProduct": "Détails du produit",
+        "sectionPricing": "Tarification",
+        "sectionBranding": "Personnalisation",
+        "sectionOptions": "Options avancées",
+        "logoLabel": "Logo du marchand",
+        "logoNone": "Pas de logo",
+        "logoUrl": "Lien URL",
+        "logoUpload": "Fichier local",
+        "logoSelectFile": "Choisir un fichier",
+        "logoChangeFile": "Changer de fichier",
+        "logoRemove": "Supprimer",
+        "logoFileTypes": "PNG, JPG, SVG ou WebP — max 2 Mo",
+        "logoDefaultCaption": "Le logo SharePay sera utilisé par défaut.",
+        "colorLabel": "Couleur d'accentuation",
+        "redirectLabel": "Redirection après succès",
+        "redirectPlaceholder": "https://votre-site.com/merci",
+        "expiresLabel": "Date d'expiration",
+        "collectLabel": "Collecter le nom et l'email du client lors du paiement",
+        "cancel": "Annuler",
+        "submit": "Générer ma collecte SharePay",
+        "successMessage": "Lien de paiement créé !",
+        "previewTitle": "Aperçu en direct",
+        "previewDefaultTitle": "Titre de votre produit",
+        "previewDefaultDesc": "La description de votre offre apparaîtra ici pour vos clients.",
+        "previewAmount": "Montant à payer",
+        "previewPayBtn": "Payer maintenant",
+        "previewSecured": "Sécurisé par SharePay",
+        "appLabel": "Application cible",
+        "appNone": "Aucune",
+        "appLoading": "Chargement..."
+      },
+      "Edit": {
+        "title": "Modifier la collecte de fonds",
+        "subtitle": "Mettez à jour les informations de votre page de collecte.",
+        "showPreview": "Afficher l'aperçu",
+        "hidePreview": "Masquer l'aperçu",
+        "successMessage": "Lien de paiement mis à jour avec succès !",
+        "submit": "Enregistrer les modifications"
+      }
+    },
+    "Transactions": {
+      "title": "Transactions",
+      "allApps": "Toutes les applications",
+      "Stats": {
+        "balance": "Solde disponible",
+        "todayTransactions": "Transactions d'aujourd'hui",
+        "todayWithdrawals": "Retraits d'aujourd'hui"
+      },
+      "Table": {
+        "id": "ID",
+        "phone": "Téléphone",
+        "amount": "Montant",
+        "status": "Statut",
+        "date": "Date",
+        "source": "Source",
+        "actions": "Actions",
+        "copyLink": "Copier l'ID",
+        "successCopy": "Copié !",
+        "descIdCopy": "L'ID de la transaction a été copié dans le presse-papiers.",
+        "filterPlaceholder": "Filtrer...",
+        "statusAll": "Tous les statuts",
+        "statusSuccess": "Succès",
+        "statusPending": "En attente",
+        "statusFailed": "Échoué",
+        "viewDetails": "Voir les détails",
+        "noResults": "Aucun résultat.",
+        "showing": "Affichage de",
+        "elements": "élément(s)",
+        "rowsPerPage": "Lignes par page",
+        "page": "Page",
+        "of": "sur",
+        "previous": "Précédent",
+        "next": "Suivant"
+      }
+    },
+    "Apps": {
+      "title": "Applications",
+      "subtitle": "Gérez vos intégrations et clés API pour commencer à accepter des paiements.",
+      "createApp": "Créer une application",
+      "EmptyState": {
+        "title": "Aucune application",
+        "description": "Vous n'avez pas encore créé d'application. Créez-en une pour commencer à accepter des paiements et générer vos clés API.",
+        "cta": "Créer ma première application",
+        "noResults": "Aucun résultat",
+        "noResultsHint": "Aucune application ne correspond à votre recherche.",
+        "clearFilters": "Effacer les filtres"
+      },
+      "Filters": {
+        "searchPlaceholder": "Rechercher...",
+        "envAll": "Tous",
+        "envLive": "LIVE",
+        "envTest": "TEST",
+        "sortNewest": "Plus récentes",
+        "sortOldest": "Plus anciennes"
+      },
+      "Card": {
+        "statusLive": "PRODUCTION",
+        "statusTest": "SANDBOX",
+        "createdAt": "Créée le",
+        "transactions": "transactions",
+        "settings": "Paramètres",
+        "actions": "Actions",
+        "delete": "Supprimer"
+      },
+      "DeleteDialog": {
+        "title": "Supprimer l'application",
+        "description": "Cette action est irréversible. Toutes les clés API associées seront révoquées et l'accès aux services SharePay pour cette application sera coupé.",
+        "confirmText": "Pour confirmer, veuillez saisir le nom de l'application :",
+        "placeholder": "Nom de l'application",
+        "cancel": "Annuler",
+        "confirm": "Supprimer définitivement",
+        "success": "L'application a été supprimée avec succès.",
+        "error": "Une erreur est survenue lors de la suppression.",
+        "deleting": "Suppression en cours…"
+      },
+      "Form": {
+        "backToApps": "Retour aux applications",
+        "createTitle": "Nouvelle application",
+        "createDescription": "Créez une nouvelle intégration SharePay pour commencer à accepter des paiements.",
+        "editTitle": "Paramètres de l'application",
+        "editDescription": "Mettez à jour les détails de votre application, gérez votre clé API et les webhooks.",
+        "cancel": "Annuler",
+        "submitCreate": "Créer l'application",
+        "submitEdit": "Enregistrer les modifications",
+        "submitting": "Enregistrement en cours…",
+        "noChanges": "Aucune modification",
+        "createSuccess": "Application créée avec succès !",
+        "updateSuccess": "Application mise à jour avec succès !",
+        "dangerZoneTitle": "Supprimer l'application",
+        "dangerZoneDesc": "Cette action est irréversible. Toutes les clés associées seront révoquées.",
+        "dangerZoneButton": "Supprimer",
+        "General": {
+          "title": "Informations générales",
+          "description": "Détails de base concernant votre application.",
+          "nameLabel": "Nom de l'application",
+          "namePlaceholder": "Ex: Ma Boutique",
+          "descLabel": "Description courte",
+          "descPlaceholder": "Où cette intégration sera-t-elle utilisée ?",
+          "nameTooltip": "Nom affiché sur la page de paiement SharePay.",
+          "descTooltip": "Décrit l'usage de cette intégration, visible par vos clients.",
+          "websiteUrlLabel": "Site web",
+          "websiteUrlPlaceholder": "https://maboutique.cm",
+          "websiteUrlTooltip": "Lien vers votre site ou application principale.",
+          "websiteUrlInvalid": "URL invalide. Elle doit commencer par http:// ou https://.",
+          "currencyLabel": "Devise",
+          "currencyPlaceholder": "Sélectionner une devise",
+          "currencyTooltip": "Toutes les transactions de cette application seront effectuées dans cette devise.",
+          "currencyRequired": "La devise est requise"
+        },
+        "Branding": {
+          "title": "Personnalisation",
+          "description": "Personnalisez l'apparence de votre application sur la page de paiement.",
+          "themeColor": "Couleur du thème",
+          "themeColorTooltip": "Couleur principale de l'interface de paiement SharePay.",
+          "logo": "Logo de l'application",
+          "logoTooltip": "URL publique de votre logo, affiché sur la page de paiement.",
+          "logoNone": "Aucun",
+          "logoUrl": "Lien vers l'image",
+          "logoUpload": "Importer un fichier...",
+          "logoSelectFile": "Choisir un fichier",
+          "logoChangeFile": "Changer de fichier",
+          "logoRemove": "Supprimer",
+          "logoFileTypes": "PNG, JPG, SVG ou WebP — max 2 Mo",
+          "logoDefaultCaption": "Le logo SharePay sera utilisé par défaut.",
+          "logoUrlHint": "Entrez l'URL complète de votre logo (optionnel).",
+          "logoUrlInvalid": "URL invalide. Elle doit commencer par http:// ou https://.",
+          "logoPreviewLabel": "Aperçu"
+        },
+        "Configuration": {
+          "title": "Configuration",
+          "urlInvalid": "URL invalide.",
+          "webhookUrlLabel": "URL du Webhook",
+          "webhookUrlPlaceholder": "https://maboutique.cm/webhooks/sharepay",
+          "webhookUrlDesc": "Nous enverrons les événements de paiement à cette adresse.",
+          "successUrlLabel": "URL de succès",
+          "successUrlPlaceholder": "https://maboutique.cm/payment/success",
+          "successUrlDesc": "Redirection après un paiement réussi.",
+          "cancelUrlLabel": "URL d'annulation",
+          "cancelUrlPlaceholder": "https://maboutique.cm/payment/cancel",
+          "cancelUrlDesc": "Redirection si le client annule ou si le paiement échoue."
+        },
+        "KeysModal": {
+          "title": "Secrets de votre application",
+          "appCreated": "Votre application a été créée avec succès !",
+          "keyRotated": "Nouvelle clé API générée avec succès !",
+          "warning": "Ces informations ne seront plus affichées. Copiez-les et conservez-les en lieu sûr.",
+          "webhookSecret": "Secret Webhook",
+          "webhookSecretDesc": "Utilisez ce secret pour vérifier l'authenticité des événements reçus sur votre endpoint.",
+          "apiKey": "Clé API",
+          "apiKeyDesc": "Utilisez cette clé dans l'en-tête Authorization de vos requêtes API.",
+          "copy": "Copier",
+          "copied": "Copié !",
+          "download": "Télécharger (.txt)",
+          "downloaded": "Fichier téléchargé !",
+          "confirmSaved": "J'ai sauvegardé mes secrets en lieu sûr",
+          "confirmOnce": "Confirmez que vous avez bien sauvegardé ces informations.",
+          "confirmFinal": "Oui, j'ai sauvegardé — Continuer",
+          "keyCreated": "Votre clé API a été créée avec succès."
+        },
+        "APIKeys": {
+          "title": "Clé API",
+          "description": "Utilisez cette clé pour authentifier vos requêtes vers l'API SharePay.",
+          "activeKey": "Clé active",
+          "environment": "Environnement",
+          "noKey": "Aucune clé API active",
+          "noKeyDesc": "Générez une clé API pour commencer à utiliser l'API SharePay.",
+          "generateButton": "Générer une clé API",
+          "generating": "Génération en cours…",
+          "copy": "Copier le préfixe",
+          "copied": "Copié !",
+          "rotateTitle": "Rotation de la clé",
+          "rotateDesc": "La clé actuelle sera immédiatement révoquée et toutes vos intégrations devront être mises à jour.",
+          "rotateButton": "Effectuer une rotation",
+          "rotateLoading": "Rotation en cours…",
+          "rotateConfirmMessage": "Cette action est irréversible. Confirmer ?",
+          "rotateConfirm": "Confirmer la rotation",
+          "rotateCancel": "Annuler",
+          "rotateSuccess": "Clé API renouvelée avec succès.",
+          "Modal": {
+            "titleCreate": "Créer une clé API",
+            "titleRotate": "Rotation de la clé API",
+            "subtitleCreate": "Configurez votre nouvelle clé API.",
+            "subtitleRotate": "Configurez la clé de remplacement.",
+            "rotateWarning": "La clé actuelle sera immédiatement révoquée. Toutes vos intégrations devront être mises à jour.",
+            "keyNameLabel": "Nom de la clé",
+            "keyNamePlaceholder": "Ex : Clé principale",
+            "environmentLabel": "Environnement",
+            "envLive": "LIVE — Production",
+            "envTest": "TEST — Sandbox",
+            "submitCreate": "Créer la clé",
+            "submitRotate": "Effectuer la rotation",
+            "cancel": "Annuler"
+          }
+        }
+      }
+    },
+    "Withdrawals": {
+      "title": "Mes retraits",
+      "subtitle": "Gérez vos retraits vers vos comptes bancaires et mobiles.",
+      "availableBalance": "Solde disponible",
+      "totalWithdrawn": "Total retiré",
+      "globalFlow": "Flux global",
+      "configureWithdrawals": "Configurer les retraits",
+      "Form": {
+        "title": "Effectuer un retrait",
+        "amountLabel": "Montant à retirer",
+        "amountPlaceholder": "Ex: 50000",
+        "destinationLabel": "Moyen de paiement",
+        "destinationPlaceholder": "Sélectionnez une destination",
+        "submit": "Retirer les fonds"
+      },
+      "Methods": {
+        "title": "Moyens de paiement",
+        "addMethod": "Ajouter un moyen",
+        "edit": "Modifier",
+        "delete": "Supprimer"
+      },
+      "History": {
+        "title": "Historique des retraits",
+        "id": "ID",
+        "date": "Date",
+        "destination": "Destination",
+        "amount": "Montant",
+        "status": "Statut",
+        "statusPending": "En attente",
+        "statusCompleted": "Terminé",
+        "statusFailed": "Échoué"
+      },
+      "ConfigModal": {
+        "title": "Configuration des retraits",
+        "description": "Paramétrez le comportement de vos retraits automatiques et autres options liées à vos fonds.",
+        "placeholder": "Options de configuration bientôt disponibles",
+        "types": {
+          "manual": "Retrait manuel (Recommandé)",
+          "instant": "Retrait instantané",
+          "threshold": "Retrait par seuil",
+          "periodic": "Retrait périodique"
+        },
+        "descriptions": {
+          "manual": "Vous décidez de quand et combien retirer vers la destination de votre choix. Aucune action automatique n'est entreprise.",
+          "instant": "Vos fonds seront automatiquement et immédiatement transférés vers la destination sélectionnée dès leur réception.",
+          "threshold": "Dès que votre solde disponible atteint le seuil défini, un retrait automatique est déclenché vers la destination de votre choix.",
+          "periodic": "Vos fonds seront transférés automatiquement selon la fréquence choisie (ex : tous les jours, chaque semaine) vers votre destination."
+        },
+        "fields": {
+          "destination": "Destination",
+          "destinationPlaceholder": "Sélectionner une destination",
+          "destinationDefault": "Mon Compte Bancaire",
+          "thresholdAmount": "Montant du seuil",
+          "thresholdAmountPlaceholder": "Ex: 50 000",
+          "period": "Périodicité",
+          "periodPlaceholder": "Sélectionner une période",
+          "daily": "Journalier",
+          "weekly": "Hebdomadaire",
+          "monthly": "Mensuel",
+          "save": "Enregistrer les paramètres"
+        }
+      }
+    }
+  },
+  "Admin": {
+    "Sidebar": {
+      "overview": "Sytème Global",
+      "merchants": "Gestion Marchands",
+      "logs": "Journaux d'Audit",
+      "settings": "Configurations",
+      "status": "État Infrastructure"
+    }
+  },
+  "Support": {
+    "Sidebar": {
+      "overview": "Tableau de Bord",
+      "tickets": "Tickets en attente",
+      "merchants": "Recherche Marchand",
+      "help": "Base de savoir",
+      "settings": "Mes préférences"
+    }
+  },
+  "NotFound": {
+    "title": "Page introuvable",
+    "description": "Il semble que le chemin soit introuvable. Ne vous inquiétez pas,",
+    "backHome": "Retour à l'accueil",
+    "breadcrumbHome": "Accueil",
+    "breadcrumbError": "Erreur 404",
+    "descriptionNote": "vos transactions et vos fonds sont en parfaite sécurité",
+    "searchPlaceholder": "Rechercher une transaction, un marchand ou de l'aide...",
+    "contactSupport": "Contacter le support",
+    "quickLinks": "Liens utiles",
+    "helpCenter": "Centre d'aide",
+    "transactions": "Transactions",
+    "security": "Sécurité",
+    "systemStatus": "État du système"
+  },
+  "Developers": {
+    "Menu": "Menu",
+    "DocsNavigation": "Navigation Docs",
+    "OnThisPage": "Sur cette page",
+    "HelpfulLinksTitle": "Liens utiles",
+    "CommunityForum": "Forum Communautaire",
+    "ReportIssue": "Signaler un problème",
+    "UnderConstructionTitle": "Bientôt disponible",
+    "UnderConstructionDesc": "Le contenu de la documentation pour cette section est en cours de rédaction par notre équipe et sera publié prochainement.",
+    "Categories": {
+      "getting-started": "Pour Commencer",
+      "api-rest": "API REST",
+      "webhooks": "Webhooks",
+      "sdks": "SDKs"
+    },
+    "Sections": {
+      "introduction": "Introduction",
+      "authentication": "Authentification",
+      "environments": "Environnements",
+      "responses": "Réponses",
+      "responses-success": "Succès (200)",
+      "responses-failed": "Échoué (400)",
+      "responses-rejected": "Rejeté (403)",
+      "errors": "Codes d'erreurs",
+      "health": "Santé / Disponibilité",
+      "initiate": "Initier un paiement",
+      "status": "Vérifier le statut",
+      "payout": "Retraits",
+      "checkout": "Paiements",
+      "webhooks-config": "Configuration",
+      "webhooks-events": "Types d'événements",
+      "sdk-js": "JavaScript",
+      "sdk-php": "PHP",
+      "sdk-csharp": "C#"
+    },
+    "Pagination": {
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "RightNav": {
+      "intro-overview": "Vue d'ensemble",
+      "intro-features": "Fonctionnalités Clés",
+      "intro-quickstart": "Guide de Démarrage Rapide",
+      "intro-payment-methods": "Moyens de Paiement",
+      "auth-overview": "Vue d'ensemble",
+      "auth-api-keys": "Clés d'API",
+      "auth-best-practices": "Bonnes Pratiques"
+    },
+    "Intro": {
+      "title": "Documentation Développeur",
+      "description": "Bienvenue sur la plateforme SharePay. Notre API et nos outils pour développeurs vous permettent d'accepter des paiements, de gérer des abonnements et de faire évoluer votre infrastructure de commerce mondial avec la sécurité au cœur. Démarrez en quelques minutes avec nos SDKs robustes et notre API REST complète.",
+      "downloadDocs": "Télécharger la doc (PDF)",
+      "restApiTitle": "API REST",
+      "restApiDesc": "Contrôle total sur vos paiements avec nos points de terminaison REST granulaires.",
+      "exploreApi": "Explorer l'API",
+      "webhooksTitle": "Webhooks",
+      "webhooksDesc": "Notifications en temps réel pour les événements de paiement et les changements d'état.",
+      "setupHooks": "Configurer les Hooks",
+      "sdksTitle": "Bibliothèques SDK",
+      "sdksDesc": "Bibliothèques clientes officielles pour JS, iOS, Android et les langages backend.",
+      "viewSdks": "Voir les SDK",
+      "quickstartTitle": "Guide de Démarrage Rapide",
+      "quickstartDesc": "Pour commencer à intégrer SharePay, vous devrez obtenir vos clés API depuis le Tableau de bord Développeur. Nous fournissons des clés de test et en direct. Ne partagez jamais vos clés secrètes et ne les incluez pas dans le code client.",
+      "apiVersion": "Notre versionnement d'API suit un format basé sur la date. La version actuelle est",
+      "paymentMethodsTitle": "Moyens de Paiement Supportés",
+      "paymentMethodsDesc": "Nous prenons actuellement en charge les paiements via MTN Mobile Money et Orange Money pour faciliter vos transactions locales."
+    }
+  },
+  "FAQ": {
+    "heroTitle": "Comment pouvons-nous vous aider ?",
+    "heroSubtitle": "Trouvez des réponses à vos questions sur SharePay, les paiements, les intégrations et plus encore.",
+    "searchPlaceholder": "Rechercher une question...",
+    "noResults": "Aucune question trouvée pour cette catégorie.",
+    "helpTitle": "Besoin d'aide supplémentaire ?",
+    "helpDesc": "Vous ne trouvez pas la réponse ? Notre équipe de support est disponible 24h/7j.",
+    "contactBtn": "Contacter le support",
+    "docsBtn": "Documentation",
+    "cat_General": "Général",
+    "cat_Payments": "Paiements",
+    "cat_Security": "Sécurité",
+    "cat_Developer": "Développeur",
+    "cat_Billing": "Facturation",
+    "General": {
+      "title": "Questions générales",
+      "q1": "Comment créer un compte SharePay ?",
+      "a1": "Inscrivez-vous avec votre email professionnel, complétez la vérification KYC et reliez votre compte bancaire. Une fois approuvé, vous pouvez immédiatement commencer à accepter des paiements via votre tableau de bord.",
+      "q2": "Quels pays sont supportés ?",
+      "a2": "SharePay couvre actuellement le Cameroun et s'étend progressivement en Afrique Centrale et de l'Ouest. Consultez notre feuille de route pour les prochains pays.",
+      "q3": "Combien de temps prend la vérification du compte ?",
+      "a3": "La vérification KYC est généralement effectuée dans les 24 à 48 heures ouvrables après la soumission de tous les documents requis.",
+      "q4": "Puis-je tester avant de passer en production ?",
+      "a4": "Oui. Chaque compte dispose d'un environnement sandbox complet qui reproduit la production, vous permettant de tester l'ensemble de votre flux de paiement sans argent réel."
+    },
+    "Payments": {
+      "title": "Paiements",
+      "q1": "Quels moyens de paiement sont acceptés ?",
+      "a1": "Nous supportons actuellement MTN Mobile Money et Orange Money. Visa, Mastercard, Wave et d'autres méthodes arrivent bientôt.",
+      "q2": "Comment recevoir mes reversements ?",
+      "a2": "Les fonds collectés sont transférés sur votre compte bancaire enregistré selon votre calendrier de reversement configuré (quotidien, hebdomadaire ou à la demande).",
+      "q3": "Que se passe-t-il si un paiement échoue ?",
+      "a3": "Les transactions échouées sont signalées en temps réel dans votre tableau de bord avec la raison de l'échec. Le client n'est jamais débité et peut réessayer.",
+      "q4": "Y a-t-il un montant minimum par transaction ?",
+      "a4": "Le montant minimum est de 100 FCFA. Il n'y a pas de maximum fixe, bien que les marchands à fort volume puissent nécessiter une vérification supplémentaire."
+    },
+    "Security": {
+      "title": "Sécurité & Conformité",
+      "q1": "La plateforme SharePay est-elle sécurisée ?",
+      "a1": "Absolument. SharePay utilise le chiffrement AES-256, les communications HTTPS uniquement et suit les normes PCI-DSS pour protéger toutes les données de transaction.",
+      "q2": "Comment mes données sont-elles protégées ?",
+      "a2": "Toutes les données personnelles et financières sont stockées dans des bases de données chiffrées et ne sont jamais partagées avec des tiers sans votre consentement explicite.",
+      "q3": "Que se passe-t-il en cas de transaction frauduleuse ?",
+      "a3": "Notre moteur de détection de fraude surveille chaque transaction en temps réel. Les transactions suspectes sont automatiquement bloquées et vous êtes immédiatement notifié.",
+      "q4": "Prenez-vous en charge l'authentification à deux facteurs (A2F) ?",
+      "a4": "Oui. SharePay prend en charge l'A2F via des applications d'authentification (TOTP). Nous recommandons vivement de l'activer dans les paramètres de sécurité de votre compte pour une protection renforcée."
+    },
+    "Developer": {
+      "title": "Développeur & API",
+      "q1": "Comment intégrer l'API SharePay ?",
+      "a1": "Générez vos clés API depuis le tableau de bord, suivez notre documentation REST et effectuez votre premier appel en quelques minutes. Des SDK sont disponibles pour JavaScript, Python et PHP.",
+      "q2": "Existe-t-il un environnement sandbox ?",
+      "a2": "Oui. Basculez entre les modes Live et Sandbox directement dans le tableau de bord. Le sandbox reproduit fidèlement l'API de production pour tester sans transactions réelles.",
+      "q3": "Comment fonctionnent les webhooks ?",
+      "a3": "Configurez une URL webhook dans votre tableau de bord. SharePay envoie une requête POST signée pour chaque événement de paiement (créé, réussi, échoué) pour que votre système reste synchronisé en temps réel.",
+      "q4": "Y a-t-il des limites de débit sur l'API ?",
+      "a4": "Oui. La limite par défaut est de 300 requêtes par minute et par clé API. Si votre intégration nécessite un débit plus élevé, contactez-nous pour discuter d'un plan personnalisé."
+    },
+    "Billing": {
+      "title": "Facturation & Frais",
+      "q1": "Y a-t-il des frais mensuels ou de mise en place ?",
+      "a1": "Non. SharePay fonctionne sur un modèle pur à l'usage. Vous ne payez qu'un faible pourcentage par transaction réussie — aucun frais mensuel, de mise en place ni de coût caché.",
+      "q2": "Quel est le taux de commission par transaction ?",
+      "a2": "Le taux standard est de 1,5 % par transaction Mobile Money. Des remises sur volume sont disponibles pour les marchands à fort trafic — contactez-nous pour un devis personnalisé.",
+      "q3": "Quand les fonds sont-ils disponibles après un paiement ?",
+      "a3": "Les fonds sont généralement disponibles pour reversement dans les 24 heures suivant une transaction réussie, selon votre calendrier de reversement configuré.",
+      "q4": "Puis-je changer de plan tarifaire à tout moment ?",
+      "a4": "Oui. Vous pouvez passer à un plan supérieur ou inférieur à tout moment depuis la section Facturation de votre tableau de bord. Les changements prennent effet immédiatement et la facturation est calculée au prorata."
+    }
+  }
+}

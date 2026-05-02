@@ -3,7 +3,7 @@
 import * as React from "react";
 import PhoneInputFromLib from "react-phone-number-input";
 import "react-phone-number-input/style.css"; // Import des styles de base
-import { cn } from "@/core/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface PhoneInputProps {
     value?: string;

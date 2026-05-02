@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import { cn } from "../../core/lib/utils";
-import { ThemeProvider } from "../../components/providers/theme-provider";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/providers/theme-provider";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { routing } from '../../core/i18n/routing';
+import { routing } from '@/i18n/routing';
 import NextTopLoader from 'nextjs-toploader';
 import { cookies } from 'next/headers';
 import { Toaster } from "sonner";

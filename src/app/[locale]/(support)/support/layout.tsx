@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "@/core/i18n/routing";
+import { usePathname } from "@/i18n/routing";
 import { SupportSidebar } from "@/components/support/support-sidebar";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardHeader } from "@/components/merchant/dashboard-header";
 
 export default function SupportLayout({
     children,

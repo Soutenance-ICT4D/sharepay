@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/core/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
@@ -91,7 +91,7 @@ export function FeaturesCTA() {
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                         <Button size="lg" variant="secondary" className="rounded-full px-12 font-bold shadow-2xl transition-transform hover:scale-105" asChild>
-                            <Link href="/register">{t('ctaStart')}</Link>
+                            <Link href="/merchant/register">{t('ctaStart')}</Link>
                         </Button>
                         <Button size="lg" variant="ghost" className="rounded-full px-12 font-bold border border-primary-foreground/20 text-primary-foreground hover:bg-white/10 transition-colors" asChild>
                             <Link href="/contact">{t('ctaContact')}</Link>

@@ -1,10 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link } from "@/core/i18n/routing";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { Facebook, Linkedin, Github, CheckCircle2, Mail, ArrowRight, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { tokenStorage } from "@/lib/token-storage";
 
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -14,6 +16,11 @@ const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export function SiteFooter() {
   const t = useTranslations('Footer');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setIsAuthenticated(!!tokenStorage.get()?.accessToken);
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -78,12 +85,14 @@ export function SiteFooter() {
 
             {/* Boutons d'action subtils */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Button asChild size="sm" className="rounded-full shadow-none hover:bg-primary/90">
-                <Link href="/register">
-                  {t('preStartCTA')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              {isAuthenticated === false && (
+                <Button asChild size="sm" className="rounded-full shadow-none hover:bg-primary/90">
+                  <Link href="/merchant/register">
+                    {t('preStartCTA')}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
               <Button asChild variant="outline" size="sm" className="rounded-full bg-transparent hover:bg-muted">
                 <Link href="/contact">
                   <Mail className="mr-2 h-4 w-4" />

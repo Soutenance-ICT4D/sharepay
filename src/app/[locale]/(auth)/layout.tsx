@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Link } from "@/core/i18n/routing";
+import { Link } from "@/i18n/routing";
 
 export default function AuthLayout({
     children,
@@ -34,11 +34,11 @@ export default function AuthLayout({
                 </div>
 
                 {/* Footer Links (Optional) */}
-                <div className="mt-6 text-center text-sm text-muted-foreground space-x-4">
+                {/* <div className="mt-6 text-center text-sm text-muted-foreground space-x-4">
                     <Link href="/legal/terms" className="hover:text-primary transition-colors">{t('terms')}</Link>
                     <span>&middot;</span>
                     <Link href="/legal/privacy" className="hover:text-primary transition-colors">{t('privacy')}</Link>
-                </div>
+                </div> */}
             </div>
         </div>
     );

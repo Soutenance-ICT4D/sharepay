@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import { OverviewPageHeading } from "@/components/dashboard/overview/overview-page-heading";
-import { OverviewStatsGrid } from "@/components/dashboard/overview/overview-stats-grid";
-import { OverviewRecentActivity } from "@/components/dashboard/overview/overview-recent-activity";
+import { OverviewPageHeading } from "@/components/merchant/overview/overview-page-heading";
+import { OverviewStatsGrid } from "@/components/merchant/overview/overview-stats-grid";
+import { OverviewRecentActivity } from "@/components/merchant/overview/overview-recent-activity";
 import {
     Headphones,
     MessageSquare,

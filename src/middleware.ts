@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
-import { routing } from './core/i18n/routing';
+import { routing } from './i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -10,22 +10,26 @@ export default function middleware(request: NextRequest) {
     const isAuthenticated = !!sessionCookie;
 
     // List of public auth pages
-    const publicAuthPages = ['/login', '/register', '/forgot-password', '/verify-email', '/verify-reset-code', '/reset-password'];
-    
-    // Check if the current path is a protected dashboard route
-    const isDashboardRoute = pathname.includes('/dashboard');
+    const publicAuthPages = [
+        '/merchant/login', '/merchant/register', '/merchant/forgot-password',
+        '/merchant/verify-email', '/merchant/verify-reset-code', '/merchant/reset-password',
+        '/admin/login', '/super-admin/login', '/support/login',
+    ];
     
     // Check if the current path is a public auth route
     const isPublicAuthRoute = publicAuthPages.some(page => pathname.includes(page));
 
-    // 1. Redirect authenticated users away from /login etc. to /dashboard
+    // Routes marchands protégées : tout ce qui commence par /merchant/ sauf les pages d'auth
+    const isProtectedMerchantRoute = pathname.includes('/merchant/') && !isPublicAuthRoute;
+
+    // 1. Redirect authenticated users away from auth pages to the merchant dashboard
     if (isAuthenticated && isPublicAuthRoute) {
-        return NextResponse.redirect(new URL('/dashboard', request.url));
+        return NextResponse.redirect(new URL('/merchant/dashboard', request.url));
     }
 
-    // 2. Redirect unauthenticated users from /dashboard to /login
-    if (!isAuthenticated && isDashboardRoute) {
-        return NextResponse.redirect(new URL('/login', request.url));
+    // 2. Redirect unauthenticated users trying to access protected routes
+    if (!isAuthenticated && isProtectedMerchantRoute) {
+        return NextResponse.redirect(new URL('/merchant/login', request.url));
     }
 
     // Apply i18n middleware for all cases
