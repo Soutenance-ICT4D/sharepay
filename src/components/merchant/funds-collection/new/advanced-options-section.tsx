@@ -1,11 +1,16 @@
+"use client";
+
 import { Settings2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { InfoTooltip } from "@/components/ui/info-tooltip";
 
 interface AdvancedOptionsSectionProps {
-    redirectUrl: string;
-    setRedirectUrl: (value: string) => void;
+    thankYouMessage: string;
+    setThankYouMessage: (value: string) => void;
     expiresAt: string;
     setExpiresAt: (value: string) => void;
     collectCustomerInfo: boolean;
@@ -13,14 +18,15 @@ interface AdvancedOptionsSectionProps {
 }
 
 export function AdvancedOptionsSection({
-    redirectUrl,
-    setRedirectUrl,
+    thankYouMessage,
+    setThankYouMessage,
     expiresAt,
     setExpiresAt,
     collectCustomerInfo,
     setCollectCustomerInfo,
 }: AdvancedOptionsSectionProps) {
     const t = useTranslations('Dashboard.FundsCollection.New');
+
     return (
         <section>
             <div className="flex items-center gap-2 mb-6">
@@ -28,37 +34,45 @@ export function AdvancedOptionsSection({
                 <h3 className="text-lg font-bold">{t("sectionOptions")}</h3>
             </div>
 
-            <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>{t("redirectLabel")}</Label>
-                        <Input
-                            placeholder={t("redirectPlaceholder")}
-                            value={redirectUrl}
-                            onChange={(e) => setRedirectUrl(e.target.value)}
-                            className="bg-background focus:ring-primary"
+                        <div className="flex items-center gap-1.5">
+                            <Label>{t("thankYouLabel")}</Label>
+                            <InfoTooltip text={t("thankYouTooltip")} />
+                        </div>
+                        <Textarea
+                            placeholder={t("thankYouPlaceholder")}
+                            value={thankYouMessage}
+                            onChange={(e) => setThankYouMessage(e.target.value)}
+                            className="min-h-[80px] resize-none"
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label>{t("expiresLabel")}</Label>
+                        <div className="flex items-center gap-1.5">
+                            <Label>{t("expiresLabel")}</Label>
+                            <InfoTooltip text={t("expiresTooltip")} />
+                        </div>
                         <Input
                             type="datetime-local"
                             value={expiresAt}
                             onChange={(e) => setExpiresAt(e.target.value)}
-                            className="bg-background focus:ring-primary"
                         />
                     </div>
                 </div>
 
-                <div className="flex items-center space-x-2 mt-6 p-4 bg-muted/50 rounded-xl border border-border/50">
-                    <input
-                        type="checkbox"
+                <div className="flex items-center justify-between p-4 bg-muted/50 rounded-xl border border-border/50">
+                    <div className="flex items-center gap-1.5">
+                        <Label htmlFor="collect" className="cursor-pointer font-medium text-sm">
+                            {t("collectLabel")}
+                        </Label>
+                        <InfoTooltip text={t("collectTooltip")} />
+                    </div>
+                    <Checkbox
                         id="collect"
                         checked={collectCustomerInfo}
-                        onChange={(e) => setCollectCustomerInfo(e.target.checked)}
-                        className="w-4 h-4 rounded border-input text-primary focus:ring-primary"
+                        onCheckedChange={(v) => setCollectCustomerInfo(v === true)}
                     />
-                    <Label htmlFor="collect" className="cursor-pointer font-medium text-sm">{t("collectLabel")}</Label>
                 </div>
             </div>
         </section>

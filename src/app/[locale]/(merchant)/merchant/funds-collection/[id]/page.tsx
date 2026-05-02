@@ -1,43 +1,57 @@
 "use client";
 
-import { useState, useMemo, use } from "react";
+import { useState, useMemo, use, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { toast } from "sonner";
-import { Eye, EyeOff } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
+import { Skeleton } from "@/components/ui/skeleton";
 import { ProductDetailsSection } from "@/components/merchant/funds-collection/new/product-details-section";
 import { PricingSection } from "@/components/merchant/funds-collection/new/pricing-section";
 import { BrandingSection } from "@/components/merchant/funds-collection/new/branding-section";
 import { AdvancedOptionsSection } from "@/components/merchant/funds-collection/new/advanced-options-section";
 import { FundsCollectionPreview } from "@/components/merchant/funds-collection/new/funds-collection-preview";
 
+import { fundCollectionsService, useFundCollection } from "@/features/merchant/fund-collections";
+import { resolveError } from "@/lib/api/response-codes";
+
 export default function EditFundsCollectionPage(props: { params: Promise<{ id: string }> }) {
-    const params = use(props.params);
+    const { id } = use(props.params);
     const t = useTranslations('Dashboard.FundsCollection.Edit');
+    const tGlobal = useTranslations('Errors');
     const router = useRouter();
 
-    // Mock initial data based on params.id
-    const isMock = params.id === "lnk_1";
+    const { data: collection, loading: loadingCollection, error: loadError } = useFundCollection(id);
 
-    // States
-    const [showPreview, setShowPreview] = useState(true);
-    const [title, setTitle] = useState(isMock ? "Produit Test 1" : "");
-    const [description, setDescription] = useState<string>(isMock ? "Description du produit test" : "");
-    const [amountType, setAmountType] = useState<"fixed" | "free">(isMock ? "free" : "fixed");
-    const [currency, setCurrency] = useState<string>("FCFA");
-    const [amount, setAmount] = useState(isMock ? "" : "1500");
-    const [appId, setAppId] = useState<string>("");
-    const [redirectUrl, setRedirectUrl] = useState<string>("");
-    const [expiresAt, setExpiresAt] = useState<string>("");
-    const [collectCustomerInfo, setCollectCustomerInfo] = useState<boolean>(true);
-    const [logoMode, setLogoMode] = useState<"none" | "upload" | "url">("none");
-    const [logoUrlInput, setLogoUrlInput] = useState<string>("");
-    const [logoDataUrl, setLogoDataUrl] = useState<string>("");
-    const [themeColor, setThemeColor] = useState<string>("#0f172a");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [amountType, setAmountType] = useState<"fixed" | "free">("fixed");
+    const [amount, setAmount] = useState("");
+    const [appId, setAppId] = useState("");
+    const [thankYouMessage, setThankYouMessage] = useState("");
+    const [expiresAt, setExpiresAt] = useState("");
+    const [collectCustomerInfo, setCollectCustomerInfo] = useState(true);
+    const [coverImageUrl, setCoverImageUrl] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Populate form when collection loads
+    useEffect(() => {
+        if (!collection) return;
+        setTitle(collection.title);
+        setDescription(collection.description ?? "");
+        setAmountType(collection.amountFixed ? "fixed" : "free");
+        setAmount(collection.amount != null ? String(collection.amount) : "");
+        setAppId(collection.applicationId ?? "");
+        setThankYouMessage(collection.thankYouMessage ?? "");
+        setCoverImageUrl(collection.coverImageUrl ?? "");
+        setCollectCustomerInfo(collection.collectCustomerInfo);
+        if (collection.expiresAt) {
+            // Convert ISO string to datetime-local format (YYYY-MM-DDTHH:mm)
+            setExpiresAt(collection.expiresAt.slice(0, 16));
+        }
+    }, [collection]);
 
     const canSubmit = useMemo(() => {
         if (title.trim().length < 3) return false;
@@ -46,62 +60,87 @@ export default function EditFundsCollectionPage(props: { params: Promise<{ id: s
         return Number.isFinite(parsed) && parsed > 0;
     }, [amount, amountType, title]);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!canSubmit || isSubmitting) return;
+
         setError(null);
-
-        const cleanTitle = title.trim();
-        if (cleanTitle.length < 3) {
-            setError("Le titre doit contenir au moins 3 caractères.");
-            return;
+        setIsSubmitting(true);
+        try {
+            await fundCollectionsService.update(id, {
+                title: title.trim(),
+                description: description.trim() || undefined,
+                coverImageUrl: coverImageUrl.trim() || undefined,
+                isAmountFixed: amountType === "fixed",
+                amount: amountType === "fixed" ? Number(amount) : undefined,
+                expiresAt: expiresAt ? new Date(expiresAt).toISOString() : undefined,
+                removeExpiresAt: !expiresAt && !!collection?.expiresAt,
+                collectCustomerInfo,
+                thankYouMessage: thankYouMessage.trim() || undefined,
+            });
+            toast.success(t("successMessage"));
+            router.push('/merchant/funds-collection');
+        } catch (err: unknown) {
+            const { messageKey, values } = resolveError(err);
+            toast.error(tGlobal(messageKey, values));
+        } finally {
+            setIsSubmitting(false);
         }
-
-        toast.success(t("successMessage"));
-        router.push('/merchant/funds-collection');
     };
 
-    return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 className="text-3xl font-black tracking-tight">{t("title")}</h2>
-                    <p className="text-muted-foreground">{t("subtitle")}</p>
+    if (loadingCollection) {
+        return (
+            <div className="space-y-8">
+                <div className="space-y-2">
+                    <Skeleton className="h-9 w-72" />
+                    <Skeleton className="h-4 w-56" />
                 </div>
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" onClick={() => setShowPreview(!showPreview)}>
-                        {showPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
-                        {showPreview ? t("hidePreview") : t("showPreview")}
-                    </Button>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                    <div className="lg:col-span-5 space-y-8">
+                        {[1, 2, 3, 4].map((i) => (
+                            <Skeleton key={i} className="h-48 w-full rounded-xl" />
+                        ))}
+                    </div>
                 </div>
             </div>
+        );
+    }
 
-            <div className={`grid grid-cols-1 xl:max-w-7xl xl:mx-auto gap-8 lg:gap-12 ${showPreview ? 'lg:grid-cols-12' : ''}`}>
-                {/* Form Column */}
-                <div className={`${showPreview ? 'lg:col-span-7 xl:col-span-7' : 'max-w-4xl mx-auto w-full'} space-y-8 lg:space-y-12`}>
+    if (loadError) {
+        return (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+                <p className="text-destructive font-medium mb-4">{t("loadError")}</p>
+                <Button variant="outline" onClick={() => router.push('/merchant/funds-collection')}>
+                    Retour
+                </Button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-8">
+            <div className="min-w-0">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-foreground truncate">{t("title")}</h2>
+                <p className="text-sm text-muted-foreground font-medium mt-1 truncate">{t("subtitle")}</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                <div className="lg:col-span-5 space-y-8 lg:space-y-12">
                     <form onSubmit={handleSubmit} className="space-y-8 lg:space-y-12">
-
                         <ProductDetailsSection
                             appId={appId} setAppId={setAppId}
                             title={title} setTitle={setTitle}
                             description={description} setDescription={setDescription}
                         />
-
                         <PricingSection
                             amountType={amountType} setAmountType={setAmountType}
-                            currency={currency} setCurrency={setCurrency}
                             amount={amount} setAmount={setAmount}
                         />
-
                         <BrandingSection
-                            logoMode={logoMode} setLogoMode={setLogoMode}
-                            logoUrlInput={logoUrlInput} setLogoUrlInput={setLogoUrlInput}
-                            logoDataUrl={logoDataUrl} setLogoDataUrl={setLogoDataUrl}
-                            themeColor={themeColor} setThemeColor={setThemeColor}
+                            coverImageUrl={coverImageUrl} setCoverImageUrl={setCoverImageUrl}
                         />
-
                         <AdvancedOptionsSection
-                            redirectUrl={redirectUrl} setRedirectUrl={setRedirectUrl}
+                            thankYouMessage={thankYouMessage} setThankYouMessage={setThankYouMessage}
                             expiresAt={expiresAt} setExpiresAt={setExpiresAt}
                             collectCustomerInfo={collectCustomerInfo} setCollectCustomerInfo={setCollectCustomerInfo}
                         />
@@ -112,26 +151,28 @@ export default function EditFundsCollectionPage(props: { params: Promise<{ id: s
                             </div>
                         )}
 
-                        <Button type="submit" size="lg" disabled={!canSubmit} className="w-full h-14 text-lg font-black shadow-xl rounded-xl">
-                            {t("submit")}
+                        <Button
+                            type="submit"
+                            size="lg"
+                            disabled={!canSubmit || isSubmitting}
+                            className="w-full h-14 text-lg font-black shadow-xl rounded-xl"
+                        >
+                            {isSubmitting ? t("submitting") : t("submit")}
                         </Button>
                     </form>
                 </div>
 
-                {/* Preview Column */}
-                {showPreview && (
-                    <div className="hidden lg:block lg:col-span-5 xl:col-span-5 relative">
-                        <FundsCollectionPreview data={{
-                            title,
-                            description,
-                            amountValue: Number(amount),
-                            currency,
-                            amountType,
-                            themeColor,
-                            logoUrl: logoMode === 'url' ? logoUrlInput : logoDataUrl
-                        }} />
-                    </div>
-                )}
+                <div className="hidden lg:block lg:col-span-7 relative">
+                    <FundsCollectionPreview data={{
+                        title,
+                        description,
+                        amountValue: Number(amount),
+                        currency: "XAF",
+                        amountType,
+                        coverImageUrl: coverImageUrl || undefined,
+                        collectCustomerInfo,
+                    }} />
+                </div>
             </div>
         </div>
     );

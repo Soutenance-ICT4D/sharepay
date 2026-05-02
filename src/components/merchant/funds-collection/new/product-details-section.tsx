@@ -1,7 +1,23 @@
-import { Link2Off } from "lucide-react";
+"use client";
+
+import { Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { InfoTooltip } from "@/components/ui/info-tooltip";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { useApps } from "@/features/merchant/apps";
+
+const TITLE_MAX = 50;
+const DESC_MAX = 150;
 
 interface ProductDetailsSectionProps {
     appId: string;
@@ -21,46 +37,67 @@ export function ProductDetailsSection({
     setDescription,
 }: ProductDetailsSectionProps) {
     const t = useTranslations('Dashboard.FundsCollection.New');
+
     return (
         <section>
             <div className="flex items-center gap-2 mb-6">
-                <Link2Off className="text-primary w-6 h-6" />
+                <Link2 className="text-primary w-6 h-6" />
                 <h3 className="text-lg font-bold">{t("sectionProduct")}</h3>
             </div>
 
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <Label>{t("appLabel")}</Label>
-                        <select
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-primary"
-                            value={appId}
-                            onChange={(e) => setAppId(e.target.value)}
-                        >
-                            <option value="">{t("appNone")}</option>
-                        </select>
-                    </div>
+                <div className="space-y-2">
+                    <Label>{t("appLabel")}</Label>
+                    <Select value={appId || undefined} onValueChange={setAppId}>
+                        <SelectTrigger>
+                            <SelectValue placeholder={t("appNone")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="__empty__" disabled className="text-muted-foreground">
+                                {t("appEmpty")}
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="title">{t("nameLabel")}</Label>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                            <Label htmlFor="title">
+                                {t("nameLabel")} <span className="text-primary">*</span>
+                            </Label>
+                            <InfoTooltip text={t("nameTooltip")} />
+                        </div>
+                        <span className={`text-xs tabular-nums ${title.length >= TITLE_MAX ? "text-destructive" : "text-muted-foreground"}`}>
+                            {title.length}/{TITLE_MAX}
+                        </span>
+                    </div>
                     <Input
                         id="title"
                         placeholder={t("namePlaceholder")}
                         value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        className="bg-background focus:ring-primary"
+                        onChange={(e) => setTitle(e.target.value.slice(0, TITLE_MAX))}
+                        maxLength={TITLE_MAX}
                     />
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="desc">{t("descLabel")}</Label>
-                    <textarea
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                            <Label htmlFor="desc">{t("descLabel")}</Label>
+                            <InfoTooltip text={t("descTooltip")} />
+                        </div>
+                        <span className={`text-xs tabular-nums ${description.length >= DESC_MAX ? "text-destructive" : "text-muted-foreground"}`}>
+                            {description.length}/{DESC_MAX}
+                        </span>
+                    </div>
+                    <Textarea
                         id="desc"
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder={t("descPlaceholder")}
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        onChange={(e) => setDescription(e.target.value.slice(0, DESC_MAX))}
+                        maxLength={DESC_MAX}
+                        className="min-h-[80px] resize-none"
                     />
                 </div>
             </div>
