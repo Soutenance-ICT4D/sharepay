@@ -2,17 +2,26 @@
 
 import { CheckCircle2, Clock, XCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { MockTransaction } from "./mock-data";
+import { Transaction, TransactionPage } from "@/features/merchant/transactions/types";
 
-export function TransactionsStatsCards({ transactions }: { transactions: MockTransaction[] }) {
+interface TransactionsStatsCardsProps {
+    data: TransactionPage | null;
+    loading?: boolean;
+}
+
+export function TransactionsStatsCards({ data, loading }: TransactionsStatsCardsProps) {
     const t = useTranslations("Dashboard.Transactions.Stats");
 
-    const total        = transactions.length;
+    const transactions: Transaction[] = data?.content ?? [];
+    const total        = data?.totalElements ?? 0;
     const successCount = transactions.filter((tx) => tx.status === "SUCCESS").length;
     const pendingCount = transactions.filter((tx) => tx.status === "PENDING").length;
     const failedCount  = transactions.filter((tx) => tx.status === "FAILED").length;
-    const successRate  = total > 0 ? Math.round((successCount / total) * 100) : 0;
-    const failedRate   = total > 0 ? Math.round((failedCount  / total) * 100) : 0;
+
+    const successRate  = total > 0 ? Math.round((successCount / transactions.length) * 100) : 0;
+    const failedRate   = total > 0 ? Math.round((failedCount  / transactions.length) * 100) : 0;
+
+    const skeleton = loading && !data;
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
@@ -27,8 +36,8 @@ export function TransactionsStatsCards({ transactions }: { transactions: MockTra
                     </span>
                 </div>
                 <p className="text-muted-foreground text-xs sm:text-sm font-medium truncate">{t("success")}</p>
-                <span className="block text-lg sm:text-2xl lg:text-3xl font-extrabold text-foreground truncate mt-1">
-                    {successCount.toLocaleString("fr-FR")}
+                <span className={`block text-lg sm:text-2xl lg:text-3xl font-extrabold text-foreground truncate mt-1 ${skeleton ? "animate-pulse bg-muted rounded w-16 h-8" : ""}`}>
+                    {!skeleton && successCount.toLocaleString("fr-FR")}
                 </span>
                 <div className="mt-3 h-1 w-full bg-muted rounded-full overflow-hidden">
                     <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${successRate}%` }} />
@@ -43,8 +52,8 @@ export function TransactionsStatsCards({ transactions }: { transactions: MockTra
                     </div>
                 </div>
                 <p className="text-muted-foreground text-xs sm:text-sm font-medium truncate">{t("pending")}</p>
-                <span className="block text-lg sm:text-2xl lg:text-3xl font-extrabold text-foreground truncate mt-1">
-                    {pendingCount.toLocaleString("fr-FR")}
+                <span className={`block text-lg sm:text-2xl lg:text-3xl font-extrabold text-foreground truncate mt-1 ${skeleton ? "animate-pulse bg-muted rounded w-16 h-8" : ""}`}>
+                    {!skeleton && pendingCount.toLocaleString("fr-FR")}
                 </span>
             </div>
 
@@ -59,8 +68,8 @@ export function TransactionsStatsCards({ transactions }: { transactions: MockTra
                     </span>
                 </div>
                 <p className="text-muted-foreground text-xs sm:text-sm font-medium truncate">{t("failed")}</p>
-                <span className="block text-lg sm:text-2xl lg:text-3xl font-extrabold text-foreground truncate mt-1">
-                    {failedCount.toLocaleString("fr-FR")}
+                <span className={`block text-lg sm:text-2xl lg:text-3xl font-extrabold text-foreground truncate mt-1 ${skeleton ? "animate-pulse bg-muted rounded w-16 h-8" : ""}`}>
+                    {!skeleton && failedCount.toLocaleString("fr-FR")}
                 </span>
                 <div className="mt-3 h-1 w-full bg-muted rounded-full overflow-hidden">
                     <div className="h-full bg-red-500 rounded-full transition-all" style={{ width: `${failedRate}%` }} />

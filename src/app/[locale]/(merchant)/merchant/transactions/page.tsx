@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { MOCK_TRANSACTIONS, MockTransaction } from "@/components/merchant/transactions/mock-data";
+import { useTransactions } from "@/features/merchant/transactions/hooks/use-transactions";
+import { Transaction, TransactionFilters } from "@/features/merchant/transactions/types";
 import { TransactionsStatsCards } from "@/components/merchant/transactions/transactions-stats-cards";
 import { TransactionsChart } from "@/components/merchant/transactions/transactions-chart";
 import { TransactionsTable } from "@/components/merchant/transactions/transactions-table";
@@ -11,7 +12,11 @@ import { TransactionDetailSheet } from "@/components/merchant/transactions/trans
 
 export default function TransactionsPage() {
     const t = useTranslations("Dashboard.Transactions");
-    const [selectedTx, setSelectedTx] = useState<MockTransaction | null>(null);
+
+    const [filters, setFilters] = useState<TransactionFilters>({ page: 0, size: 20 });
+    const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
+
+    const { data, loading, error, refetch } = useTransactions(filters);
 
     return (
         <div className="space-y-8">
@@ -24,11 +29,19 @@ export default function TransactionsPage() {
                 </p>
             </div>
 
-            <TransactionsStatsCards transactions={MOCK_TRANSACTIONS} />
+            <TransactionsStatsCards data={data} loading={loading} />
 
-            <TransactionsChart transactions={MOCK_TRANSACTIONS} />
+            <TransactionsChart />
 
-            <TransactionsTable data={MOCK_TRANSACTIONS} onRowClick={setSelectedTx} />
+            <TransactionsTable
+                data={data}
+                loading={loading}
+                error={error}
+                filters={filters}
+                onFiltersChange={setFilters}
+                onRowClick={setSelectedTx}
+                onRefresh={refetch}
+            />
 
             <TransactionDetailSheet
                 transaction={selectedTx}

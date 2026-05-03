@@ -3,18 +3,16 @@
 import * as React from "react";
 import {
     ColumnDef,
-    ColumnFiltersState,
     RowData,
     SortingState,
     VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, Copy, Search } from "lucide-react";
+import { ArrowUpDown, Copy, Loader2, RefreshCcw, Search } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { format } from "date-fns";
@@ -39,7 +37,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { MockTransaction, TxStatus } from "./mock-data";
+import { Transaction, TransactionFilters, TransactionPage, TransactionStatus } from "@/features/merchant/transactions/types";
 
 declare module "@tanstack/react-table" {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -48,9 +46,9 @@ declare module "@tanstack/react-table" {
     }
 }
 
-// ── Status & provider styles ──────────────────────────────────────────────────
+// ── Status styles ─────────────────────────────────────────────────────────────
 
-const STATUS_STYLE: Record<TxStatus, string> = {
+const STATUS_STYLE: Record<TransactionStatus, string> = {
     SUCCESS:   "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-0",
     PENDING:   "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-0",
     FAILED:    "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-0",
@@ -58,48 +56,50 @@ const STATUS_STYLE: Record<TxStatus, string> = {
     REFUNDED:  "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-0",
 };
 
-const PROVIDER_COLOR: Record<string, string> = {
-    MTN:    "#fbbf24",
-    ORANGE: "#f97316",
-};
-
-const PROVIDER_LABEL: Record<string, string> = {
-    MTN:    "MTN MoMo",
-    ORANGE: "Orange Money",
-};
-
 // ── Props ─────────────────────────────────────────────────────────────────────
 
 interface TransactionsTableProps {
-    data: MockTransaction[];
-    onRowClick: (tx: MockTransaction) => void;
+    data: TransactionPage | null;
+    loading: boolean;
+    error: string | null;
+    filters: TransactionFilters;
+    onFiltersChange: (f: TransactionFilters) => void;
+    onRowClick: (tx: Transaction) => void;
+    onRefresh: () => void;
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) {
+export function TransactionsTable({
+    data, loading, error, filters, onFiltersChange, onRowClick, onRefresh,
+}: TransactionsTableProps) {
     const t = useTranslations("Dashboard.Transactions.Table");
 
     const [sorting,          setSorting]          = React.useState<SortingState>([{ id: "createdAt", desc: true }]);
-    const [columnFilters,    setColumnFilters]    = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [globalFilter,     setGlobalFilter]     = React.useState("");
-    const [pagination,       setPagination]       = React.useState({ pageIndex: 0, pageSize: 10 });
 
-    const statusFilterValue = (columnFilters.find((f) => f.id === "status")?.value as string) ?? "all";
+    const rows: Transaction[] = data?.content ?? [];
 
-    const fmt = (n: number) =>
-        new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(n);
-
-    const statusLabel = (s: TxStatus): string => {
-        const map: Record<TxStatus, string> = {
+    const statusLabel = (s: TransactionStatus): string => {
+        const map: Record<TransactionStatus, string> = {
             SUCCESS: t("statusSuccess"), PENDING: t("statusPending"),
             FAILED: t("statusFailed"), CANCELLED: t("statusCancelled"), REFUNDED: t("statusRefunded"),
         };
         return map[s];
     };
 
-    const columns: ColumnDef<MockTransaction>[] = [
+    const typeLabel = (type: string): string => {
+        const map: Record<string, string> = {
+            CHECKOUT: t("typeCheckout"), CHARGE: t("typeCharge"), FUND_COLLECTION: t("typeFundCollection"),
+        };
+        return map[type] ?? type;
+    };
+
+    const fmt = (n: number) =>
+        new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(n);
+
+    const columns: ColumnDef<Transaction>[] = [
         {
             accessorKey: "reference",
             header: t("reference"),
@@ -129,39 +129,37 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
             cell: ({ row }) => {
                 const type = row.getValue<string>("type");
                 return (
-                    <Badge variant={type === "PAYMENT" ? "default" : "outline"} className="text-xs whitespace-nowrap">
-                        {type === "PAYMENT" ? t("typePayment") : t("typePayout")}
+                    <Badge variant="outline" className="text-xs whitespace-nowrap">
+                        {typeLabel(type)}
                     </Badge>
                 );
             },
         },
         {
-            accessorKey: "clientName",
+            accessorKey: "payerName",
             header: t("client"),
-            cell: ({ row }) => (
-                <div className="min-w-[110px]">
-                    <p className="text-sm font-medium text-foreground leading-tight">{row.original.clientName}</p>
-                    <p className="hidden sm:block text-xs text-muted-foreground font-mono leading-tight mt-0.5">
-                        {row.original.clientPhone}
-                    </p>
-                </div>
-            ),
+            cell: ({ row }) => {
+                const tx = row.original;
+                return (
+                    <div className="min-w-[110px]">
+                        <p className="text-sm font-medium text-foreground leading-tight">
+                            {tx.payerName ?? "—"}
+                        </p>
+                        <p className="hidden sm:block text-xs text-muted-foreground font-mono leading-tight mt-0.5">
+                            {tx.payerAccount ?? "—"}
+                        </p>
+                    </div>
+                );
+            },
         },
         {
             accessorKey: "provider",
             header: t("provider"),
             meta: { className: "hidden md:table-cell" },
             cell: ({ row }) => {
-                const p = row.getValue<string>("provider");
-                return (
-                    <div className="flex items-center gap-2">
-                        <span
-                            className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
-                            style={{ background: PROVIDER_COLOR[p] }}
-                        />
-                        <span className="text-sm font-medium whitespace-nowrap">{PROVIDER_LABEL[p] ?? p}</span>
-                    </div>
-                );
+                const p = row.getValue<string | null>("provider");
+                if (!p) return <span className="text-muted-foreground text-sm">—</span>;
+                return <span className="text-sm font-medium whitespace-nowrap">{p}</span>;
             },
         },
         {
@@ -172,9 +170,9 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
                 return (
                     <div className="min-w-[90px]">
                         <p className="text-sm font-semibold text-foreground whitespace-nowrap">{fmt(tx.amount)}</p>
-                        {tx.net > 0 && (
+                        {tx.netAmount > 0 && tx.netAmount !== tx.amount && (
                             <p className="hidden sm:block text-xs text-emerald-600 dark:text-emerald-400 whitespace-nowrap mt-0.5">
-                                net {fmt(tx.net)}
+                                net {fmt(tx.netAmount)}
                             </p>
                         )}
                     </div>
@@ -184,12 +182,8 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
         {
             accessorKey: "status",
             header: t("status"),
-            filterFn: (row, _id, filterValue) => {
-                if (!filterValue || filterValue === "all") return true;
-                return row.original.status === filterValue;
-            },
             cell: ({ row }) => {
-                const s = row.getValue<TxStatus>("status");
+                const s = row.getValue<TransactionStatus>("status");
                 return (
                     <Badge className={`text-xs font-semibold whitespace-nowrap ${STATUS_STYLE[s]}`}>
                         {statusLabel(s)}
@@ -221,40 +215,39 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
     ];
 
     const table = useReactTable({
-        data,
+        data: rows,
         columns,
-        state:     { sorting, columnFilters, columnVisibility, pagination, globalFilter },
+        state:     { sorting, columnVisibility, globalFilter },
         onSortingChange:          setSorting,
-        onColumnFiltersChange:    setColumnFilters,
         onColumnVisibilityChange: setColumnVisibility,
-        onPaginationChange:       setPagination,
         onGlobalFilterChange:     setGlobalFilter,
         globalFilterFn:           "includesString",
         getCoreRowModel:          getCoreRowModel(),
         getFilteredRowModel:      getFilteredRowModel(),
         getSortedRowModel:        getSortedRowModel(),
-        getPaginationRowModel:    getPaginationRowModel(),
+        manualPagination:         true,
+        pageCount:                data?.totalPages ?? 0,
     });
+
+    const totalPages = data?.totalPages ?? 1;
+    const currentPage = filters.page ?? 0;
 
     return (
         <div className="w-full space-y-4">
-            {/* Filters — always visible, not inside the scrollable table */}
+            {/* Filters */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                     <Input
                         placeholder={t("filterPlaceholder")}
                         value={globalFilter}
-                        onChange={(e) => { setGlobalFilter(e.target.value); table.setPageIndex(0); }}
+                        onChange={(e) => setGlobalFilter(e.target.value)}
                         className="pl-9"
                     />
                 </div>
                 <Select
-                    value={statusFilterValue}
-                    onValueChange={(v) => {
-                        table.getColumn("status")?.setFilterValue(v === "all" ? "" : v);
-                        table.setPageIndex(0);
-                    }}
+                    value={filters.status || "all"}
+                    onValueChange={(v) => onFiltersChange({ ...filters, status: v === "all" ? "" : v as TransactionStatus, page: 0 })}
                 >
                     <SelectTrigger className="flex-1 sm:flex-none sm:w-[160px]">
                         <SelectValue placeholder={t("statusAll")} />
@@ -268,9 +261,22 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
                         <SelectItem value="REFUNDED">{t("statusRefunded")}</SelectItem>
                     </SelectContent>
                 </Select>
+                <Button variant="outline" size="icon" onClick={onRefresh} title="Rafraîchir" disabled={loading}>
+                    {loading
+                        ? <Loader2 className="h-4 w-4 animate-spin" />
+                        : <RefreshCcw className="h-4 w-4" />
+                    }
+                </Button>
             </div>
 
-            {/* Table with internal scroll */}
+            {/* Error banner */}
+            {error && (
+                <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive">
+                    {error}
+                </div>
+            )}
+
+            {/* Table */}
             <div className="rounded-xl border min-h-[520px]">
                 <Table wrapperClassName="max-h-[520px]">
                     <TableHeader className="sticky top-0 bg-background z-10 shadow-sm">
@@ -291,11 +297,24 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows.length ? (
+                        {loading && rows.length === 0 ? (
+                            Array.from({ length: 8 }).map((_, i) => (
+                                <TableRow key={i}>
+                                    {columns.map((_, j) => (
+                                        <TableCell key={j}>
+                                            <div className="h-4 bg-muted animate-pulse rounded w-full" />
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : table.getRowModel().rows.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
-                                    className="cursor-pointer hover:bg-muted/50 transition-colors"
+                                    className={cn(
+                                        "cursor-pointer hover:bg-muted/50 transition-colors",
+                                        loading && "opacity-50 pointer-events-none"
+                                    )}
                                     onClick={() => onRowClick(row.original)}
                                 >
                                     {row.getVisibleCells().map((cell) => (
@@ -319,23 +338,23 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
                 </Table>
             </div>
 
-            {/* Pagination — always visible below the scrollable table */}
+            {/* Pagination */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                     <span className="text-sm text-muted-foreground whitespace-nowrap">
-                        {t("showing")} {table.getFilteredRowModel().rows.length} {t("elements")}
+                        {t("showing")} {data?.totalElements?.toLocaleString("fr-FR") ?? 0} {t("elements")}
                     </span>
                     <div className="flex items-center gap-2">
                         <span className="text-sm font-medium whitespace-nowrap">{t("rowsPerPage")}</span>
                         <Select
-                            value={`${table.getState().pagination.pageSize}`}
-                            onValueChange={(v) => table.setPageSize(Number(v))}
+                            value={`${filters.size ?? 20}`}
+                            onValueChange={(v) => onFiltersChange({ ...filters, size: Number(v), page: 0 })}
                         >
                             <SelectTrigger className="h-8 w-[70px]">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent side="top">
-                                {[10, 25, 50].map((s) => (
+                                {[10, 20, 50].map((s) => (
                                     <SelectItem key={s} value={`${s}`}>{s}</SelectItem>
                                 ))}
                             </SelectContent>
@@ -344,12 +363,20 @@ export function TransactionsTable({ data, onRowClick }: TransactionsTableProps) 
                 </div>
                 <div className="flex items-center gap-2">
                     <span className="text-sm font-medium whitespace-nowrap">
-                        {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")} {table.getPageCount() || 1}
+                        {t("page")} {currentPage + 1} {t("of")} {totalPages || 1}
                     </span>
-                    <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                    <Button
+                        variant="outline" size="sm"
+                        onClick={() => onFiltersChange({ ...filters, page: currentPage - 1 })}
+                        disabled={currentPage === 0 || loading}
+                    >
                         {t("previous")}
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                    <Button
+                        variant="outline" size="sm"
+                        onClick={() => onFiltersChange({ ...filters, page: currentPage + 1 })}
+                        disabled={data?.last !== false || loading}
+                    >
                         {t("next")}
                     </Button>
                 </div>

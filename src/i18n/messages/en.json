@@ -874,7 +874,10 @@
         "page": "Page",
         "of": "of",
         "previous": "Previous",
-        "next": "Next"
+        "next": "Next",
+        "typeCheckout": "Checkout",
+        "typeCharge": "Direct charge",
+        "typeFundCollection": "Fund collection"
       },
       "Detail": {
         "title": "Transaction details",
@@ -907,7 +910,12 @@
         "statusPending": "Pending",
         "statusFailed": "Failed",
         "statusCancelled": "Cancelled",
-        "statusRefunded": "Refunded"
+        "statusRefunded": "Refunded",
+        "typeCheckout": "Checkout",
+        "typeCharge": "Direct charge",
+        "typeFundCollection": "Fund collection",
+        "labelMerchantRef": "Merchant ref.",
+        "labelDescription": "Description"
       }
     },
     "Apps": {

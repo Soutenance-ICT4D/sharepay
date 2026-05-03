@@ -14,11 +14,11 @@ import {
     SheetTitle,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { MockTransaction, TxStatus } from "./mock-data";
+import { Transaction, TransactionStatus } from "@/features/merchant/transactions/types";
 
 // ── Status config ─────────────────────────────────────────────────────────────
 
-const STATUS_CFG: Record<TxStatus, { key: string; className: string }> = {
+const STATUS_CFG: Record<TransactionStatus, { key: string; className: string }> = {
     SUCCESS:   { key: "statusSuccess",   className: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-0" },
     PENDING:   { key: "statusPending",   className: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-0" },
     FAILED:    { key: "statusFailed",    className: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-0" },
@@ -26,17 +26,7 @@ const STATUS_CFG: Record<TxStatus, { key: string; className: string }> = {
     REFUNDED:  { key: "statusRefunded",  className: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-0" },
 };
 
-const PROVIDER_COLOR: Record<string, string> = {
-    MTN:    "#fbbf24",
-    ORANGE: "#f97316",
-};
-
-const PROVIDER_LABEL: Record<string, string> = {
-    MTN:    "MTN Mobile Money",
-    ORANGE: "Orange Money",
-};
-
-// ── Hook: detect mobile breakpoint after mount ────────────────────────────────
+// ── Hook: detect mobile breakpoint ───────────────────────────────────────────
 
 function useIsMobile(breakpoint = 640) {
     const [isMobile, setIsMobile] = React.useState(false);
@@ -78,7 +68,7 @@ function CopyButton({ value, toastMsg }: { value: string; toastMsg: string }) {
 // ── Main component ────────────────────────────────────────────────────────────
 
 interface TransactionDetailSheetProps {
-    transaction: MockTransaction | null;
+    transaction: Transaction | null;
     open: boolean;
     onClose: () => void;
 }
@@ -92,6 +82,15 @@ export function TransactionDetailSheet({ transaction, open, onClose }: Transacti
 
     const fmtDate = (iso: string) =>
         format(new Date(iso), "dd MMM yyyy, HH:mm", { locale: fr });
+
+    const typeLabel = (type: string): string => {
+        const map: Record<string, string> = {
+            CHECKOUT:        t("typeCheckout"),
+            CHARGE:          t("typeCharge"),
+            FUND_COLLECTION: t("typeFundCollection"),
+        };
+        return map[type] ?? type;
+    };
 
     return (
         <Sheet open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
@@ -141,6 +140,16 @@ export function TransactionDetailSheet({ transaction, open, onClose }: Transacti
                                             <CopyButton value={transaction.reference} toastMsg={t("copiedId")} />
                                         </div>
                                     </InfoRow>
+                                    {transaction.merchantReference && (
+                                        <InfoRow label={t("labelMerchantRef")}>
+                                            <div className="flex items-center gap-1.5 justify-end min-w-0">
+                                                <span className="font-mono text-xs text-muted-foreground truncate">
+                                                    {transaction.merchantReference}
+                                                </span>
+                                                <CopyButton value={transaction.merchantReference} toastMsg={t("copiedId")} />
+                                            </div>
+                                        </InfoRow>
+                                    )}
                                     <InfoRow label={t("labelStatus")}>
                                         {(() => {
                                             const cfg = STATUS_CFG[transaction.status];
@@ -152,11 +161,8 @@ export function TransactionDetailSheet({ transaction, open, onClose }: Transacti
                                         })()}
                                     </InfoRow>
                                     <InfoRow label={t("labelType")}>
-                                        <Badge
-                                            variant={transaction.type === "PAYMENT" ? "default" : "outline"}
-                                            className="text-xs"
-                                        >
-                                            {t(transaction.type === "PAYMENT" ? "typePayment" : "typePayout")}
+                                        <Badge variant="outline" className="text-xs">
+                                            {typeLabel(transaction.type)}
                                         </Badge>
                                     </InfoRow>
                                     <InfoRow label={t("labelDate")}>
@@ -182,13 +188,13 @@ export function TransactionDetailSheet({ transaction, open, onClose }: Transacti
                                         <span className="font-semibold text-sm">{fmt(transaction.amount)}</span>
                                     </InfoRow>
                                     <InfoRow label={t("labelFees")}>
-                                        <span className={`text-sm ${transaction.fees > 0 ? "text-destructive" : "text-muted-foreground"}`}>
-                                            {transaction.fees > 0 ? `− ${fmt(transaction.fees)}` : "—"}
+                                        <span className={`text-sm ${transaction.feeAmount > 0 ? "text-destructive" : "text-muted-foreground"}`}>
+                                            {transaction.feeAmount > 0 ? `− ${fmt(transaction.feeAmount)}` : "—"}
                                         </span>
                                     </InfoRow>
                                     <InfoRow label={t("labelNetAmount")}>
-                                        <span className={`font-bold text-sm ${transaction.net > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
-                                            {transaction.net > 0 ? fmt(transaction.net) : "—"}
+                                        <span className={`font-bold text-sm ${transaction.netAmount > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
+                                            {transaction.netAmount > 0 ? fmt(transaction.netAmount) : "—"}
                                         </span>
                                     </InfoRow>
                                     <InfoRow label={t("labelCurrency")}>
@@ -203,55 +209,49 @@ export function TransactionDetailSheet({ transaction, open, onClose }: Transacti
                                     {t("sectionPayment")}
                                 </p>
                                 <div className="bg-muted/40 rounded-xl divide-y divide-border/40">
-                                    <InfoRow label={t("labelClient")}>
-                                        <span className="font-medium text-sm truncate block">{transaction.clientName}</span>
-                                    </InfoRow>
-                                    <InfoRow label={t("labelPhone")}>
-                                        <span className="font-mono text-sm">{transaction.clientPhone}</span>
-                                    </InfoRow>
-                                    {transaction.clientEmail && (
+                                    {transaction.payerName && (
+                                        <InfoRow label={t("labelClient")}>
+                                            <span className="font-medium text-sm truncate block">{transaction.payerName}</span>
+                                        </InfoRow>
+                                    )}
+                                    {transaction.payerAccount && (
+                                        <InfoRow label={t("labelPhone")}>
+                                            <span className="font-mono text-sm">{transaction.payerAccount}</span>
+                                        </InfoRow>
+                                    )}
+                                    {transaction.payerEmail && (
                                         <InfoRow label={t("labelEmail")}>
                                             <span className="text-xs sm:text-sm truncate block max-w-[180px] sm:max-w-none ml-auto">
-                                                {transaction.clientEmail}
+                                                {transaction.payerEmail}
                                             </span>
                                         </InfoRow>
                                     )}
-                                    <InfoRow label={t("labelProvider")}>
-                                        <div className="flex items-center gap-2 justify-end">
-                                            <span
-                                                className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
-                                                style={{ background: PROVIDER_COLOR[transaction.provider] }}
-                                            />
-                                            <span className="text-sm font-medium">{PROVIDER_LABEL[transaction.provider]}</span>
-                                        </div>
-                                    </InfoRow>
-                                    <InfoRow label={t("labelProviderRef")}>
-                                        <div className="flex items-center gap-1.5 justify-end min-w-0">
-                                            <span className="font-mono text-xs text-muted-foreground truncate max-w-[140px] sm:max-w-[200px]">
-                                                {transaction.providerRef}
-                                            </span>
-                                            <CopyButton value={transaction.providerRef} toastMsg={t("copiedId")} />
-                                        </div>
-                                    </InfoRow>
+                                    {transaction.provider && (
+                                        <InfoRow label={t("labelProvider")}>
+                                            <span className="text-sm font-medium">{transaction.provider}</span>
+                                        </InfoRow>
+                                    )}
+                                    {transaction.description && (
+                                        <InfoRow label={t("labelDescription")}>
+                                            <span className="text-xs sm:text-sm text-muted-foreground">{transaction.description}</span>
+                                        </InfoRow>
+                                    )}
                                 </div>
                             </section>
 
-                            {/* ── Section 4 : App & Source ─────────────────── */}
-                            <section className="px-2 pb-2">
-                                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2 px-2">
-                                    {t("sectionApp")}
-                                </p>
-                                <div className="bg-muted/40 rounded-xl divide-y divide-border/40">
-                                    <InfoRow label={t("labelApp")}>
-                                        <span className="text-sm font-medium truncate block">{transaction.appName}</span>
-                                    </InfoRow>
-                                    <InfoRow label={t("labelSource")}>
-                                        <span className="text-sm">
-                                            {transaction.source === "PAYMENT_LINK" ? t("sourcePaymentLink") : t("sourceApp")}
-                                        </span>
-                                    </InfoRow>
-                                </div>
-                            </section>
+                            {/* ── Section 4 : Application ──────────────────── */}
+                            {transaction.appName && (
+                                <section className="px-2 pb-2">
+                                    <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2 px-2">
+                                        {t("sectionApp")}
+                                    </p>
+                                    <div className="bg-muted/40 rounded-xl divide-y divide-border/40">
+                                        <InfoRow label={t("labelApp")}>
+                                            <span className="text-sm font-medium truncate block">{transaction.appName}</span>
+                                        </InfoRow>
+                                    </div>
+                                </section>
+                            )}
 
                         </div>
                     </div>
