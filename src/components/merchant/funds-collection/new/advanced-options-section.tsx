@@ -15,6 +15,7 @@ interface AdvancedOptionsSectionProps {
     setExpiresAt: (value: string) => void;
     collectCustomerInfo: boolean;
     setCollectCustomerInfo: (value: boolean) => void;
+    expiresAtError?: string;
 }
 
 export function AdvancedOptionsSection({
@@ -24,8 +25,13 @@ export function AdvancedOptionsSection({
     setExpiresAt,
     collectCustomerInfo,
     setCollectCustomerInfo,
+    expiresAtError,
 }: AdvancedOptionsSectionProps) {
     const t = useTranslations('Dashboard.FundsCollection.New');
+    // minimum = now (rounded to the minute) so the browser picker blocks past dates
+    const minDateTime = new Date(Math.ceil(Date.now() / 60000) * 60000)
+        .toISOString()
+        .slice(0, 16);
 
     return (
         <section>
@@ -56,8 +62,11 @@ export function AdvancedOptionsSection({
                         <Input
                             type="datetime-local"
                             value={expiresAt}
+                            min={minDateTime}
                             onChange={(e) => setExpiresAt(e.target.value)}
+                            className={expiresAtError ? "border-destructive" : ""}
                         />
+                        {expiresAtError && <p className="text-xs text-destructive">{expiresAtError}</p>}
                     </div>
                 </div>
 

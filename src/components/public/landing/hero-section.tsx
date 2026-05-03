@@ -10,6 +10,7 @@ import {
 import { HeroBackground } from "@/components/public/landing/animations/hero-background";
 import { DemoModal } from "@/components/public/landing/animations/demo-modal";
 import { motion } from "framer-motion";
+import { usePublicStats } from "@/features/public";
 
 const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: 20 },
@@ -17,23 +18,27 @@ const fadeUp = (delay: number) => ({
     transition: { duration: 0.6, delay, ease: "easeOut" as const },
 });
 
-// Replace these with API endpoint values when available
-const PLATFORM_STATS = {
-    merchants: "200+",
-    transactions: "1M+",
-    methods: "15+",
-};
+function formatStat(n: number): string {
+    if (n >= 1_000_000) return `${+(n / 1_000_000).toFixed(1)}M+`;
+    if (n >= 1_000)     return `${Math.floor(n / 1_000)}k+`;
+    return n > 0 ? `${n}+` : "0";
+}
 
-const BARS = [45, 65, 50, 80, 60, 90, 72];
+// Courbe lisse pré-calculée avec Catmull-Rom tension=0.1 sur 7 points
+// viewBox 280×70 — axe Y inversé (0=haut, 70=bas)
+const CHART_LINE = "M0,57 C4,56 37,46 47,45 C57,44 84,55 93,53 C103,51 131,38 140,36 C149,34 177,43 187,41 C197,39 224,20 233,18 C243,16 275,15 280,14";
+const CHART_AREA = `${CHART_LINE} L280,70 L0,70 Z`;
+const X_LABELS   = ["26 avr", "27 avr", "28 avr", "29 avr", "30 avr", "01 mai", "02 mai"];
 
-const TRANSACTIONS = [
-    { initials: "KM", name: "Kouam Martin", amount: "+15 000", color: "bg-orange-400" },
-    { initials: "FB", name: "Fotso Brice", amount: "+8 500", color: "bg-blue-400" },
-    { initials: "NA", name: "Ngo Alice", amount: "+22 000", color: "bg-emerald-400" },
+const MOCK_TRANSACTIONS = [
+    { initials: "KM", name: "Kouam Martin",  meta: "02 mai · MTN Mobile Money", amount: "+15 000 XAF", avatarBg: "bg-amber-500/15",   avatarText: "text-amber-600"   },
+    { initials: "FB", name: "Fotso Brice",   meta: "01 mai · Orange Money",     amount: "+8 500 XAF",  avatarBg: "bg-orange-500/15",  avatarText: "text-orange-500"  },
+    { initials: "NA", name: "Ngo Alice",     meta: "01 mai · MTN Mobile Money", amount: "+22 000 XAF", avatarBg: "bg-emerald-500/15", avatarText: "text-emerald-600" },
 ];
 
 export function HeroSection() {
     const t = useTranslations('Landing.Hero');
+    const { data: stats } = usePublicStats();
 
     return (
         <section className="relative flex flex-col pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden">
@@ -138,7 +143,7 @@ export function HeroSection() {
                             <div className="relative bg-card/80 backdrop-blur-xl rounded-[28px] border border-border/60 shadow-2xl overflow-hidden p-6">
 
                                 {/* Card header */}
-                                <div className="flex items-center justify-between mb-5">
+                                <div className="flex items-center justify-between mb-4">
                                     <span className="text-sm font-medium text-muted-foreground">{t('mockupRevenue')}</span>
                                     <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -147,49 +152,77 @@ export function HeroSection() {
                                 </div>
 
                                 {/* Balance */}
-                                <div className="mb-5">
-                                    <p className="text-3xl font-black text-foreground tracking-tight">5 240 000 XAF</p>
-                                    <div className="flex items-center gap-1.5 mt-1.5">
+                                <div className="mb-4">
+                                    <p className="text-2xl font-black text-foreground tracking-tight">5 240 000 XAF</p>
+                                    <div className="flex items-center gap-1.5 mt-1">
                                         <div className="flex items-center gap-1 text-emerald-500">
-                                            <TrendingUp className="h-3.5 w-3.5" />
-                                            <span className="text-sm font-semibold">+23.5%</span>
+                                            <TrendingUp className="h-3 w-3" />
+                                            <span className="text-xs font-semibold">+23.5%</span>
                                         </div>
-                                        <span className="text-xs text-muted-foreground">vs last month</span>
+                                        <span className="text-[11px] text-muted-foreground">vs last month</span>
                                     </div>
                                 </div>
 
-                                {/* Bar chart */}
-                                <div className="flex items-end gap-1.5 h-14 mb-5">
-                                    {BARS.map((h, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ height: 0 }}
-                                            animate={{ height: `${h}%` }}
-                                            transition={{ duration: 0.5, delay: 0.6 + i * 0.07, ease: "easeOut" as const }}
-                                            className={`flex-1 rounded-t-md ${i === 5 ? 'bg-emerald-500' : 'bg-primary/20'}`}
+                                {/* Line chart — même style que le vrai dashboard */}
+                                <div className="mb-3">
+                                    <svg
+                                        viewBox="0 0 280 70"
+                                        className="w-full h-[64px]"
+                                        preserveAspectRatio="none"
+                                    >
+                                        <defs>
+                                            <linearGradient id="heroChartFill" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stopColor="#10b981" stopOpacity="0.18" />
+                                                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                                            </linearGradient>
+                                        </defs>
+                                        {/* Grid dashed */}
+                                        <line x1="0" y1="1"  x2="280" y2="1"  stroke="currentColor" className="text-muted-foreground/20" strokeWidth="0.6" strokeDasharray="4 4" />
+                                        <line x1="0" y1="35" x2="280" y2="35" stroke="currentColor" className="text-muted-foreground/20" strokeWidth="0.6" strokeDasharray="4 4" />
+                                        <line x1="0" y1="69" x2="280" y2="69" stroke="currentColor" className="text-border" strokeWidth="1" />
+                                        {/* Area fill */}
+                                        <path d={CHART_AREA} fill="url(#heroChartFill)" />
+                                        {/* Line */}
+                                        <path
+                                            d={CHART_LINE}
+                                            fill="none"
+                                            stroke="#10b981"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                         />
-                                    ))}
+                                    </svg>
+                                    {/* X-axis labels */}
+                                    <div className="flex justify-between mt-1 px-0.5">
+                                        {X_LABELS.map((l) => (
+                                            <span key={l} className="text-[8.5px] text-muted-foreground leading-none">{l}</span>
+                                        ))}
+                                    </div>
                                 </div>
 
-                                <div className="h-px bg-border/50 mb-4" />
+                                <div className="h-px bg-border/50 mb-3" />
 
-                                {/* Transactions */}
-                                <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest mb-3">
+                                {/* Transactions récentes — même layout que le vrai dashboard */}
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">
                                     {t('mockupTransactions')}
                                 </p>
-                                <div className="space-y-2">
-                                    {TRANSACTIONS.map((tx) => (
-                                        <div
-                                            key={tx.name}
-                                            className="flex items-center justify-between p-2.5 rounded-xl bg-muted/40 hover:bg-muted/60 transition-colors"
-                                        >
-                                            <div className="flex items-center gap-2.5">
-                                                <div className={`h-8 w-8 rounded-full ${tx.color} flex items-center justify-center text-white text-xs font-bold shrink-0`}>
-                                                    {tx.initials}
-                                                </div>
-                                                <span className="text-sm font-medium text-foreground">{tx.name}</span>
+                                <div>
+                                    {MOCK_TRANSACTIONS.map((tx) => (
+                                        <div key={tx.name} className="flex items-center gap-2.5 py-2.5 border-b last:border-b-0 border-border/40">
+                                            {/* Avatar */}
+                                            <div className={`h-9 w-9 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${tx.avatarBg} ${tx.avatarText}`}>
+                                                {tx.initials}
                                             </div>
-                                            <span className="text-sm font-bold text-emerald-500">{tx.amount}</span>
+                                            {/* Info */}
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-xs font-bold text-foreground truncate">{tx.name}</p>
+                                                <p className="text-[10px] text-muted-foreground truncate">{tx.meta}</p>
+                                            </div>
+                                            {/* Montant + statut */}
+                                            <div className="text-right shrink-0">
+                                                <p className="text-xs font-bold text-emerald-500">{tx.amount}</p>
+                                                <span className="text-[8px] font-bold uppercase tracking-widest text-emerald-600">Succès</span>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -207,9 +240,9 @@ export function HeroSection() {
                     className="mt-14 md:mt-20 pt-8 border-t border-border/40 grid grid-cols-3 gap-6"
                 >
                     {[
-                        { value: PLATFORM_STATS.merchants, label: t('statMerchantsLabel') },
-                        { value: PLATFORM_STATS.transactions, label: t('statTxLabel') },
-                        { value: PLATFORM_STATS.methods, label: t('statMethodsLabel') },
+                        { value: stats ? formatStat(stats.merchantCount)      : "—", label: t('statMerchantsLabel') },
+                        { value: stats ? formatStat(stats.transactionCount)   : "—", label: t('statTxLabel') },
+                        { value: stats ? formatStat(stats.paymentMethodCount) : "—", label: t('statMethodsLabel') },
                     ].map(({ value, label }, i) => (
                         <div key={i} className="flex flex-col items-center text-center">
                             <span className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground leading-none">

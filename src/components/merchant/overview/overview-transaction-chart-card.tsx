@@ -75,7 +75,8 @@ function computeNiceTicks(rawMax: number, tickCount = 5): { niceMax: number; tic
     if (rawMax === 0) return { niceMax: 10, ticks: [0, 2, 4, 6, 8, 10] };
     const rawStep = rawMax / (tickCount - 1);
     const mag = Math.pow(10, Math.floor(Math.log10(rawStep)));
-    const niceStep = Math.ceil(rawStep / mag) * mag;
+    // Round to avoid float drift (e.g. 3 * 0.1 = 0.30000000000000004), and enforce min step of 1
+    const niceStep = Math.max(1, Math.round(Math.ceil(rawStep / mag) * mag));
     const niceMax  = niceStep * (tickCount - 1);
     return { niceMax, ticks: Array.from({ length: tickCount }, (_, i) => i * niceStep) };
 }
@@ -288,7 +289,7 @@ function MultiSeriesChart({ data, groupBy, metric }: { data: TransactionChartDat
                 >
                     <div className="bg-popover border shadow-xl rounded-lg p-3 min-w-[148px] text-xs mt-2">
                         <p className="font-semibold text-foreground mb-2">{labels[activeIndex]}</p>
-                        {series.map((s, si) => (
+                        {series.map((s) => (
                             <div key={s.key} className="flex items-center justify-between gap-3">
                                 <div className="flex items-center gap-1.5">
                                     <span
@@ -331,43 +332,34 @@ export function OverviewTransactionChartCard() {
         { value: "VOLUME", label: t("metricVolume") },
     ];
 
-    const [interval,        setInterval]        = useState<ChartInterval>("LAST_7_DAYS");
-    const [groupBy,         setGroupBy]         = useState<ChartGroupBy>("STATUS");
-    const [metric,          setMetric]          = useState<ChartMetric>("COUNT");
-    const [groupMenuOpen,   setGroupMenuOpen]   = useState(false);
+    const [interval,          setInterval]          = useState<ChartInterval>("LAST_7_DAYS");
+    const [groupBy,           setGroupBy]           = useState<ChartGroupBy>("STATUS");
+    const [metric,            setMetric]            = useState<ChartMetric>("COUNT");
+    const [periodMenuOpen,    setPeriodMenuOpen]    = useState(false);
+    const [groupMenuOpen,     setGroupMenuOpen]     = useState(false);
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
     const rootRef   = useRef<HTMLDivElement>(null);
     const mobileRef = useRef<HTMLDivElement>(null);
 
     const { data, loading } = useTransactionChart(interval, groupBy);
-    const currency     = data?.currency ?? "XAF";
-    const groupByLabel = GROUPBY_OPTIONS.find((o) => o.value === groupBy)?.label ?? groupBy;
+    const currency      = data?.currency ?? "XAF";
+    const groupByLabel  = GROUPBY_OPTIONS.find((o) => o.value === groupBy)?.label  ?? groupBy;
     const intervalLabel = INTERVAL_OPTIONS.find((o) => o.value === interval)?.label ?? interval;
-    const metricLabel  = METRIC_OPTIONS.find((o) => o.value === metric)?.label ?? metric;
 
-    // Fermer le dropdown mobile au clic extérieur
+    // Fermer tous les dropdowns au clic extérieur
     useEffect(() => {
-        if (!mobileFiltersOpen) return;
         const handler = (e: MouseEvent) => {
+            if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+                setPeriodMenuOpen(false);
+                setGroupMenuOpen(false);
+            }
             if (mobileRef.current && !mobileRef.current.contains(e.target as Node)) {
                 setMobileFiltersOpen(false);
             }
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
-    }, [mobileFiltersOpen]);
-
-    // Fermer le dropdown groupBy au clic extérieur
-    useEffect(() => {
-        if (!groupMenuOpen) return;
-        const handler = (e: MouseEvent) => {
-            if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-                setGroupMenuOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handler);
-        return () => document.removeEventListener("mousedown", handler);
-    }, [groupMenuOpen]);
+    }, []);
 
     const ToggleGroup = ({ options, active, onChange }: {
         options: { value: string; label: string }[];
@@ -432,6 +424,7 @@ export function OverviewTransactionChartCard() {
 
                 {/* ── Tablette / Desktop : contrôles inline ── */}
                 <div className="hidden sm:flex flex-wrap items-center gap-2 shrink-0">
+                    {/* Métrique */}
                     <div className="flex bg-muted/50 p-1 rounded-lg border">
                         {METRIC_OPTIONS.map(({ value, label }) => (
                             <button key={value} type="button" onClick={() => setMetric(value)}
@@ -440,18 +433,34 @@ export function OverviewTransactionChartCard() {
                                 }`}>{label}</button>
                         ))}
                     </div>
-                    <div className="flex bg-muted/50 p-1 rounded-lg border">
-                        {INTERVAL_OPTIONS.map(({ value, label }) => (
-                            <button key={value} type="button" onClick={() => setInterval(value)}
-                                className={`text-xs h-7 px-3 rounded-md font-semibold transition-colors ${
-                                    interval === value ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                                }`}>{label}</button>
-                        ))}
-                    </div>
+                    {/* Période — dropdown */}
                     <div className="relative">
                         <button type="button"
                             className="h-9 inline-flex items-center gap-2 rounded-lg border border-input bg-background px-3 text-sm font-semibold text-foreground shadow-sm hover:bg-accent transition-colors"
-                            onClick={() => setGroupMenuOpen((v) => !v)}>
+                            onClick={() => { setPeriodMenuOpen((v) => !v); setGroupMenuOpen(false); }}
+                        >
+                            {intervalLabel}
+                            <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        </button>
+                        {periodMenuOpen && (
+                            <div className="absolute right-0 mt-2 w-44 rounded-lg border bg-card shadow-lg z-50 overflow-hidden">
+                                {INTERVAL_OPTIONS.map((opt) => (
+                                    <button key={opt.value} type="button"
+                                        className={`w-full text-left px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors ${
+                                            interval === opt.value ? "text-primary" : "text-foreground"
+                                        }`}
+                                        onClick={() => { setInterval(opt.value); setPeriodMenuOpen(false); }}>
+                                        {opt.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    {/* Grouper par — dropdown */}
+                    <div className="relative">
+                        <button type="button"
+                            className="h-9 inline-flex items-center gap-2 rounded-lg border border-input bg-background px-3 text-sm font-semibold text-foreground shadow-sm hover:bg-accent transition-colors"
+                            onClick={() => { setGroupMenuOpen((v) => !v); setPeriodMenuOpen(false); }}>
                             {groupByLabel}
                             <ChevronDown className="h-4 w-4 text-muted-foreground" />
                         </button>
@@ -472,7 +481,7 @@ export function OverviewTransactionChartCard() {
                 </div>
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                    {metric === "VOLUME" ? t("subtitleVolume", { currency }) : t("subtitleCount")}
+                    {metric === "VOLUME" ? t("subtitleVolume", { currency }) : t("subtitleCount")} · {intervalLabel} · {groupByLabel}
                 </p>
             </div>
 

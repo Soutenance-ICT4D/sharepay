@@ -228,53 +228,17 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
     if (isLoading) {
         return (
             <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-300">
-                {/* PageHeading */}
                 <div className="space-y-2">
                     <Skeleton className="h-9 w-64" />
                     <Skeleton className="h-4 w-96 max-w-full" />
                 </div>
-
-                {/* AppKeysSection */}
-                <div>
-                    <div className="flex items-center gap-2 mb-6">
-                        <Skeleton className="h-6 w-6 rounded" />
-                        <Skeleton className="h-5 w-36 rounded" />
-                    </div>
-                    <Skeleton className="h-52 w-full rounded-xl" />
-                </div>
-
-                {/* AppGeneralSection + AppBrandingSection */}
+                <Skeleton className="h-52 w-full rounded-xl" />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                        <div className="flex items-center gap-2 mb-6">
-                            <Skeleton className="h-6 w-6 rounded" />
-                            <Skeleton className="h-5 w-44 rounded" />
-                        </div>
-                        <Skeleton className="h-80 w-full rounded-xl" />
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-2 mb-6">
-                            <Skeleton className="h-6 w-6 rounded" />
-                            <Skeleton className="h-5 w-36 rounded" />
-                        </div>
-                        <Skeleton className="h-80 w-full rounded-xl" />
-                    </div>
+                    <Skeleton className="h-80 w-full rounded-xl" />
+                    <Skeleton className="h-80 w-full rounded-xl" />
                 </div>
-
-                {/* AppConfigSection */}
-                <div>
-                    <div className="flex items-center gap-2 mb-6">
-                        <Skeleton className="h-6 w-6 rounded" />
-                        <Skeleton className="h-5 w-32 rounded" />
-                    </div>
-                    <Skeleton className="h-28 w-full rounded-xl" />
-                </div>
-
-                {/* Submit button */}
+                <Skeleton className="h-36 w-full rounded-xl" />
                 <Skeleton className="h-14 w-full rounded-xl" />
-
-                {/* Danger zone */}
-                <Skeleton className="h-24 w-full rounded-xl" />
             </div>
         );
     }

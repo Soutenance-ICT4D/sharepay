@@ -46,7 +46,7 @@ export default function NewFundsCollectionPage() {
     const [collectCustomerInfo, setCollectCustomerInfo] = useState(true);
     const [coverImageUrl, setCoverImageUrl] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [fieldErrors, setFieldErrors] = useState<{ appId?: string; title?: string; amount?: string }>({});
+    const [fieldErrors, setFieldErrors] = useState<{ appId?: string; title?: string; amount?: string; expiresAt?: string }>({});
 
     const clearError = (field: keyof typeof fieldErrors) =>
         setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -61,6 +61,9 @@ export default function NewFundsCollectionPage() {
         if (amountType === "fixed") {
             const parsed = Number(amount);
             if (!Number.isFinite(parsed) || parsed <= 0) errors.amount = t("validation.amountInvalid");
+        }
+        if (expiresAt && new Date(expiresAt) <= new Date()) {
+            errors.expiresAt = t("validation.expiresAtPast");
         }
         if (Object.keys(errors).length > 0) {
             setFieldErrors(errors);
@@ -234,8 +237,10 @@ export default function NewFundsCollectionPage() {
                             />
                             <AdvancedOptionsSection
                                 thankYouMessage={thankYouMessage} setThankYouMessage={setThankYouMessage}
-                                expiresAt={expiresAt} setExpiresAt={setExpiresAt}
+                                expiresAt={expiresAt}
+                                setExpiresAt={(v) => { setExpiresAt(v); clearError("expiresAt"); }}
                                 collectCustomerInfo={collectCustomerInfo} setCollectCustomerInfo={setCollectCustomerInfo}
+                                expiresAtError={fieldErrors.expiresAt}
                             />
 
                             <Button

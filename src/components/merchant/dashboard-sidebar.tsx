@@ -23,8 +23,8 @@ export function DashboardSidebar({ isOpen, isCollapsed, onClose, onToggleCollaps
         { href: '/merchant/withdrawals', label: t('withdrawals'), iconSrc: '/icons/withdraw.png' },
         { href: '/merchant/transactions', label: t('transactions'), iconSrc: '/icons/transaction.png' },
         { href: '/merchant/apps', label: t('apps'), iconSrc: '/icons/apps.png' },
-        { href: '/docs', label: t('documentation'), iconSrc: '/icons/api.png' },
-        { href: '/api-lab', label: t('apiLab'), iconSrc: '/icons/code.png' },
+        { href: '/merchant/docs', label: t('documentation'), iconSrc: '/icons/api.png' },
+        { href: '/merchant/api-lab', label: t('apiLab'), iconSrc: '/icons/code.png' },
     ];
 
     const bottomNavItems = [
