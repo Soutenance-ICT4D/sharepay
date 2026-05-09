@@ -11,14 +11,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     };
 }
 
-export default async function WithdrawalsPage() {
-    // Calling getTranslations without locale uses the implicit one
-    const t = await getTranslations('Dashboard.Withdrawals');
-
-    return (
-        <WithdrawalsClientPage
-            title={t('title')}
-            subtitle={t('subtitle')}
-        />
-    );
+export default function WithdrawalsPage() {
+    return <WithdrawalsClientPage />;
 }

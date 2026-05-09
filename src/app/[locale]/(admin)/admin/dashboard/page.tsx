@@ -1,9 +1,8 @@
 "use client";
 
-import { OverviewPageHeading } from "@/components/merchant/overview/overview-page-heading";
-import { OverviewStatsGrid } from "@/components/merchant/overview/overview-stats-grid";
-import { OverviewTransactionChartCard } from "@/components/merchant/overview/overview-transaction-chart-card";
-import { OverviewRecentActivity } from "@/components/merchant/overview/overview-recent-activity";
+import { AdminPageHeading } from "@/components/admin/overview/admin-page-heading";
+import { AdminStatsGrid } from "@/components/admin/overview/admin-stats-grid";
+import { AdminActivityFeed } from "@/components/admin/overview/admin-activity-feed";
 import { Users, Server, ShieldAlert, Database, Zap, Globe, Cpu } from "lucide-react";
 
 export default function AdminDashboardPage() {
@@ -39,9 +38,9 @@ export default function AdminDashboardPage() {
             id: "sys-1",
             title: "Trafic suspect détecté",
             meta: "Il y a 5 min • IP 192.168.1.1",
-            amount: "ALERTE",
+            badge: "ALERTE",
             status: "Sévérité Haute",
-            amountClassName: "text-red-600",
+            badgeClassName: "text-red-600",
             statusClassName: "text-red-600/70",
             icon: <ShieldAlert className="h-5 w-5" />,
             iconWrapClassName: "bg-red-500/10 text-red-600",
@@ -50,9 +49,9 @@ export default function AdminDashboardPage() {
             id: "sys-2",
             title: "Sauvegarde réussie",
             meta: "Il y a 2h • DB_Main",
-            amount: "OK",
+            badge: "OK",
             status: "Automatique",
-            amountClassName: "text-emerald-600",
+            badgeClassName: "text-emerald-600",
             statusClassName: "text-emerald-600/70",
             icon: <Database className="h-5 w-5" />,
             iconWrapClassName: "bg-emerald-500/10 text-emerald-600",
@@ -60,21 +59,23 @@ export default function AdminDashboardPage() {
     ];
 
     return (
-        <div className="space-y-8 p-6 md:p-8 pt-6">
-            <OverviewPageHeading
+        <div className="space-y-8">
+            <AdminPageHeading
                 title="Tableau de Bord Administrateur"
-                subtitle="Vue d'ensemble de l'écosystème SharePay 2026"
+                subtitle="Vue d'ensemble de l'écosystème SharePay"
             />
 
-            <OverviewStatsGrid stats={stats as any} />
+            <AdminStatsGrid stats={stats} />
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                <OverviewTransactionChartCard />
-                <OverviewRecentActivity
+                <div className="xl:col-span-2 bg-card text-card-foreground rounded-xl border p-6 shadow-sm flex items-center justify-center min-h-[260px]">
+                    <p className="text-sm text-muted-foreground">Graphique des transactions — à brancher sur l'API admin</p>
+                </div>
+                <AdminActivityFeed
                     title="Alertes Système & Sécurité"
                     viewAllLabel="Journal complet"
-                    items={alerts as any}
-                    onViewAll={() => { }}
+                    items={alerts}
+                    onViewAll={() => {}}
                 />
             </div>
 

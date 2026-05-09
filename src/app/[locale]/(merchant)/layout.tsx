@@ -24,6 +24,14 @@ export default function DashboardLayout({
             return;
         }
         const user = tokenStorage.getUser();
+        if (user?.role === "ADMIN") {
+            router.replace("/admin/dashboard");
+            return;
+        }
+        if (user?.role === "SUPPORT") {
+            router.replace("/support/dashboard");
+            return;
+        }
         if (user?.status === "PENDING_VERIFICATION") {
             router.replace("/merchant/pending-verification");
         } else {

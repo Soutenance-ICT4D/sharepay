@@ -1,25 +1,46 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname } from "@/i18n/routing";
+import { useState, useEffect } from "react";
+import { useRouter } from "@/i18n/routing";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
-import { DashboardHeader } from "@/components/merchant/dashboard-header";
+import { AdminHeader } from "@/components/admin/admin-header";
+import { LoaderPage } from "@/components/shared/loader-page";
+import { tokenStorage } from "@/lib/token-storage";
 
 export default function AdminLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [ready, setReady] = useState(false);
+    const router = useRouter();
 
-    // Masquer la navigation sur la page de connexion admin uniquement
-    const isLoginPage = pathname.endsWith("admin-2026");
+    useEffect(() => {
+        const tokens = tokenStorage.get();
+        if (!tokens?.accessToken) {
+            router.replace("/admin/login");
+            return;
+        }
+        const user = tokenStorage.getUser();
+        if (user?.role === "MERCHANT") {
+            router.replace("/merchant/dashboard");
+            return;
+        }
+        if (user?.role === "SUPPORT") {
+            router.replace("/support/dashboard");
+            return;
+        }
+        if (user?.role !== "ADMIN") {
+            tokenStorage.clear();
+            router.replace("/admin/login");
+            return;
+        }
+        setReady(true);
+    }, [router]);
 
-    if (isLoginPage) {
-        return <>{children}</>;
-    }
+    if (!ready) return <LoaderPage />;
 
     return (
         <div className="min-h-screen bg-muted/20">
@@ -30,9 +51,8 @@ export default function AdminLayout({
                 onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
             />
 
-            {/* Main Content */}
             <main className={`${isCollapsed ? "md:ml-20" : "md:ml-64"} min-h-screen flex flex-col transition-all duration-300 ease-in-out`}>
-                <DashboardHeader
+                <AdminHeader
                     onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 />
 

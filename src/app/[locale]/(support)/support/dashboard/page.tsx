@@ -1,11 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
-import { OverviewPageHeading } from "@/components/merchant/overview/overview-page-heading";
-import { OverviewStatsGrid } from "@/components/merchant/overview/overview-stats-grid";
-import { OverviewRecentActivity } from "@/components/merchant/overview/overview-recent-activity";
+import { SupportPageHeading } from "@/components/support/overview/support-page-heading";
+import { SupportStatsGrid } from "@/components/support/overview/support-stats-grid";
+import { SupportTicketFeed } from "@/components/support/overview/support-ticket-feed";
 import {
-    Headphones,
     MessageSquare,
     CheckCircle2,
     Clock,
@@ -13,10 +11,12 @@ import {
     AlertCircle,
     LifeBuoy,
     Search,
-    Tickets
 } from "lucide-react";
+import { useState } from "react";
 
 export default function SupportDashboardPage() {
+    const [searchQuery, setSearchQuery] = useState("");
+
     const stats = [
         {
             label: "Tickets Ouverts",
@@ -49,9 +49,9 @@ export default function SupportDashboardPage() {
             id: "tk-1",
             title: "Problème intégration PHP",
             meta: "Marchand: Boutique Alpha • Créé il y a 10 min",
-            amount: "NOUVEAU",
+            badge: "NOUVEAU",
             status: "Urgent",
-            amountClassName: "text-primary",
+            badgeClassName: "text-primary",
             statusClassName: "text-primary/70",
             icon: <AlertCircle className="h-5 w-5" />,
             iconWrapClassName: "bg-primary/10 text-primary",
@@ -60,9 +60,9 @@ export default function SupportDashboardPage() {
             id: "tk-2",
             title: "Demande de remboursement",
             meta: "Client: Jean Dupont • Créé il y a 45 min",
-            amount: "EN COURS",
+            badge: "EN COURS",
             status: "Normal",
-            amountClassName: "text-amber-600",
+            badgeClassName: "text-amber-600",
             statusClassName: "text-amber-600/70",
             icon: <Clock className="h-5 w-5" />,
             iconWrapClassName: "bg-amber-500/10 text-amber-600",
@@ -71,9 +71,9 @@ export default function SupportDashboardPage() {
             id: "tk-3",
             title: "Compte bloqué (2FA)",
             meta: "Marchand: Tech Solutions • Résolu il y a 2h",
-            amount: "RESOLU",
+            badge: "RÉSOLU",
             status: "Terminé",
-            amountClassName: "text-emerald-600",
+            badgeClassName: "text-emerald-600",
             statusClassName: "text-emerald-600/70",
             icon: <CheckCircle2 className="h-5 w-5" />,
             iconWrapClassName: "bg-emerald-500/10 text-emerald-600",
@@ -81,20 +81,20 @@ export default function SupportDashboardPage() {
     ];
 
     return (
-        <div className="space-y-8 p-6 md:p-8 pt-6">
-            <OverviewPageHeading
+        <div className="space-y-8">
+            <SupportPageHeading
                 title="Centre de Support"
-                subtitle="Gestion de l'assistance et des tickets SharePay 2026"
+                subtitle="Gestion de l'assistance et des tickets SharePay"
             />
 
-            <OverviewStatsGrid stats={stats as any} />
+            <SupportStatsGrid stats={stats} />
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <OverviewRecentActivity
+                <SupportTicketFeed
                     title="Tickets de Support Récents"
                     viewAllLabel="Voir tous les tickets"
-                    items={tickets as any}
-                    onViewAll={() => { }}
+                    items={tickets}
+                    onViewAll={() => {}}
                 />
 
                 <div className="space-y-6">
@@ -106,25 +106,28 @@ export default function SupportDashboardPage() {
                         <p className="text-muted-foreground mb-6 max-w-sm">
                             Consultez la base de connaissances interne ou contactez un superviseur pour les cas complexes.
                         </p>
-                        <div className="flex gap-4 w-full max-w-xs">
-                            <button className="flex-1 h-11 bg-primary text-primary-foreground rounded-lg font-medium shadow-sm hover:bg-primary/90 transition-all">
-                                Base de savoir
-                            </button>
-                        </div>
+                        <button className="h-11 px-6 bg-primary text-primary-foreground rounded-lg font-medium shadow-sm hover:bg-primary/90 transition-all">
+                            Base de savoir
+                        </button>
                     </div>
 
                     <div className="p-6 border rounded-xl bg-card shadow-sm space-y-4">
-                        <h3 className="font-semibold flex items-center space-x-2">
+                        <h3 className="font-semibold flex items-center gap-2">
                             <Search className="h-5 w-5 text-muted-foreground" />
-                            <span>Recherche Marchand rapide</span>
+                            Recherche Marchand rapide
                         </h3>
                         <div className="flex gap-2">
                             <input
                                 type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Email, ID ou Téléphone..."
-                                className="flex-1 h-10 px-3 border rounded-lg bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                className="flex-1 h-10 px-3 border rounded-lg bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm"
                             />
-                            <button className="px-4 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80">
+                            <button
+                                className="px-4 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors text-sm"
+                                onClick={() => {}}
+                            >
                                 Trouver
                             </button>
                         </div>

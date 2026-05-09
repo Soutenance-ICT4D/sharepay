@@ -3,7 +3,7 @@
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, LayoutDashboard, Users, FileText, Settings, Activity } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutDashboard, Users, Headphones, Shield, Plug, Settings } from "lucide-react";
 
 interface AdminSidebarProps {
     isOpen: boolean;
@@ -17,10 +17,11 @@ export function AdminSidebar({ isOpen, isCollapsed, onClose, onToggleCollapse }:
     const pathname = usePathname();
 
     const navItems = [
-        { href: '/admin-2026/dashboard', label: t('overview'), icon: <LayoutDashboard className="h-5 w-5" /> },
-        { href: '/admin-2026/custumers', label: t('merchants'), icon: <Users className="h-5 w-5" /> },
-        { href: '/admin-2026/logs', label: t('logs'), icon: <FileText className="h-5 w-5" /> },
-        { href: '/admin-2026/status', label: t('status'), icon: <Activity className="h-5 w-5" /> },
+        { href: '/admin/dashboard', label: t('overview'), icon: <LayoutDashboard className="h-5 w-5" /> },
+        { href: '/admin/merchants', label: t('merchants'), icon: <Users className="h-5 w-5" /> },
+        { href: '/admin/support', label: t('support'), icon: <Headphones className="h-5 w-5" /> },
+        { href: '/admin/admins', label: t('admins'), icon: <Shield className="h-5 w-5" /> },
+        { href: '/admin/providers', label: t('providers'), icon: <Plug className="h-5 w-5" /> },
     ];
 
     return (
@@ -38,9 +39,9 @@ export function AdminSidebar({ isOpen, isCollapsed, onClose, onToggleCollapse }:
                 md:translate-x-0
                 ${isCollapsed ? "md:w-20" : "md:w-64"}
             `}>
-                <div className="h-16 flex items-center px-6 border-b bg-red-500/5">
+                <div className="h-16 flex items-center px-6 border-b">
                     <Link
-                        href="/dashboard-admin"
+                        href="/admin/dashboard"
                         className="flex items-center gap-3 font-bold text-lg text-primary overflow-hidden"
                     >
                         <div className="relative h-8 w-8 min-w-[32px]">
@@ -82,9 +83,9 @@ export function AdminSidebar({ isOpen, isCollapsed, onClose, onToggleCollapse }:
 
                 <div className="p-4 border-t space-y-1">
                     <Link
-                        href="/admin-2026/settings"
+                        href="/admin/settings"
                         onClick={() => onClose()}
-                        className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${pathname === '/admin-2026/settings' ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"} ${isCollapsed ? "justify-center px-2" : ""}`}
+                        className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${pathname === '/admin/settings' ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"} ${isCollapsed ? "justify-center px-2" : ""}`}
                         title={isCollapsed ? t('settings') : ""}
                     >
                         <span className="h-10 w-10 min-w-[40px] rounded-lg flex items-center justify-center bg-muted/40 group-hover:bg-muted/60 transition-colors shrink-0">

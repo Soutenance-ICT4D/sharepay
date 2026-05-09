@@ -132,12 +132,24 @@ client.interceptors.response.use(
                     : new ApiError("EXPIRED_SESSION", "EXPIRED_SESSION");
 
             drainQueue(apiError, null);
-            tokenStorage.clear();
 
-            if (typeof window !== "undefined" && !window.location.pathname.includes("/merchant/login")) {
-                const segments = window.location.pathname.split("/");
-                const locale = ["en", "fr"].includes(segments[1]) ? `/${segments[1]}` : "";
-                window.location.href = `${locale}/merchant/login`;
+            if (typeof window !== "undefined") {
+                const user = tokenStorage.getUser();
+                tokenStorage.clear();
+
+                const role = user?.role;
+                const loginPath =
+                    role === "ADMIN" ? "/admin/login" :
+                    role === "SUPPORT" ? "/support/login" :
+                    "/merchant/login";
+
+                if (!window.location.pathname.includes(loginPath)) {
+                    const segments = window.location.pathname.split("/");
+                    const locale = ["en", "fr"].includes(segments[1]) ? `/${segments[1]}` : "";
+                    window.location.href = `${locale}${loginPath}`;
+                }
+            } else {
+                tokenStorage.clear();
             }
 
             return Promise.reject(apiError);

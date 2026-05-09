@@ -1,47 +1,48 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Wallet, ArrowDownRight, Activity } from "lucide-react";
+import { Wallet, Clock, ArrowDownRight } from "lucide-react";
 import { OverviewStatsGrid } from "@/components/merchant/overview/overview-stats-grid";
 import { OverviewStat } from "@/lib/data/dashboard";
+import { WithdrawalBalance } from "@/features/merchant/withdrawals/types";
 
 interface WithdrawalsBalanceProps {
-    balances: {
-        available: number;
-        totalWithdrawn: number;
-        globalFlow: number;
-    };
+    balances: WithdrawalBalance[];
+    loading?: boolean;
 }
 
-export function WithdrawalsBalance({ balances }: WithdrawalsBalanceProps) {
-    const t = useTranslations('Dashboard.Withdrawals');
+export function WithdrawalsBalance({ balances, loading }: WithdrawalsBalanceProps) {
+    const t = useTranslations("Dashboard.Withdrawals");
 
-    const availableBalanceStr = new Intl.NumberFormat('fr-FR').format(balances.available);
-    const totalWithdrawnStr = new Intl.NumberFormat('fr-FR').format(balances.totalWithdrawn);
-    const globalFlowStr = new Intl.NumberFormat('fr-FR').format(balances.globalFlow);
+    const xaf = balances.find((b) => b.currency === "XAF");
+    const available = xaf?.available ?? 0;
+    const pending   = xaf?.pending   ?? 0;
+
+    const fmt = (n: number) =>
+        new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(n);
+
+    const skeleton = loading && balances.length === 0;
 
     const stats: OverviewStat[] = [
         {
             label: t("availableBalance"),
-            value: `${availableBalanceStr} FCFA`,
+            value: skeleton ? "—" : fmt(available),
             icon: <Wallet className="h-5 w-5" />,
             iconWrapClassName: "bg-primary/10 text-primary",
         },
         {
-            label: t("totalWithdrawn"),
-            value: `${totalWithdrawnStr} FCFA`,
+            label: t("pendingBalance"),
+            value: skeleton ? "—" : fmt(pending),
+            icon: <Clock className="h-5 w-5" />,
+            iconWrapClassName: "bg-amber-500/10 text-amber-600",
+        },
+        {
+            label: t("totalBalance"),
+            value: skeleton ? "—" : fmt(available + pending),
             icon: <ArrowDownRight className="h-5 w-5" />,
             iconWrapClassName: "bg-emerald-500/10 text-emerald-600",
         },
-        {
-            label: t("globalFlow"),
-            value: `${globalFlowStr} FCFA`,
-            icon: <Activity className="h-5 w-5" />,
-            iconWrapClassName: "bg-blue-500/10 text-blue-600",
-        },
     ];
 
-    return (
-        <OverviewStatsGrid stats={stats} />
-    );
+    return <OverviewStatsGrid stats={stats} />;
 }

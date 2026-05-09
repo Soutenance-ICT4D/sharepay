@@ -1,79 +1,101 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
+import { Settings } from "lucide-react";
+import { toast } from "sonner";
 
+import { Link } from "@/i18n/routing";
+import { Button } from "@/components/ui/button";
 import { WithdrawalsBalance } from "@/components/merchant/withdrawals/withdrawals-balance";
 import { WithdrawalsForm } from "@/components/merchant/withdrawals/withdrawals-form";
-import { WithdrawalsMethods, PaymentMethod } from "@/components/merchant/withdrawals/withdrawals-methods";
-import { WithdrawalsHistoryTable, Withdrawal } from "@/components/merchant/withdrawals/withdrawals-history-table";
-import { WithdrawalsConfigModal, WithdrawalType } from "@/components/merchant/withdrawals/withdrawals-config-modal";
+import { WithdrawalsMethods } from "@/components/merchant/withdrawals/withdrawals-methods";
+import { WithdrawalAddAccountModal } from "@/components/merchant/withdrawals/withdrawal-add-account-modal";
+import { useWithdrawalBalance } from "@/features/merchant/withdrawals/hooks/use-withdrawal-balance";
+import { useWithdrawalProviders } from "@/features/merchant/withdrawals/hooks/use-withdrawal-providers";
+import { WithdrawAccount } from "@/features/merchant/withdrawals/types";
 
-interface WithdrawalsClientPageProps {
-    title: string;
-    subtitle: string;
-}
+export function WithdrawalsClientPage() {
+    const t = useTranslations("Dashboard.Withdrawals");
 
-export function WithdrawalsClientPage({ title, subtitle }: WithdrawalsClientPageProps) {
-    // 1. Centralized State
-    const [configType, setConfigType] = useState<WithdrawalType>("manual");
+    const { balances, loading: balanceLoading, refetch: refetchBalance } = useWithdrawalBalance();
+    const { providers } = useWithdrawalProviders();
 
-    // Default Mock Data
-    const [balances, setBalances] = useState({
-        available: 1500000,
-        totalWithdrawn: 5450000,
-        globalFlow: 6950000,
-    });
+    const [accounts, setAccounts] = useState<WithdrawAccount[]>([]);
+    const [addModalOpen, setAddModalOpen] = useState(false);
 
-    const [methods, setMethods] = useState<PaymentMethod[]>([
-        { id: "1", type: "momo", provider: "MTN Mobile Money", details: "+225 05 ** ** ** 12", default: true },
-        { id: "2", type: "card", provider: "Carte Visa", details: "**** **** **** 4242", default: false },
-    ]);
+    const handleAddAccount = useCallback((account: WithdrawAccount) => {
+        setAccounts((prev) => {
+            if (account.isDefault) {
+                return [...prev.map((a) => ({ ...a, isDefault: false })), account];
+            }
+            return [...prev, account];
+        });
+        setAddModalOpen(false);
+        toast.success(t("AddAccount.successAdd"));
+    }, [t]);
 
-    const [history, setHistory] = useState<Withdrawal[]>([
-        { id: "wd_001", date: new Date(2023, 9, 24, 14, 30), amount: 50000, destination: "MTN MoMo - •••• 1234", status: "completed" },
-        { id: "wd_002", date: new Date(2023, 10, 2, 9, 15), amount: 15000, destination: "Carte Visa - •••• 4242", status: "failed" },
-        { id: "wd_003", date: new Date(2023, 10, 15, 16, 45), amount: 75000, destination: "MTN MoMo - •••• 1234", status: "pending" },
-        { id: "wd_004", date: new Date(2023, 10, 20, 11, 20), amount: 120000, destination: "Carte Visa - •••• 4242", status: "completed" },
-        { id: "wd_005", date: new Date(2023, 11, 5, 8, 0), amount: 25000, destination: "MTN MoMo - •••• 1234", status: "completed" },
-        { id: "wd_006", date: new Date(2024, 0, 12, 14, 30), amount: 90000, destination: "Carte Visa - •••• 4242", status: "completed" },
-        { id: "wd_007", date: new Date(2024, 1, 3, 10, 15), amount: 45000, destination: "MTN MoMo - •••• 1234", status: "pending" },
-    ]);
+    const handleDeleteAccount = useCallback((id: string) => {
+        setAccounts((prev) => {
+            const remaining = prev.filter((a) => a.id !== id);
+            if (remaining.length > 0 && !remaining.some((a) => a.isDefault)) {
+                remaining[0] = { ...remaining[0], isDefault: true };
+            }
+            return remaining;
+        });
+    }, []);
 
-    // 2. Handlers
-    const handleSaveConfig = (newType: WithdrawalType) => {
-        setConfigType(newType);
-    };
+    const handleSetDefault = useCallback((id: string) => {
+        setAccounts((prev) =>
+            prev.map((a) => ({ ...a, isDefault: a.id === id }))
+        );
+    }, []);
 
     return (
         <div className="space-y-8">
             {/* Page Heading */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-                        {title}
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 min-w-0">
+                <div className="min-w-0">
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-foreground truncate">
+                        {t("title")}
                     </h2>
-                    <p className="text-sm sm:text-base text-muted-foreground font-medium mt-1">
-                        {subtitle}
+                    <p className="text-sm text-muted-foreground font-medium mt-1 truncate">
+                        {t("subtitle")}
                     </p>
                 </div>
-                <WithdrawalsConfigModal
-                    currentType={configType}
-                    onSave={handleSaveConfig}
+                <Link href="/merchant/withdrawals/config" className="shrink-0">
+                    <Button variant="outline" className="rounded-xl w-full sm:w-auto">
+                        <Settings className="w-4 h-4 mr-2" />
+                        {t("configureWithdrawals")}
+                    </Button>
+                </Link>
+            </div>
+
+            {/* Balance Stats */}
+            <WithdrawalsBalance balances={balances} loading={balanceLoading} />
+
+            {/* Form + Methods */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                <WithdrawalsForm
+                    accounts={accounts}
+                    onSuccess={refetchBalance}
+                />
+                <WithdrawalsMethods
+                    accounts={accounts}
+                    onAddClick={() => setAddModalOpen(true)}
+                    onDelete={handleDeleteAccount}
+                    onSetDefault={handleSetDefault}
                 />
             </div>
 
-            {/* Top Section */}
-            <WithdrawalsBalance balances={balances} />
-
-            {/* Middle Section: Grid -> Form + Methods */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <WithdrawalsForm disabled={configType !== "manual"} />
-                <WithdrawalsMethods methods={methods} />
-            </div>
-
-            {/* Bottom Section: History */}
-            <WithdrawalsHistoryTable history={history} />
+            {/* Add Account Modal */}
+            <WithdrawalAddAccountModal
+                open={addModalOpen}
+                providers={providers}
+                hasAccounts={accounts.length > 0}
+                onClose={() => setAddModalOpen(false)}
+                onSave={handleAddAccount}
+            />
         </div>
     );
 }

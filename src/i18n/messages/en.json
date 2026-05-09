@@ -664,7 +664,8 @@
       "notifications": "Notifications",
       "faq": "FAQ",
       "edit": "Edit",
-      "new": "New"
+      "new": "New",
+      "config": "Configuration"
     },
     "FundsCollection": {
       "title": "Funds Collection",
@@ -1093,24 +1094,68 @@
     },
     "Withdrawals": {
       "title": "My Withdrawals",
-      "subtitle": "Manage your withdrawals to your bank and mobile accounts.",
+      "subtitle": "Manage your withdrawals to your mobile accounts.",
       "availableBalance": "Available Balance",
-      "totalWithdrawn": "Total Withdrawn",
-      "globalFlow": "Global Flow",
-      "configureWithdrawals": "Configure withdrawals",
+      "pendingBalance": "Pending Balance",
+      "totalBalance": "Total Balance",
+      "configureWithdrawals": "Configuration",
       "Form": {
         "title": "Make a withdrawal",
         "amountLabel": "Amount to withdraw",
         "amountPlaceholder": "Ex: 50000",
-        "destinationLabel": "Payment Method",
-        "destinationPlaceholder": "Select a destination",
-        "submit": "Withdraw funds"
+        "destinationLabel": "Withdrawal Account",
+        "destinationPlaceholder": "Select an account",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "E.g. Customer refund",
+        "optional": "optional",
+        "submit": "Withdraw funds",
+        "disabledNotice": "Manual withdrawal is disabled when an automatic mode is configured.",
+        "noAccountsHint": "Add a withdrawal account first →",
+        "summaryTo": "To",
+        "summaryVia": "Via",
+        "summaryAmount": "Amount",
+        "successTitle": "Withdrawal initiated",
+        "successRef": "Reference:",
+        "errorTitle": "Withdrawal failed",
+        "errorAmount": "Please enter a valid amount.",
+        "errorDestination": "Please select a withdrawal account.",
+        "errorGeneric": "An error occurred, please try again."
       },
       "Methods": {
-        "title": "Payment Methods",
-        "addMethod": "Add new method",
-        "edit": "Edit",
+        "title": "Withdrawal Accounts",
+        "addMethod": "Add account",
+        "noAccounts": "No withdrawal accounts configured.",
+        "addFirst": "Add an account",
+        "default": "Default",
+        "setDefault": "Set as default",
         "delete": "Delete"
+      },
+      "AddAccount": {
+        "title": "Add a withdrawal account",
+        "subtitle": "This account will be available as a destination for your future withdrawals.",
+        "providerLabel": "Provider",
+        "providerPlaceholder": "Select a provider",
+        "noProviders": "No providers available",
+        "phoneLabel": "Phone number",
+        "phonePlaceholder": "Ex: 237690000000",
+        "phoneHint": "Enter the number without spaces or dashes.",
+        "nameLabel": "Beneficiary name",
+        "namePlaceholder": "Ex: John Doe",
+        "setDefault": "Set as default account",
+        "submit": "Add account",
+        "cancel": "Cancel",
+        "successAdd": "Withdrawal account added.",
+        "errorProvider": "Please select a provider.",
+        "errorPhone": "Please enter a phone number.",
+        "errorPhoneFormat": "Invalid format (8 to 15 digits).",
+        "errorName": "Please enter the beneficiary name."
+      },
+      "ConfigPage": {
+        "title": "Withdrawal Configuration",
+        "subtitle": "Set up your automatic withdrawal behavior.",
+        "back": "Back to withdrawals",
+        "recommended": "Recommended",
+        "saved": "Configuration saved."
       },
       "History": {
         "title": "Withdrawal History",
@@ -1157,11 +1202,25 @@
   },
   "Admin": {
     "Sidebar": {
-      "overview": "Global System",
-      "merchants": "Merchant Management",
-      "logs": "Audit Logs",
-      "settings": "System Settings",
-      "status": "Infrastructure Status"
+      "overview": "Overview",
+      "merchants": "Merchants",
+      "support": "Support",
+      "admins": "Administrators",
+      "providers": "Providers",
+      "settings": "System Settings"
+    },
+    "Header": {
+      "settings": "Settings",
+      "logout": "Sign Out"
+    },
+    "Breadcrumbs": {
+      "admin": "Administration",
+      "dashboard": "Dashboard",
+      "merchants": "Merchants",
+      "support": "Support",
+      "admins": "Administrators",
+      "providers": "Providers",
+      "settings": "Settings"
     }
   },
   "Support": {
@@ -1171,6 +1230,18 @@
       "merchants": "Merchant Search",
       "help": "Knowledge Base",
       "settings": "Support Settings"
+    },
+    "Header": {
+      "settings": "Preferences",
+      "logout": "Sign Out"
+    },
+    "Breadcrumbs": {
+      "support": "Support",
+      "dashboard": "Dashboard",
+      "tickets": "Tickets",
+      "merchants": "Merchants",
+      "help": "Knowledge Base",
+      "settings": "Preferences"
     }
   },
   "NotFound": {

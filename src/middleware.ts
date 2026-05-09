@@ -4,35 +4,40 @@ import { routing } from './i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
+const merchantAuthPages = [
+    '/merchant/login', '/merchant/register', '/merchant/forgot-password',
+    '/merchant/verify-email', '/merchant/verify-reset-code', '/merchant/reset-password',
+];
+
 export default function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const sessionCookie = request.cookies.get('sharepay_session');
     const isAuthenticated = !!sessionCookie;
 
-    // List of public auth pages
-    const publicAuthPages = [
-        '/merchant/login', '/merchant/register', '/merchant/forgot-password',
-        '/merchant/verify-email', '/merchant/verify-reset-code', '/merchant/reset-password',
-        '/admin/login', '/super-admin/login', '/support/login',
-    ];
-    
-    // Check if the current path is a public auth route
-    const isPublicAuthRoute = publicAuthPages.some(page => pathname.includes(page));
+    const isMerchantAuthRoute = merchantAuthPages.some(page => pathname.includes(page));
+    const isAdminAuthRoute = pathname.includes('/admin/login');
+    const isSupportAuthRoute = pathname.includes('/support/login');
 
-    // Routes marchands protégées : tout ce qui commence par /merchant/ sauf les pages d'auth
-    const isProtectedMerchantRoute = pathname.includes('/merchant/') && !isPublicAuthRoute;
+    const isProtectedMerchantRoute = pathname.includes('/merchant/') && !isMerchantAuthRoute;
+    const isProtectedAdminRoute = pathname.includes('/admin/') && !isAdminAuthRoute;
+    const isProtectedSupportRoute = pathname.includes('/support/') && !isSupportAuthRoute;
 
-    // 1. Redirect authenticated users away from auth pages to the merchant dashboard
-    if (isAuthenticated && isPublicAuthRoute) {
+    // Redirect authenticated merchant users away from merchant auth pages
+    if (isAuthenticated && isMerchantAuthRoute) {
         return NextResponse.redirect(new URL('/merchant/dashboard', request.url));
     }
 
-    // 2. Redirect unauthenticated users trying to access protected routes
+    // Redirect unauthenticated users from protected routes to the relevant login page
     if (!isAuthenticated && isProtectedMerchantRoute) {
         return NextResponse.redirect(new URL('/merchant/login', request.url));
     }
+    if (!isAuthenticated && isProtectedAdminRoute) {
+        return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+    if (!isAuthenticated && isProtectedSupportRoute) {
+        return NextResponse.redirect(new URL('/support/login', request.url));
+    }
 
-    // Apply i18n middleware for all cases
     return intlMiddleware(request);
 }
 

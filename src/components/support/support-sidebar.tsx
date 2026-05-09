@@ -3,7 +3,7 @@
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, LayoutDashboard, Tickets, Search, HelpCircle, Settings } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutDashboard, Ticket, Search, HelpCircle, Settings } from "lucide-react";
 
 interface SupportSidebarProps {
     isOpen: boolean;
@@ -17,10 +17,10 @@ export function SupportSidebar({ isOpen, isCollapsed, onClose, onToggleCollapse 
     const pathname = usePathname();
 
     const navItems = [
-        { href: '/support-2026/dashboard', label: t('overview'), icon: <LayoutDashboard className="h-5 w-5" /> },
-        { href: '/support-2026/tickets', label: t('tickets'), icon: <Tickets className="h-5 w-5" /> },
-        { href: '/support-2026/merchants', label: t('merchants'), icon: <Search className="h-5 w-5" /> },
-        { href: '/support-2026/help', label: t('help'), icon: <HelpCircle className="h-5 w-5" /> },
+        { href: '/support/dashboard', label: t('overview'), icon: <LayoutDashboard className="h-5 w-5" /> },
+        { href: '/support/tickets', label: t('tickets'), icon: <Ticket className="h-5 w-5" /> },
+        { href: '/support/merchants', label: t('merchants'), icon: <Search className="h-5 w-5" /> },
+        { href: '/support/help', label: t('help'), icon: <HelpCircle className="h-5 w-5" /> },
     ];
 
     return (
@@ -38,10 +38,10 @@ export function SupportSidebar({ isOpen, isCollapsed, onClose, onToggleCollapse 
                 md:translate-x-0
                 ${isCollapsed ? "md:w-20" : "md:w-64"}
             `}>
-                <div className="h-16 flex items-center px-6 border-b bg-blue-500/5">
+                <div className="h-16 flex items-center px-6 border-b">
                     <Link
-                        href="/dashboard-support"
-                        className="flex items-center gap-3 font-bold text-lg text-primary overflow-hidden"
+                        href="/support/dashboard"
+                        className="flex items-center gap-3 font-bold text-lg overflow-hidden"
                     >
                         <div className="relative h-8 w-8 min-w-[32px]">
                             <Image
@@ -82,9 +82,9 @@ export function SupportSidebar({ isOpen, isCollapsed, onClose, onToggleCollapse 
 
                 <div className="p-4 border-t space-y-1">
                     <Link
-                        href="/support-2026/settings"
+                        href="/support/settings"
                         onClick={() => onClose()}
-                        className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${pathname === '/support-2026/settings' ? "bg-blue-500/10 text-blue-600" : "text-muted-foreground hover:bg-muted hover:text-foreground"} ${isCollapsed ? "justify-center px-2" : ""}`}
+                        className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-300 ${pathname === '/support/settings' ? "bg-blue-500/10 text-blue-600" : "text-muted-foreground hover:bg-muted hover:text-foreground"} ${isCollapsed ? "justify-center px-2" : ""}`}
                         title={isCollapsed ? t('settings') : ""}
                     >
                         <span className="h-10 w-10 min-w-[40px] rounded-lg flex items-center justify-center bg-muted/40 group-hover:bg-muted/60 transition-colors shrink-0">
