@@ -4,7 +4,7 @@
     "register": "Commencer",
     "features": "Fonctionnalités",
     "pricing": "Tarifs",
-    "api_lab": "API Lab",
+    "api_lab": "Test API",
     "documentation": "Documentations",
     "blog": "Blog",
     "about": "À propos",
@@ -17,7 +17,7 @@
     "features": "Fonctionnalités",
     "pricing": "Tarifs",
     "api": "Docs",
-    "api_lab": "API Lab",
+    "api_lab": "Test API",
     "status": "État du système",
     "company": "Entreprise",
     "about": "À propos",
@@ -628,7 +628,19 @@
       "verified": "Compte Vérifié",
       "memberSince": "Membre depuis",
       "Hero": {
-        "editAvatar": "Modifier l'avatar"
+        "editAvatar": "Modifier l'avatar",
+        "kycNone": "Non vérifié",
+        "kycBasic": "KYC Basique",
+        "kycAdvanced": "KYC Avancé",
+        "kycFull": "Vérifié",
+        "statusActive": "Actif",
+        "uploadErrorFormat": "Format non supporté. Utilisez jpg, png ou webp.",
+        "uploadErrorSize": "L'image ne doit pas dépasser 1 Mo.",
+        "uploadError": "Erreur lors de l'upload",
+        "modalTitle": "Photo de profil",
+        "modalUpload": "Changer la photo",
+        "modalRemove": "Retirer la photo",
+        "modalCancel": "Annuler"
       },
       "Information": {
         "title": "Mes Informations",
@@ -646,7 +658,10 @@
         "address": "Adresse",
         "city": "Ville",
         "country": "Pays",
-        "save": "Enregistrer"
+        "save": "Enregistrer",
+        "verified": "Vérifié",
+        "saved": "Enregistré",
+        "genericError": "Une erreur est survenue."
       },
       "Security": {
         "title": "Sécurité du Compte",
@@ -660,7 +675,21 @@
         "sessionsDesc": "Gérez vos sessions actives sur différents navigateurs",
         "sessionsDisconnect": "Tout déconnecter",
         "sessionCurrent": "Session actuelle",
-        "sessionActive": "Actif"
+        "sessionActive": "Actif",
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "passwordUpdated": "Mot de passe mis à jour",
+        "oauthDesc": "Connexion via compte externe — pas de mot de passe local",
+        "genericError": "Une erreur est survenue.",
+        "passwordRules": {
+          "length": "Min. 8 caractères",
+          "uppercase": "1 lettre majuscule",
+          "lowercase": "1 lettre minuscule",
+          "digit": "1 chiffre",
+          "special": "1 caractère spécial (@#$%^&+=!*)"
+        }
       },
       "DangerZone": {
         "title": "Zone de danger",
@@ -693,7 +722,11 @@
         "docStatus_rejected": "Rejeté",
         "uploadedAt": "Soumis le {date}",
         "notUploaded": "Non soumis",
-        "upload": "Téléverser"
+        "upload": "Téléverser",
+        "verified": "Vérifié",
+        "unverified": "Non vérifié",
+        "verify": "Vérifier",
+        "linkSent": "Lien envoyé"
       }
     },
     "Settings": {

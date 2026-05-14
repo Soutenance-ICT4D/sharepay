@@ -4,7 +4,7 @@
     "register": "Get Started",
     "features": "Features",
     "pricing": "Pricing",
-    "api_lab": "API Lab",
+    "api_lab": "Test API",
     "documentation": "Documentation",
     "blog": "Blog",
     "about": "About",
@@ -17,7 +17,7 @@
     "features": "Features",
     "pricing": "Pricing",
     "api": "Docs",
-    "api_lab": "API Lab",
+    "api_lab": "Test API",
     "status": "System Status",
     "company": "Company",
     "about": "About",
@@ -628,7 +628,19 @@
       "verified": "Verified Account",
       "memberSince": "Member since",
       "Hero": {
-        "editAvatar": "Edit Avatar"
+        "editAvatar": "Edit Avatar",
+        "kycNone": "Not Verified",
+        "kycBasic": "Basic KYC",
+        "kycAdvanced": "Advanced KYC",
+        "kycFull": "Verified",
+        "statusActive": "Active",
+        "uploadErrorFormat": "Unsupported format. Use jpg, png or webp.",
+        "uploadErrorSize": "Image must not exceed 1 MB.",
+        "uploadError": "Upload error",
+        "modalTitle": "Profile photo",
+        "modalUpload": "Change photo",
+        "modalRemove": "Remove photo",
+        "modalCancel": "Cancel"
       },
       "Information": {
         "title": "My Information",
@@ -646,7 +658,10 @@
         "address": "Address",
         "city": "City",
         "country": "Country",
-        "save": "Save"
+        "save": "Save",
+        "verified": "Verified",
+        "saved": "Saved",
+        "genericError": "An error occurred."
       },
       "Security": {
         "title": "Account Security",
@@ -660,7 +675,21 @@
         "sessionsDesc": "Manage your active sessions across browsers",
         "sessionsDisconnect": "Sign out all",
         "sessionCurrent": "Current session",
-        "sessionActive": "Active"
+        "sessionActive": "Active",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "passwordUpdated": "Password updated",
+        "oauthDesc": "Connected via external account — no local password",
+        "genericError": "An error occurred.",
+        "passwordRules": {
+          "length": "Min. 8 characters",
+          "uppercase": "1 uppercase letter",
+          "lowercase": "1 lowercase letter",
+          "digit": "1 digit",
+          "special": "1 special character (@#$%^&+=!*)"
+        }
       },
       "DangerZone": {
         "title": "Danger Zone",
@@ -693,7 +722,11 @@
         "docStatus_rejected": "Rejected",
         "uploadedAt": "Submitted on {date}",
         "notUploaded": "Not submitted",
-        "upload": "Upload"
+        "upload": "Upload",
+        "verified": "Verified",
+        "unverified": "Not verified",
+        "verify": "Verify",
+        "linkSent": "Link sent"
       }
     },
     "Settings": {

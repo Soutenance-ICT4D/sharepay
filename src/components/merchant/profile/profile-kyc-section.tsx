@@ -1,71 +1,108 @@
 "use client";
 
-import { ShieldCheck, Mail, Phone, CreditCard, CheckCircle2, Clock, XCircle, Upload } from "lucide-react";
+import { useState } from "react";
+import { ShieldCheck, Mail, Phone, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
-import { UserProfileData } from "@/lib/data/mock-profile";
 
 interface ProfileKycSectionProps {
-    kyc: UserProfileData["kyc"];
-    email: string;
-    phone: string;
+    email:         string;
+    phone:         string;
+    emailVerified: boolean;
+    phoneVerified: boolean;
 }
-
-type ItemStatus = "approved" | "uploaded" | "missing" | "rejected";
-
-const statusStyle: Record<ItemStatus, { badge: string; icon: React.ElementType; iconColor: string }> = {
-    approved: { badge: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30", icon: CheckCircle2, iconColor: "text-green-500" },
-    uploaded: { badge: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30", icon: Clock,         iconColor: "text-amber-500" },
-    missing:  { badge: "bg-muted text-muted-foreground border-border",                            icon: XCircle,       iconColor: "text-muted-foreground" },
-    rejected: { badge: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30",         icon: XCircle,       iconColor: "text-red-500" },
-};
 
 function VerifRow({
     icon: Icon,
     label,
     value,
-    status,
-    onUpload,
+    verified,
+    onVerify,
+    verifying,
+    sent,
+    verifiedLabel,
+    unverifiedLabel,
+    verifyLabel,
+    sentLabel,
 }: {
-    icon: React.ElementType;
-    label: string;
-    value: string;
-    status: ItemStatus;
-    onUpload?: () => void;
+    icon:            React.ElementType;
+    label:           string;
+    value:           string;
+    verified:        boolean;
+    onVerify?:       () => void;
+    verifying?:      boolean;
+    sent?:           boolean;
+    verifiedLabel:   string;
+    unverifiedLabel: string;
+    verifyLabel:     string;
+    sentLabel:       string;
 }) {
-    const t = useTranslations("Dashboard.Profile.Kyc");
-    const cfg = statusStyle[status];
-    const StatusIcon = cfg.icon;
-
     return (
-        <div className="flex items-center gap-4 px-6 py-4 hover:bg-muted/30 transition-colors">
-            <div className="bg-primary/10 p-2.5 rounded-xl shrink-0">
-                <Icon className="w-4 h-4 text-primary" />
+        <div className="flex items-center gap-4 px-6 py-4">
+            <div className={`p-2.5 rounded-xl shrink-0 ${verified ? "bg-emerald-500/10" : "bg-amber-500/10"}`}>
+                <Icon className={`w-4 h-4 ${verified ? "text-emerald-500" : "text-amber-500"}`} />
             </div>
+
             <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold">{label}</p>
-                <p className="text-xs text-muted-foreground truncate">{value}</p>
+                <p className="text-xs text-muted-foreground truncate">{value || "—"}</p>
             </div>
+
             <div className="flex items-center gap-2 shrink-0">
-                <StatusIcon className={`w-4 h-4 ${cfg.iconColor}`} />
-                <Badge variant="outline" className={`text-xs font-medium ${cfg.badge}`}>
-                    {t(`docStatus_${status}`)}
-                </Badge>
-                {(status === "missing" || status === "rejected") && onUpload && (
-                    <Button type="button" variant="outline" size="sm" className="gap-1.5 text-xs ml-1" onClick={onUpload}>
-                        <Upload className="w-3 h-3" />
-                        {t("upload")}
-                    </Button>
+                {verified ? (
+                    <>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                        <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                            {verifiedLabel}
+                        </span>
+                    </>
+                ) : sent ? (
+                    <span className="text-xs text-muted-foreground italic">{sentLabel}</span>
+                ) : (
+                    <>
+                        <AlertCircle className="w-4 h-4 text-amber-500" />
+                        <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full">
+                            {unverifiedLabel}
+                        </span>
+                        {onVerify && (
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={onVerify}
+                                disabled={verifying}
+                                className="ml-1 text-xs gap-1.5 h-7 rounded-lg"
+                            >
+                                {verifying && <Loader2 className="w-3 h-3 animate-spin" />}
+                                {verifyLabel}
+                            </Button>
+                        )}
+                    </>
                 )}
             </div>
         </div>
     );
 }
 
-export function ProfileKycSection({ kyc, email, phone }: ProfileKycSectionProps) {
+export function ProfileKycSection({ email, phone, emailVerified, phoneVerified }: ProfileKycSectionProps) {
     const t = useTranslations("Dashboard.Profile.Kyc");
-    const idCard = kyc.documents.find((d) => d.type === "id_card");
+
+    const [sendingEmail, setSendingEmail]   = useState(false);
+    const [emailSent,    setEmailSent]      = useState(false);
+
+    const handleVerifyEmail = async () => {
+        setSendingEmail(true);
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1"}/auth/resend-verification`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+            setEmailSent(true);
+        } finally {
+            setSendingEmail(false);
+        }
+    };
 
     return (
         <section>
@@ -79,20 +116,24 @@ export function ProfileKycSection({ kyc, email, phone }: ProfileKycSectionProps)
                     icon={Mail}
                     label={t("emailLabel")}
                     value={email}
-                    status="approved"
+                    verified={emailVerified}
+                    onVerify={!emailVerified ? handleVerifyEmail : undefined}
+                    verifying={sendingEmail}
+                    sent={emailSent}
+                    verifiedLabel={t("verified")}
+                    unverifiedLabel={t("unverified")}
+                    verifyLabel={t("verify")}
+                    sentLabel={t("linkSent")}
                 />
                 <VerifRow
                     icon={Phone}
                     label={t("phoneLabel")}
                     value={phone}
-                    status="approved"
-                />
-                <VerifRow
-                    icon={CreditCard}
-                    label={t("idCardLabel")}
-                    value={idCard?.uploadedAt ? t("uploadedAt", { date: idCard.uploadedAt }) : t("notUploaded")}
-                    status={idCard?.status ?? "missing"}
-                    onUpload={() => {}}
+                    verified={phoneVerified}
+                    verifiedLabel={t("verified")}
+                    unverifiedLabel={t("unverified")}
+                    verifyLabel={t("verify")}
+                    sentLabel={t("linkSent")}
                 />
             </div>
         </section>

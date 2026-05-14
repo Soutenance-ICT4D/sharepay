@@ -75,10 +75,11 @@ export function SiteHeader() {
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
     const menuItems = [
-        { label: t('features'), href: '/features' },
-        { label: t('pricing'), href: '/pricing' },
-        { label: t('blog'), href: '/blog' },
-        { label: t('about'), href: '/about' },
+        { label: t('features'),    href: '/features' },
+        { label: t('pricing'),     href: '/pricing' },
+        { label: t('api_lab'),     href: '/test-api' },
+        { label: t('blog'),        href: '/blog' },
+        { label: t('about'),       href: '/about' },
     ];
 
     const isActive = (href: string) =>

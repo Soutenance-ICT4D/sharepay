@@ -1,3 +1,7 @@
+export function isApiError(e: unknown): e is ApiError {
+    return e instanceof ApiError;
+}
+
 export class ApiError extends Error {
     readonly code: string;
     readonly httpStatus?: number;

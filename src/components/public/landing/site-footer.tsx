@@ -37,7 +37,7 @@ export function SiteFooter() {
     product: [
       { name: t('features'), href: "/features" },
       { name: t('pricing'), href: "/pricing" },
-      { name: t('api_lab'), href: "/api-lab" },
+      { name: t('api_lab'), href: "/test-api" },
       { name: t('api'), href: "/docs" },
     ],
     company: [

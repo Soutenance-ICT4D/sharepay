@@ -1,85 +1,186 @@
-import { Shield, KeyRound, ShieldCheck, Monitor, Smartphone, X } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Shield, KeyRound, Loader2, Check, Circle, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
-import { UserProfileData, ActiveSession } from "@/lib/data/mock-profile";
+import { cn } from "@/lib/utils";
+import { accountService } from "@/lib/services/account.service";
+import { isApiError } from "@/lib/api/error";
 
 interface ProfileSecurityProps {
-    security: UserProfileData['security'];
-    sessions: ActiveSession[];
+    isOAuth: boolean;
 }
 
-export function ProfileSecurity({ security, sessions }: ProfileSecurityProps) {
-    const t = useTranslations('Dashboard.Profile.Security');
+function ChangePasswordForm({ onClose }: { onClose: () => void }) {
+    const t    = useTranslations("Dashboard.Profile.Security");
+    const [current,  setCurrent]  = useState("");
+    const [next,     setNext]     = useState("");
+    const [showCurr, setShowCurr] = useState(false);
+    const [showNext, setShowNext] = useState(false);
+    const [saving,   setSaving]   = useState(false);
+    const [done,     setDone]     = useState(false);
+    const [error,    setError]    = useState<string | null>(null);
+
+    const passwordRules = [
+        { key: "length",    test: (p: string) => p.length >= 8 },
+        { key: "uppercase", test: (p: string) => /[A-Z]/.test(p) },
+        { key: "lowercase", test: (p: string) => /[a-z]/.test(p) },
+        { key: "digit",     test: (p: string) => /[0-9]/.test(p) },
+        { key: "special",   test: (p: string) => /[@#$%^&+=!*]/.test(p) },
+    ] as const;
+
+    const isPasswordValid = passwordRules.every(r => r.test(next));
+    const valid = current.length > 0 && isPasswordValid && next !== current;
+
+    const handleSubmit = async () => {
+        setSaving(true);
+        setError(null);
+        try {
+            await accountService.changePassword({ currentPassword: current, newPassword: next });
+            setDone(true);
+            setTimeout(onClose, 1500);
+        } catch (e) {
+            setError(isApiError(e) ? e.message : t("genericError"));
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    if (done) {
+        return (
+            <div className="flex flex-col items-center gap-3 py-4">
+                <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                    <Check className="w-6 h-6 text-emerald-500" />
+                </div>
+                <p className="font-semibold text-sm text-emerald-600 dark:text-emerald-400">{t("passwordUpdated")}</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-4 mt-4 border-t border-border pt-4">
+            <div className="space-y-1.5">
+                <Label className="text-xs">{t("currentPassword")}</Label>
+                <div className="relative">
+                    <Input
+                        type={showCurr ? "text" : "password"}
+                        value={current}
+                        onChange={(e) => setCurrent(e.target.value)}
+                        className="pr-10"
+                        placeholder="••••••••"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowCurr(!showCurr)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                        {showCurr ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                </div>
+            </div>
+
+            <div className="space-y-1.5">
+                <Label className="text-xs">{t("newPassword")}</Label>
+                <div className="relative">
+                    <Input
+                        type={showNext ? "text" : "password"}
+                        value={next}
+                        onChange={(e) => setNext(e.target.value)}
+                        className="pr-10"
+                        placeholder="••••••••"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowNext(!showNext)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                        {showNext ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                </div>
+                {next.length > 0 && (
+                    <ul className="space-y-1 pt-1">
+                        {passwordRules.map(rule => {
+                            const ok = rule.test(next);
+                            return (
+                                <li
+                                    key={rule.key}
+                                    className={cn(
+                                        "flex items-center gap-2 text-xs transition-colors duration-200",
+                                        ok ? "text-green-600 dark:text-green-400" : "text-muted-foreground"
+                                    )}
+                                >
+                                    {ok
+                                        ? <Check className="h-3 w-3 shrink-0" />
+                                        : <Circle className="h-3 w-3 shrink-0" />
+                                    }
+                                    {t(`passwordRules.${rule.key}` as Parameters<typeof t>[0])}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                )}
+            </div>
+
+            {error && <p className="text-sm text-destructive">{error}</p>}
+
+            <div className="flex gap-2 justify-end">
+                <Button variant="ghost" size="sm" onClick={onClose} disabled={saving}>{t("cancel")}</Button>
+                <Button
+                    size="sm"
+                    onClick={handleSubmit}
+                    disabled={!valid || saving}
+                    className="gap-1.5 font-bold rounded-lg"
+                >
+                    {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                    {t("confirm")}
+                </Button>
+            </div>
+        </div>
+    );
+}
+
+export function ProfileSecurity({ isOAuth }: ProfileSecurityProps) {
+    const t = useTranslations("Dashboard.Profile.Security");
+    const [showPasswordForm, setShowPasswordForm] = useState(false);
 
     return (
         <section>
             <div className="flex items-center gap-2 mb-6">
                 <Shield className="text-primary w-6 h-6" />
-                <h3 className="text-lg font-bold">{t('title')}</h3>
+                <h3 className="text-lg font-bold">{t("title")}</h3>
             </div>
-            <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 bg-card rounded-xl border border-border shadow-sm gap-4">
+
+            <div className="p-6 bg-card rounded-xl border border-border shadow-sm">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex gap-4">
                         <div className="bg-blue-500/10 p-2.5 rounded-lg h-fit">
                             <KeyRound className="text-blue-600 dark:text-blue-400 w-5 h-5" />
                         </div>
                         <div>
-                            <p className="font-bold text-base">{t('passwordTitle')}</p>
-                            <p className="text-sm text-muted-foreground">{t('passwordDesc')} {security.lastPasswordChange}</p>
+                            <p className="font-bold text-base">{t("passwordTitle")}</p>
+                            {isOAuth ? (
+                                <p className="text-sm text-muted-foreground">{t("oauthDesc")}</p>
+                            ) : (
+                                <p className="text-sm text-muted-foreground">{t("passwordDesc")}</p>
+                            )}
                         </div>
                     </div>
-                    <Button variant="outline" className="w-full sm:w-auto font-bold rounded-xl border-input">{t('passwordChange')}</Button>
+                    {!isOAuth && !showPasswordForm && (
+                        <Button
+                            variant="outline"
+                            className="w-full sm:w-auto font-bold rounded-xl border-input"
+                            onClick={() => setShowPasswordForm(true)}
+                        >
+                            {t("passwordChange")}
+                        </Button>
+                    )}
                 </div>
-
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 bg-card rounded-xl border border-border shadow-sm gap-4">
-                    <div className="flex gap-4">
-                        <div className="bg-purple-500/10 p-2.5 rounded-lg h-fit">
-                            <ShieldCheck className="text-purple-600 dark:text-purple-400 w-5 h-5" />
-                        </div>
-                        <div>
-                            <p className="font-bold text-base">{t('twoFactorTitle')}</p>
-                            <p className="text-sm text-muted-foreground">{t('twoFactorDesc')}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2 w-full sm:w-auto sm:justify-end">
-                        {security.twoFactorEnabled && <span className="text-sm font-medium text-muted-foreground mr-2">{t('twoFactorActive')}</span>}
-                        <button className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background ${security.twoFactorEnabled ? 'bg-primary' : 'bg-muted'}`}>
-                            <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ${security.twoFactorEnabled ? 'translate-x-5' : 'translate-x-0'}`}></span>
-                        </button>
-                    </div>
-                </div>
-
-                <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-                    <div className="p-6 border-b border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div>
-                            <p className="font-bold">{t('sessionsTitle')}</p>
-                            <p className="text-sm text-muted-foreground">{t('sessionsDesc')}</p>
-                        </div>
-                        <button className="text-sm font-bold text-destructive hover:text-destructive/80 transition-colors">{t('sessionsDisconnect')}</button>
-                    </div>
-                    <div className="divide-y divide-border">
-                        {sessions.map((session) => (
-                            <div key={session.id} className="p-4 flex items-center justify-between hover:bg-muted/50 transition-colors">
-                                <div className="flex items-center gap-4">
-                                    {session.device.toLowerCase().includes('iphone') || session.device.toLowerCase().includes('android') ? (
-                                        <Smartphone className="text-muted-foreground w-5 h-5" />
-                                    ) : (
-                                        <Monitor className="text-muted-foreground w-5 h-5" />
-                                    )}
-                                    <div>
-                                        <p className="text-sm font-semibold">{session.browser} sur {session.device} {session.isCurrent && `(${t('sessionCurrent')})`}</p>
-                                        <p className="text-xs text-muted-foreground">{session.location} • {session.ipAddress} {!session.isCurrent && `• ${session.lastActive}`}</p>
-                                    </div>
-                                </div>
-                                {session.isCurrent ? (
-                                    <span className="bg-green-500/10 text-green-600 dark:text-green-400 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">{t('sessionActive')}</span>
-                                ) : (
-                                    <button className="text-muted-foreground hover:text-destructive transition-colors"><X className="w-5 h-5" /></button>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                {!isOAuth && showPasswordForm && (
+                    <ChangePasswordForm onClose={() => setShowPasswordForm(false)} />
+                )}
             </div>
         </section>
     );
