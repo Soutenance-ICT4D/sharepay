@@ -202,7 +202,7 @@ export default function RegisterPage() {
                     >
                         {t('acceptTerms')}{" "}
                         <Link
-                            href="/terms"
+                            href="/legal/terms"
                             className="font-medium text-primary hover:underline"
                             target="_blank"
                         >
@@ -210,7 +210,7 @@ export default function RegisterPage() {
                         </Link>{" "}
                         {t('and')}{" "}
                         <Link
-                            href="/privacy"
+                            href="/legal/privacy"
                             className="font-medium text-primary hover:underline"
                             target="_blank"
                         >

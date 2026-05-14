@@ -4,21 +4,32 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Key, RefreshCw, Sparkles, Copy, CheckCircle2, Loader2 } from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Key, RefreshCw, Sparkles, Copy, CheckCircle2, Loader2, Trash2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { type AppKeyEnvironment } from "@/features/merchant/apps/types";
 
 interface AppKeysSectionProps {
     keyPrefix: string | null;
+    keyName: string | null;
     keyEnvironment: AppKeyEnvironment | null;
     isLoading?: boolean;
     onGenerateKey?: () => void;
     onRotateKey?: () => void;
+    onRevokeKey?: () => void;
 }
 
-export function AppKeysSection({ keyPrefix, keyEnvironment, isLoading = false, onGenerateKey, onRotateKey }: AppKeysSectionProps) {
+export function AppKeysSection({ keyPrefix, keyName, keyEnvironment, isLoading = false, onGenerateKey, onRotateKey, onRevokeKey }: AppKeysSectionProps) {
     const t = useTranslations("Dashboard.Apps.Form.APIKeys");
     const [copied, setCopied] = useState(false);
+    const [showRevokeModal, setShowRevokeModal] = useState(false);
 
     const hasKey = !!keyPrefix;
 
@@ -29,6 +40,11 @@ export function AppKeysSection({ keyPrefix, keyEnvironment, isLoading = false, o
             setTimeout(() => setCopied(false), 2000);
             toast.success(t("copied"));
         });
+    };
+
+    const handleConfirmRevoke = () => {
+        setShowRevokeModal(false);
+        onRevokeKey?.();
     };
 
     return (
@@ -47,7 +63,7 @@ export function AppKeysSection({ keyPrefix, keyEnvironment, isLoading = false, o
                         <div className="space-y-2">
                             <div className="flex items-center justify-between gap-2">
                                 <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                    {t("activeKey")}
+                                    {t("activeKey")}{keyName && <span className="normal-case ml-1.5 font-bold text-foreground">: {keyName}</span>}
                                 </span>
                                 {keyEnvironment && (
                                     <Badge
@@ -81,29 +97,36 @@ export function AppKeysSection({ keyPrefix, keyEnvironment, isLoading = false, o
                             </div>
                         </div>
 
-                        {/* Rotate */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border">
-                            <div className="space-y-0.5 min-w-0">
-                                <p className="text-sm font-medium">{t("rotateTitle")}</p>
-                                <p className="text-xs text-muted-foreground">{t("rotateDesc")}</p>
-                            </div>
-
+                        {/* Rotate + Revoke */}
+                        <div className="flex justify-end gap-4">
                             {isLoading ? (
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground shrink-0">
                                     <Loader2 className="w-4 h-4 animate-spin" />
                                     {t("rotateLoading")}
                                 </div>
                             ) : (
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    className="shrink-0 gap-2"
-                                    onClick={onRotateKey}
-                                >
-                                    <RefreshCw className="w-4 h-4" />
-                                    {t("rotateButton")}
-                                </Button>
+                                <div className="flex gap-2 shrink-0">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2"
+                                        onClick={onRotateKey}
+                                    >
+                                        <RefreshCw className="w-4 h-4" />
+                                        {t("rotateButton")}
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2 border-red-300 text-red-500 hover:bg-red-50 hover:text-red-600 hover:border-red-400 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/40 dark:hover:text-red-300"
+                                        onClick={() => setShowRevokeModal(true)}
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                        {t("revokeButton")}
+                                    </Button>
+                                </div>
                             )}
                         </div>
                     </>
@@ -132,6 +155,28 @@ export function AppKeysSection({ keyPrefix, keyEnvironment, isLoading = false, o
                     </div>
                 )}
             </div>
+
+            {/* Revoke confirmation modal */}
+            <Dialog open={showRevokeModal} onOpenChange={(open) => { if (!open) setShowRevokeModal(false); }}>
+                <DialogContent className="sm:max-w-[400px]">
+                    <DialogHeader>
+                        <div className="flex items-center gap-2 text-destructive mb-2">
+                            <AlertTriangle className="h-5 w-5" />
+                            <DialogTitle>{t("revokeModalTitle")}</DialogTitle>
+                        </div>
+                        <DialogDescription>{t("revokeModalDesc")}</DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button type="button" variant="ghost" onClick={() => setShowRevokeModal(false)}>
+                            {t("revokeModalCancel")}
+                        </Button>
+                        <Button type="button" variant="destructive" className="gap-2" onClick={handleConfirmRevoke}>
+                            <Trash2 className="h-4 w-4" />
+                            {t("revokeModalConfirm")}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </section>
     );
 }

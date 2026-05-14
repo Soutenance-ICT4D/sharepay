@@ -21,6 +21,7 @@ import {
 import { authService } from "@/features/auth";
 import { tokenStorage } from "@/lib/token-storage";
 import { useRouter } from "@/i18n/routing";
+import { useBreadcrumb } from "@/providers/breadcrumb-provider";
 
 interface DashboardHeaderProps {
     onMenuClick: () => void;
@@ -32,7 +33,7 @@ function toTitleCase(value: string) {
         .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function buildBreadcrumbs(pathname: string, t: any) {
+function buildBreadcrumbs(pathname: string, t: any, labelOverrides: Record<string, string>) {
     const parts = pathname.split("?")[0].split("#")[0].split("/").filter(Boolean);
     const crumbs: { href: string; label: string }[] = [];
 
@@ -41,7 +42,9 @@ function buildBreadcrumbs(pathname: string, t: any) {
         const href = "/" + parts.slice(0, index + 1).join("/");
         let label = "";
 
-        if (index > 0 && parts[index - 1] === "funds-collection" && part !== "new") {
+        if (labelOverrides[part]) {
+            label = labelOverrides[part];
+        } else if (index > 0 && parts[index - 1] === "funds-collection" && part !== "new") {
             label = t.has("Breadcrumbs.edit") ? t("Breadcrumbs.edit") : "Modifier";
         } else {
             const translationKey = `Breadcrumbs.${part}`;
@@ -59,7 +62,8 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
     const tb = useTranslations("Dashboard");
     const pathname = usePathname();
     const router = useRouter();
-    const breadcrumbs = buildBreadcrumbs(pathname, tb);
+    const { labels } = useBreadcrumb();
+    const breadcrumbs = buildBreadcrumbs(pathname, tb, labels);
 
     const [notificationCount] = useState(100);
 

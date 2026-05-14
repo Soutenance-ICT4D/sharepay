@@ -17,8 +17,6 @@ function isValidUrl(url: string): boolean {
 }
 
 interface AppConfigSectionProps {
-    webhookUrl: string;
-    setWebhookUrl: (val: string) => void;
     successUrl: string;
     setSuccessUrl: (val: string) => void;
     cancelUrl: string;
@@ -27,8 +25,6 @@ interface AppConfigSectionProps {
 }
 
 export function AppConfigSection({
-    webhookUrl,
-    setWebhookUrl,
     successUrl,
     setSuccessUrl,
     cancelUrl,
@@ -36,11 +32,9 @@ export function AppConfigSection({
     forceShowErrors,
 }: AppConfigSectionProps) {
     const t = useTranslations("Dashboard.Apps.Form.Configuration");
-    const [webhookTouched, setWebhookTouched] = useState(false);
     const [successTouched, setSuccessTouched] = useState(false);
     const [cancelTouched, setCancelTouched] = useState(false);
 
-    const webhookError = (webhookTouched || forceShowErrors) && webhookUrl.trim() !== "" && !isValidUrl(webhookUrl.trim());
     const successError = (successTouched || forceShowErrors) && successUrl.trim() !== "" && !isValidUrl(successUrl.trim());
     const cancelError = (cancelTouched || forceShowErrors) && cancelUrl.trim() !== "" && !isValidUrl(cancelUrl.trim());
 
@@ -52,25 +46,7 @@ export function AppConfigSection({
             </div>
 
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-1.5">
-                            <Label htmlFor="appWebhookUrl">{t("webhookUrlLabel")}</Label>
-                            <InfoTooltip text={t("webhookUrlDesc")} />
-                        </div>
-                        <Input
-                            id="appWebhookUrl"
-                            placeholder={t("webhookUrlPlaceholder")}
-                            value={webhookUrl}
-                            onChange={(e) => setWebhookUrl(e.target.value)}
-                            onBlur={() => setWebhookTouched(true)}
-                            className={`bg-background ${webhookError ? "border-destructive" : ""}`}
-                        />
-                        {webhookError && (
-                            <p className="text-xs text-destructive">{t("urlInvalid")}</p>
-                        )}
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <div className="space-y-2">
                         <div className="flex items-center gap-1.5">

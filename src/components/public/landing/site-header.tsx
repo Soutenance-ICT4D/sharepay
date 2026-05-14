@@ -77,8 +77,6 @@ export function SiteHeader() {
     const menuItems = [
         { label: t('features'), href: '/features' },
         { label: t('pricing'), href: '/pricing' },
-        { label: t('api_lab'), href: '/api-lab' },
-        { label: t('documentation'), href: '/docs' },
         { label: t('blog'), href: '/blog' },
         { label: t('about'), href: '/about' },
     ];
@@ -91,7 +89,7 @@ export function SiteHeader() {
             {/* Backdrop overlay — closes mobile menu on outside click */}
             {isMobileMenuOpen && (
                 <div
-                    className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm xl:hidden animate-in fade-in duration-200"
+                    className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden animate-in fade-in duration-200"
                     onClick={closeMobileMenu}
                     aria-hidden="true"
                 />
@@ -121,7 +119,7 @@ export function SiteHeader() {
                         </Link>
 
                         {/* Desktop Nav */}
-                        <nav className="hidden xl:flex items-center gap-1">
+                        <nav className="hidden lg:flex items-center gap-1">
                             {menuItems.map((item) => (
                                 <Link
                                     key={item.href}
@@ -134,9 +132,6 @@ export function SiteHeader() {
                                     )}
                                 >
                                     {item.label}
-                                    {isActive(item.href) && (
-                                        <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
-                                    )}
                                 </Link>
                             ))}
                         </nav>
@@ -144,8 +139,8 @@ export function SiteHeader() {
                         {/* Right actions */}
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
 
-                            {/* Theme + Language — hidden below md */}
-                            <div className="hidden md:flex items-center gap-0 border rounded-full pl-1 pr-3 py-1 bg-background/50 shadow-sm hover:border-primary/50 transition-colors">
+                            {/* Theme + Language — hidden below xl */}
+                            <div className="hidden xl:flex items-center gap-0 border rounded-full pl-1 pr-3 py-1 bg-background/50 shadow-sm hover:border-primary/50 transition-colors">
                                 <ThemeToggle />
                                 <div className="h-4 w-px bg-border mx-1" />
                                 <LanguageSwitcher />
@@ -227,9 +222,9 @@ export function SiteHeader() {
                                 </>
                             )}
 
-                            {/* Hamburger — hidden at xl+ */}
+                            {/* Hamburger — hidden at lg+ */}
                             <button
-                                className="xl:hidden p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-muted/50 transition-colors"
+                                className="lg:hidden p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-muted/50 transition-colors"
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                 aria-label="Toggle menu"
                                 aria-expanded={isMobileMenuOpen}
@@ -261,9 +256,6 @@ export function SiteHeader() {
                                         onClick={closeMobileMenu}
                                     >
                                         {item.label}
-                                        {isActive(item.href) && (
-                                            <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                                        )}
                                     </Link>
                                 ))}
                             </nav>

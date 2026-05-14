@@ -3,6 +3,7 @@
 import { DashboardSidebar } from "@/components/merchant/dashboard-sidebar";
 import { DashboardHeader } from "@/components/merchant/dashboard-header";
 import { LoaderPage } from "@/components/shared/loader-page";
+import { BreadcrumbProvider } from "@/providers/breadcrumb-provider";
 import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/routing";
 import { tokenStorage } from "@/lib/token-storage";
@@ -42,6 +43,7 @@ export default function DashboardLayout({
     if (!ready) return <LoaderPage />;
 
     return (
+        <BreadcrumbProvider>
         <div className="min-h-screen bg-muted/20">
             <DashboardSidebar
                 isOpen={isSidebarOpen}
@@ -59,5 +61,6 @@ export default function DashboardLayout({
                 </div>
             </main>
         </div>
+        </BreadcrumbProvider>
     );
 }

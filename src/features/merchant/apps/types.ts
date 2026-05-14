@@ -68,3 +68,48 @@ export interface UpdateAppRequest {
     successUrl?: string;
     cancelUrl?: string;
 }
+
+// ── Webhook ────────────────────────────────────────────────────────────────────
+
+export type WebhookDeliveryStatus = "PENDING" | "DELIVERED" | "FAILED";
+
+export interface AppWebhookResponse {
+    applicationId: string;
+    applicationName: string;
+    webhookUrl: string | null;
+    webhookSecretPrefix: string | null;
+    plainTextWebhookSecret?: string;
+    updatedAt: string;
+}
+
+export interface UpdateAppWebhookRequest {
+    webhookUrl?: string | null;
+}
+
+export interface TestWebhookResponse {
+    delivered: boolean;
+    webhookUrl: string;
+    httpStatus: number | null;
+    sentAt: string;
+}
+
+export interface WebhookDeliveryResponse {
+    id: string;
+    eventName: string;
+    status: WebhookDeliveryStatus;
+    httpStatus: number | null;
+    attemptCount: number;
+    nextRetryAt: string | null;
+    lastError: string | null;
+    createdAt: string;
+}
+
+export interface SpringPage<T> {
+    content: T[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+    last: boolean;
+    first: boolean;
+}

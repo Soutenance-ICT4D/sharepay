@@ -13,12 +13,14 @@ import { AppGeneralSection } from "@/components/merchant/apps/sections/app-gener
 import { AppBrandingSection } from "@/components/merchant/apps/sections/app-branding-section";
 import { AppConfigSection } from "@/components/merchant/apps/sections/app-config-section";
 import { AppKeysSection } from "@/components/merchant/apps/sections/app-keys-section";
+import { AppWebhooksSection } from "@/components/merchant/apps/sections/app-webhooks-section";
 import { ApiKeysRevealModal } from "@/components/merchant/apps/api-keys-reveal-modal";
 import { KeyActionModal } from "@/components/merchant/apps/key-action-modal";
 import { DeleteAppModal } from "@/components/merchant/apps/delete-app-modal";
 
 import { appsService, apiKeysService, type AppKeyEnvironment } from "@/features/merchant/apps";
 import { resolveError } from "@/lib/api/response-codes";
+import { useBreadcrumb } from "@/providers/breadcrumb-provider";
 
 interface SavedValues {
     name: string;
@@ -47,6 +49,7 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
     const t = useTranslations("Dashboard.Apps.Form");
     const tGlobal = useTranslations();
     const router = useRouter();
+    const { setLabel, clearLabel } = useBreadcrumb();
 
     // ── Loading ────────────────────────────────────────────────────────────────
     const [isLoading, setIsLoading] = useState(true);
@@ -70,6 +73,7 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
 
     // ── Key state ──────────────────────────────────────────────────────────────
     const [keyPrefix, setKeyPrefix] = useState<string | null>(null);
+    const [keyName, setKeyName] = useState<string | null>(null);
     const [keyEnvironment, setKeyEnvironment] = useState<AppKeyEnvironment | null>(null);
 
     // ── Modals ─────────────────────────────────────────────────────────────────
@@ -91,6 +95,7 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
 
                 setName(app.name);
                 setAppName(app.name);
+                setLabel(id, app.name);
                 setDescription(app.description || "");
                 setWebsiteUrl(app.websiteUrl || "");
                 setCurrency(app.currency || "");
@@ -122,6 +127,8 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
                 toast.error(msg);
             })
             .finally(() => setIsLoading(false));
+
+        return () => clearLabel(id);
     }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // ── Computed logo URL ──────────────────────────────────────────────────────
@@ -175,6 +182,7 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
             toast.success(t("updateSuccess"));
 
             const newName = name.trim();
+            setLabel(id, newName);
             setSavedValues({
                 name: newName,
                 description: description.trim(),
@@ -205,6 +213,22 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
         setShowKeyActionModal(true);
     };
 
+    const handleRevokeKey = async () => {
+        setIsKeyLoading(true);
+        try {
+            await apiKeysService.revoke(id);
+            setKeyPrefix(null);
+            setKeyName(null);
+            setKeyEnvironment(null);
+            toast.success(tGlobal("Dashboard.Apps.Form.APIKeys.revokeSuccess"));
+        } catch (err: unknown) {
+            const { messageKey, values } = resolveError(err);
+            toast.error(tGlobal(messageKey, values));
+        } finally {
+            setIsKeyLoading(false);
+        }
+    };
+
     const handleKeyAction = async (name: string, environment: AppKeyEnvironment) => {
         setIsKeyLoading(true);
         try {
@@ -212,6 +236,7 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
                 ? await apiKeysService.create(id, { name, environment })
                 : await apiKeysService.rotate(id, { name, environment });
             setKeyPrefix(newKey.keyPrefix);
+            setKeyName(newKey.name);
             setKeyEnvironment(newKey.environment);
             setRevealedKey(newKey.plainTextKey ?? "");
             setShowKeyActionModal(false);
@@ -263,10 +288,12 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
             {/* Clé API */}
             <AppKeysSection
                 keyPrefix={keyPrefix}
+                keyName={keyName}
                 keyEnvironment={keyEnvironment}
                 isLoading={isKeyLoading}
                 onGenerateKey={handleRequestGenerate}
                 onRotateKey={handleRequestRotate}
+                onRevokeKey={handleRevokeKey}
             />
 
             {/* Formulaire */}
@@ -286,9 +313,15 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
                 </div>
 
                 <AppConfigSection
-                    webhookUrl={webhookUrl} setWebhookUrl={setWebhookUrl}
                     successUrl={successUrl} setSuccessUrl={setSuccessUrl}
                     cancelUrl={cancelUrl} setCancelUrl={setCancelUrl}
+                />
+
+                {/* Webhooks */}
+                <AppWebhooksSection
+                    appId={id}
+                    webhookUrl={webhookUrl}
+                    setWebhookUrl={setWebhookUrl}
                 />
 
                 <Button
@@ -297,7 +330,7 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
                     disabled={!canSave}
                     className="w-full h-14 text-lg font-black shadow-xl rounded-xl disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                    {isSubmitting ? t("submitting") : isDirty ? t("submitEdit") : t("noChanges")}
+                    {isSubmitting ? t("submitting") : t("save")}
                 </Button>
             </form>
 
@@ -323,6 +356,7 @@ export default function EditAppPage({ params }: { params: Promise<{ id: string }
             {showKeyActionModal && (
                 <KeyActionModal
                     mode={keyActionMode}
+                    currentEnvironment={keyEnvironment}
                     isLoading={isKeyLoading}
                     onSubmit={handleKeyAction}
                     onCancel={() => setShowKeyActionModal(false)}

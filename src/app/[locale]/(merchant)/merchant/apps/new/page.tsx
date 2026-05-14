@@ -40,7 +40,6 @@ export default function NewAppPage() {
     const [themeColor, setThemeColor] = useState("#088a5c");
 
     // ── Config ────────────────────────────────────────────────────────────────
-    const [webhookUrl, setWebhookUrl] = useState("");
     const [successUrl, setSuccessUrl] = useState("");
     const [cancelUrl, setCancelUrl] = useState("");
 
@@ -60,7 +59,7 @@ export default function NewAppPage() {
         if (name.trim().length < 2) errors.name = t("validation.nameTooShort");
         if (description.trim().length < 2) errors.desc = t("validation.descTooShort");
 
-        const hasUrlError = !urlOk(websiteUrl) || !urlOk(logoUrlInput) || !urlOk(webhookUrl) || !urlOk(successUrl) || !urlOk(cancelUrl);
+        const hasUrlError = !urlOk(websiteUrl) || !urlOk(logoUrlInput) || !urlOk(successUrl) || !urlOk(cancelUrl);
 
         if (Object.keys(errors).length > 0 || hasUrlError) {
             setFieldErrors(errors);
@@ -79,7 +78,6 @@ export default function NewAppPage() {
                 websiteUrl: websiteUrl.trim() || undefined,
                 logoUrl: logoUrlInput.trim() || null,
                 themeColor,
-                webhookUrl: webhookUrl.trim() || undefined,
                 successUrl: successUrl.trim() || undefined,
                 cancelUrl: cancelUrl.trim() || undefined,
             });
@@ -127,7 +125,6 @@ export default function NewAppPage() {
 
                 {/* Configuration pleine largeur */}
                 <AppConfigSection
-                    webhookUrl={webhookUrl} setWebhookUrl={setWebhookUrl}
                     successUrl={successUrl} setSuccessUrl={setSuccessUrl}
                     cancelUrl={cancelUrl} setCancelUrl={setCancelUrl}
                     forceShowErrors={forceShowUrlErrors}
