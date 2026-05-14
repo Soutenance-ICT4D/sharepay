@@ -606,15 +606,22 @@
       "apps": "Apps",
       "documentation": "Documentation",
       "apiLab": "API Lab",
-      "settings": "Settings",
+      "account": "My account",
       "faq": "FAQ",
       "collapseMenu": "Collapse menu"
     },
     "Header": {
       "searchPlaceholder": "Search...",
-      "profile": "Profile",
-      "settings": "Settings",
+      "account": "My account",
       "logout": "Log out"
+    },
+    "Account": {
+      "tab_compte": "Account",
+      "tab_verification": "Verification",
+      "tab_securite": "Security",
+      "tab_reversements": "Payouts",
+      "tab_equipe": "Team",
+      "tab_preferences": "Preferences"
     },
     "Profile": {
       "title": "My Profile",
@@ -628,7 +635,18 @@
         "fullName": "Full Name",
         "email": "Work Email",
         "phone": "Phone Number",
-        "save": "Save changes"
+        "entityType": "Entity type",
+        "entityType_individual": "Individual",
+        "entityType_individual_desc": "Sole trader / freelancer",
+        "entityType_company": "Company",
+        "entityType_company_desc": "LLC, Corp, SAS…",
+        "companyName": "Company name",
+        "website": "Website",
+        "sector": "Industry / sector",
+        "address": "Address",
+        "city": "City",
+        "country": "Country",
+        "save": "Save"
       },
       "Security": {
         "title": "Account Security",
@@ -648,6 +666,86 @@
         "title": "Danger Zone",
         "warning": "Account deletion is irreversible. All your data will be erased after 30 days.",
         "deleteAccount": "Delete my account"
+      },
+      "Business": {
+        "title": "Business Information",
+        "entityType": "Entity type",
+        "entityType_individual": "Individual",
+        "entityType_individual_desc": "Sole trader / freelancer",
+        "entityType_company": "Company",
+        "entityType_company_desc": "LLC, Corp, SAS…",
+        "companyName": "Company name",
+        "sector": "Industry / sector",
+        "website": "Website",
+        "address": "Address",
+        "city": "City",
+        "country": "Country",
+        "save": "Save changes"
+      },
+      "Kyc": {
+        "title": "Verification",
+        "emailLabel": "Email address",
+        "phoneLabel": "Phone number",
+        "idCardLabel": "National identity card",
+        "docStatus_approved": "Verified",
+        "docStatus_uploaded": "Pending",
+        "docStatus_missing": "Missing",
+        "docStatus_rejected": "Rejected",
+        "uploadedAt": "Submitted on {date}",
+        "notUploaded": "Not submitted",
+        "upload": "Upload"
+      }
+    },
+    "Settings": {
+      "title": "Settings",
+      "subtitle": "Manage your preferences and account configuration.",
+      "Payouts": {
+        "title": "Payout accounts",
+        "description": "Account to which your funds will be paid out.",
+        "add": "Add account",
+        "default": "Default",
+        "setDefault": "Set as default",
+        "modeTitle": "Payout mode",
+        "mode_automatic": "Automatic",
+        "mode_automatic_desc": "Triggered when threshold is reached",
+        "mode_manual": "Manual",
+        "mode_manual_desc": "You trigger payouts yourself"
+      },
+      "Notifications": {
+        "title": "Notifications",
+        "emailTitle": "Email notifications",
+        "smsTitle": "SMS notifications",
+        "paymentReceived": "Payment received",
+        "paymentReceivedDesc": "Each time a payment is confirmed",
+        "paymentFailed": "Payment failed",
+        "paymentFailedDesc": "When a payment fails or expires",
+        "payoutProcessed": "Payout processed",
+        "payoutProcessedDesc": "When your funds are paid out",
+        "weeklyReport": "Weekly report",
+        "weeklyReportDesc": "Summary of your activity each week",
+        "securityAlerts": "Security alerts",
+        "securityAlertsDesc": "Suspicious logins, password changes",
+        "productUpdates": "Product updates",
+        "productUpdatesDesc": "New features and improvements"
+      },
+      "Preferences": {
+        "title": "Preferences",
+        "language": "Language",
+        "theme": "Theme",
+        "themeLight": "Light",
+        "themeDark": "Dark",
+        "notifications": "Notifications",
+        "notificationsDesc": "Receive alerts and updates"
+      },
+      "Team": {
+        "title": "Team",
+        "memberCount": "{count} active member(s)",
+        "invite": "Invite member",
+        "pending": "Invitation pending",
+        "role_admin": "Admin",
+        "role_developer": "Developer",
+        "role_accountant": "Accountant",
+        "role_viewer": "Viewer"
       }
     },
     "Breadcrumbs": {
@@ -659,6 +757,7 @@
       "apps": "Apps",
       "docs": "Documentation",
       "api-lab": "API Lab",
+      "account": "My account",
       "settings": "Settings",
       "profile": "Profile",
       "notifications": "Notifications",

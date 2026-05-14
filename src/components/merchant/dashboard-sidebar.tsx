@@ -28,7 +28,7 @@ export function DashboardSidebar({ isOpen, isCollapsed, onClose, onToggleCollaps
     ];
 
     const bottomNavItems = [
-        { href: '/merchant/settings', label: t('settings'), iconSrc: '/icons/setting.png' },
+        { href: '/merchant/account', label: t('account'), iconSrc: '/icons/user.png' },
         { href: '/faq', label: t('faq'), iconSrc: '/icons/help.png' },
     ];
 

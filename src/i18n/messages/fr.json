@@ -606,15 +606,22 @@
       "apps": "Applications",
       "documentation": "Documentation",
       "apiLab": "API Lab",
-      "settings": "Paramètres",
+      "account": "Mon compte",
       "faq": "FAQ",
       "collapseMenu": "Réduire le menu"
     },
     "Header": {
       "searchPlaceholder": "Rechercher...",
-      "profile": "Profil",
-      "settings": "Paramètres",
+      "account": "Mon compte",
       "logout": "Déconnexion"
+    },
+    "Account": {
+      "tab_compte": "Compte",
+      "tab_verification": "Vérification",
+      "tab_securite": "Sécurité",
+      "tab_reversements": "Reversements",
+      "tab_equipe": "Équipe",
+      "tab_preferences": "Préférences"
     },
     "Profile": {
       "title": "Mon Profil",
@@ -628,7 +635,18 @@
         "fullName": "Nom complet",
         "email": "Email professionnel",
         "phone": "Numéro de téléphone",
-        "save": "Enregistrer les modifications"
+        "entityType": "Type d'entité",
+        "entityType_individual": "Personne physique",
+        "entityType_individual_desc": "Entrepreneur individuel",
+        "entityType_company": "Entreprise",
+        "entityType_company_desc": "SARL, SA, SAS…",
+        "companyName": "Raison sociale",
+        "website": "Site web",
+        "sector": "Secteur d'activité",
+        "address": "Adresse",
+        "city": "Ville",
+        "country": "Pays",
+        "save": "Enregistrer"
       },
       "Security": {
         "title": "Sécurité du Compte",
@@ -648,6 +666,86 @@
         "title": "Zone de danger",
         "warning": "La suppression du compte est irréversible. Toutes vos données seront effacées après 30 jours.",
         "deleteAccount": "Supprimer mon compte"
+      },
+      "Business": {
+        "title": "Informations entreprise",
+        "entityType": "Type d'entité",
+        "entityType_individual": "Personne physique",
+        "entityType_individual_desc": "Entrepreneur individuel",
+        "entityType_company": "Société",
+        "entityType_company_desc": "SARL, SA, SAS…",
+        "companyName": "Raison sociale",
+        "sector": "Secteur d'activité",
+        "website": "Site web",
+        "address": "Adresse",
+        "city": "Ville",
+        "country": "Pays",
+        "save": "Enregistrer"
+      },
+      "Kyc": {
+        "title": "Vérification",
+        "emailLabel": "Adresse email",
+        "phoneLabel": "Numéro de téléphone",
+        "idCardLabel": "Carte nationale d'identité",
+        "docStatus_approved": "Vérifié",
+        "docStatus_uploaded": "En cours",
+        "docStatus_missing": "Manquant",
+        "docStatus_rejected": "Rejeté",
+        "uploadedAt": "Soumis le {date}",
+        "notUploaded": "Non soumis",
+        "upload": "Téléverser"
+      }
+    },
+    "Settings": {
+      "title": "Paramètres",
+      "subtitle": "Gérez vos préférences et la configuration de votre compte.",
+      "Payouts": {
+        "title": "Comptes de reversement",
+        "description": "Compte sur lequel vos fonds seront reversés.",
+        "add": "Ajouter un compte",
+        "default": "Par défaut",
+        "setDefault": "Définir par défaut",
+        "modeTitle": "Mode de reversement",
+        "mode_automatic": "Automatique",
+        "mode_automatic_desc": "Reversement dès le seuil atteint",
+        "mode_manual": "Manuel",
+        "mode_manual_desc": "Vous déclenchez le reversement"
+      },
+      "Notifications": {
+        "title": "Notifications",
+        "emailTitle": "Notifications par email",
+        "smsTitle": "Notifications par SMS",
+        "paymentReceived": "Paiement reçu",
+        "paymentReceivedDesc": "Chaque fois qu'un paiement est confirmé",
+        "paymentFailed": "Paiement échoué",
+        "paymentFailedDesc": "En cas d'échec ou d'expiration d'un paiement",
+        "payoutProcessed": "Reversement effectué",
+        "payoutProcessedDesc": "Quand vos fonds sont reversés",
+        "weeklyReport": "Rapport hebdomadaire",
+        "weeklyReportDesc": "Résumé de votre activité chaque semaine",
+        "securityAlerts": "Alertes de sécurité",
+        "securityAlertsDesc": "Connexions suspectes, changements de mot de passe",
+        "productUpdates": "Nouveautés produit",
+        "productUpdatesDesc": "Nouvelles fonctionnalités et améliorations"
+      },
+      "Preferences": {
+        "title": "Préférences",
+        "language": "Langue",
+        "theme": "Thème",
+        "themeLight": "Clair",
+        "themeDark": "Sombre",
+        "notifications": "Notifications",
+        "notificationsDesc": "Recevoir des alertes et mises à jour"
+      },
+      "Team": {
+        "title": "Équipe",
+        "memberCount": "{count} membre(s) actif(s)",
+        "invite": "Inviter un membre",
+        "pending": "Invitation en attente",
+        "role_admin": "Admin",
+        "role_developer": "Développeur",
+        "role_accountant": "Comptable",
+        "role_viewer": "Lecteur"
       }
     },
     "Breadcrumbs": {
@@ -659,6 +757,7 @@
       "apps": "Applications",
       "docs": "Documentation",
       "api-lab": "API Lab",
+      "account": "Mon compte",
       "settings": "Paramètres",
       "profile": "Profil",
       "notifications": "Notifications",

@@ -184,9 +184,9 @@ export function SiteHeader() {
                                                     <p className="text-xs text-muted-foreground font-normal truncate">{userInfo?.email ?? ""}</p>
                                                 </DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
-                                                <DropdownMenuItem onClick={() => router.push('/merchant/settings')}>
-                                                    <Settings className="h-4 w-4 mr-2" />
-                                                    {headerT('settings')}
+                                                <DropdownMenuItem onClick={() => router.push('/merchant/account')}>
+                                                    <Image src="/icons/user.png" alt="" width={16} height={16} className="mr-2 dark:invert dark:opacity-90" />
+                                                    {headerT('account')}
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
                                                     className="text-destructive focus:text-destructive focus:bg-destructive/10"

@@ -6,7 +6,7 @@ import { Link, usePathname } from "@/i18n/routing";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { Button } from "@/components/ui/button";
-import { Menu, ChevronRight, Settings, LogOut } from "lucide-react";
+import { Menu, ChevronRight, LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -158,15 +158,15 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
                         <DropdownMenuContent align="end" className="w-48">
                             <DropdownMenuLabel
                                 className="font-semibold cursor-pointer hover:bg-muted/60 rounded-sm transition-colors"
-                                onClick={() => router.push("/merchant/profile")}
+                                onClick={() => router.push("/merchant/account")}
                             >
                                 <p>{user.name}</p>
                                 <p className="text-xs text-muted-foreground font-normal truncate">{user.email}</p>
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => router.push("/merchant/settings")}>
-                                <Settings className="h-4 w-4 mr-2" />
-                                {t("settings")}
+                            <DropdownMenuItem onClick={() => router.push("/merchant/account")}>
+                                <Image src="/icons/user.png" alt="" width={16} height={16} className="mr-2 dark:invert dark:opacity-90" />
+                                {t("account")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 className="text-destructive focus:text-destructive focus:bg-destructive/10"
