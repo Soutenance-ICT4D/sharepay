@@ -5,13 +5,38 @@ import { Shield, KeyRound, Loader2, Check, Circle, Eye, EyeOff } from "lucide-re
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { accountService } from "@/lib/services/account.service";
 import { isApiError } from "@/lib/api/error";
 
 interface ProfileSecurityProps {
-    isOAuth: boolean;
+    isOAuth?:   boolean;
+    isLoading?: boolean;
+}
+
+function ProfileSecuritySkeleton() {
+    return (
+        <section>
+            <div className="flex items-center gap-2 mb-6">
+                <Skeleton className="w-6 h-6 rounded" />
+                <Skeleton className="h-6 w-44" />
+            </div>
+            <div className="p-6 bg-card rounded-xl border border-border shadow-sm">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex gap-4">
+                        <Skeleton className="w-10 h-10 rounded-lg shrink-0" />
+                        <div className="space-y-2">
+                            <Skeleton className="h-5 w-28" />
+                            <Skeleton className="h-4 w-48" />
+                        </div>
+                    </div>
+                    <Skeleton className="h-9 w-40 rounded-xl shrink-0" />
+                </div>
+            </div>
+        </section>
+    );
 }
 
 function ChangePasswordForm({ onClose }: { onClose: () => void }) {
@@ -142,9 +167,11 @@ function ChangePasswordForm({ onClose }: { onClose: () => void }) {
     );
 }
 
-export function ProfileSecurity({ isOAuth }: ProfileSecurityProps) {
+export function ProfileSecurity({ isOAuth = false, isLoading }: ProfileSecurityProps) {
     const t = useTranslations("Dashboard.Profile.Security");
     const [showPasswordForm, setShowPasswordForm] = useState(false);
+
+    if (isLoading) return <ProfileSecuritySkeleton />;
 
     return (
         <section>

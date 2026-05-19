@@ -710,7 +710,7 @@ export function ApiLabPage() {
         } else {
             // Live: real HTTP request
             try {
-                const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1").replace(/\/api\/v1$/, "");
+                const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
                 const path = endpoint.path.replace("{reference}", values.reference || "");
                 const url  = `${base}${path}`;
 

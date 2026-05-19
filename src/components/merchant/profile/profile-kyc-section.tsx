@@ -3,13 +3,38 @@
 import { useState } from "react";
 import { ShieldCheck, Mail, Phone, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
 
 interface ProfileKycSectionProps {
-    email:         string;
-    phone:         string;
-    emailVerified: boolean;
-    phoneVerified: boolean;
+    email?:         string;
+    phone?:         string;
+    emailVerified?: boolean;
+    phoneVerified?: boolean;
+    isLoading?:     boolean;
+}
+
+function ProfileKycSkeleton() {
+    return (
+        <section>
+            <div className="flex items-center gap-2 mb-6">
+                <Skeleton className="w-6 h-6 rounded" />
+                <Skeleton className="h-6 w-32" />
+            </div>
+            <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden divide-y divide-border">
+                {[0, 1].map(i => (
+                    <div key={i} className="flex items-center gap-4 px-6 py-4">
+                        <Skeleton className="w-10 h-10 rounded-xl shrink-0" />
+                        <div className="flex-1 space-y-2">
+                            <Skeleton className="h-4 w-24" />
+                            <Skeleton className="h-3 w-40" />
+                        </div>
+                        <Skeleton className="h-6 w-20 rounded-full shrink-0" />
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
 }
 
 function VerifRow({
@@ -84,16 +109,18 @@ function VerifRow({
     );
 }
 
-export function ProfileKycSection({ email, phone, emailVerified, phoneVerified }: ProfileKycSectionProps) {
+export function ProfileKycSection({ email = "", phone = "", emailVerified = false, phoneVerified = false, isLoading }: ProfileKycSectionProps) {
     const t = useTranslations("Dashboard.Profile.Kyc");
 
     const [sendingEmail, setSendingEmail]   = useState(false);
     const [emailSent,    setEmailSent]      = useState(false);
 
+    if (isLoading) return <ProfileKycSkeleton />;
+
     const handleVerifyEmail = async () => {
         setSendingEmail(true);
         try {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1"}/auth/resend-verification`, {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080"}/api/v1/auth/resend-verification`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),

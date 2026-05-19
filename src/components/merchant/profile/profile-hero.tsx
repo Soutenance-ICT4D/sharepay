@@ -11,12 +11,14 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MerchantProfile } from "@/lib/types/account.types";
 import { accountService } from "@/lib/services/account.service";
 import { isApiError } from "@/lib/api/error";
 
 interface ProfileHeroProps {
-    profile:         MerchantProfile;
+    profile?:        MerchantProfile | null;
+    isLoading?:      boolean;
     onProfileUpdate: (p: MerchantProfile) => void;
 }
 
@@ -33,7 +35,7 @@ function getInitials(fullName: string): string {
     return fullName.slice(0, 2).toUpperCase();
 }
 
-export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
+export function ProfileHero({ profile, isLoading, onProfileUpdate }: ProfileHeroProps) {
     const t = useTranslations("Dashboard.Profile");
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -41,18 +43,6 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
     const [uploading,   setUploading]   = useState(false);
     const [removing,    setRemoving]    = useState(false);
     const [uploadError, setUploadError] = useState<string | null>(null);
-
-    const badgeClass = KYC_BADGE_CLASS[profile.kycLevel] ?? KYC_BADGE_CLASS.NONE;
-    const kycLabelMap = {
-        NONE:     t("Hero.kycNone"),
-        BASIC:    t("Hero.kycBasic"),
-        ADVANCED: t("Hero.kycAdvanced"),
-        FULL:     t("Hero.kycFull"),
-    } as const;
-    const badgeLabel = kycLabelMap[profile.kycLevel as keyof typeof kycLabelMap] ?? kycLabelMap.NONE;
-
-    const joinDate = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" })
-        .format(new Date(profile.createdAt));
 
     const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
     const MAX_SIZE = 1 * 1024 * 1024;
@@ -63,14 +53,8 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
         e.target.value = "";
         setUploadError(null);
 
-        if (!ALLOWED_TYPES.includes(file.type)) {
-            setUploadError(t("Hero.uploadErrorFormat"));
-            return;
-        }
-        if (file.size > MAX_SIZE) {
-            setUploadError(t("Hero.uploadErrorSize"));
-            return;
-        }
+        if (!ALLOWED_TYPES.includes(file.type)) { setUploadError(t("Hero.uploadErrorFormat")); return; }
+        if (file.size > MAX_SIZE)               { setUploadError(t("Hero.uploadErrorSize"));   return; }
 
         const dataUrl = await new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
@@ -105,6 +89,34 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
         }
     }
 
+    // ── Skeleton ──────────────────────────────────────────────────────────────
+    if (isLoading || !profile) {
+        return (
+            <div className="flex flex-col sm:flex-row items-center gap-6 pb-8 border-b border-border">
+                <Skeleton className="w-24 h-24 rounded-full shrink-0" />
+                <div className="space-y-2.5 text-center sm:text-left">
+                    <Skeleton className="h-7 w-44 mx-auto sm:mx-0" />
+                    <Skeleton className="h-4 w-64 mx-auto sm:mx-0" />
+                    <div className="flex gap-2 justify-center sm:justify-start">
+                        <Skeleton className="h-5 w-20 rounded" />
+                        <Skeleton className="h-5 w-12 rounded" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // ── Rendu normal ──────────────────────────────────────────────────────────
+    const badgeClass = KYC_BADGE_CLASS[profile.kycLevel] ?? KYC_BADGE_CLASS.NONE;
+    const kycLabelMap = {
+        NONE:     t("Hero.kycNone"),
+        BASIC:    t("Hero.kycBasic"),
+        ADVANCED: t("Hero.kycAdvanced"),
+        FULL:     t("Hero.kycFull"),
+    } as const;
+    const badgeLabel = kycLabelMap[profile.kycLevel as keyof typeof kycLabelMap] ?? kycLabelMap.NONE;
+    const joinDate   = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" })
+        .format(new Date(profile.createdAt));
     const busy = uploading || removing;
 
     return (
@@ -113,20 +125,13 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
             <div className="relative shrink-0">
                 <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-background shadow-xl bg-primary/10 flex items-center justify-center select-none">
                     {profile.avatarUrl ? (
-                        <Image
-                            className="object-cover"
-                            alt={profile.fullName}
-                            fill
-                            src={profile.avatarUrl}
-                        />
+                        <Image className="object-cover" alt={profile.fullName} fill src={profile.avatarUrl} />
                     ) : (
-                        <span className="text-2xl font-bold text-primary">
-                            {getInitials(profile.fullName)}
-                        </span>
+                        <span className="text-2xl font-bold text-primary">{getInitials(profile.fullName)}</span>
                     )}
                 </div>
                 <button
-                    className="absolute bottom-0 right-0 p-1.5 bg-primary text-primary-foreground rounded-full shadow-lg hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="absolute bottom-0 right-0 p-1.5 bg-primary text-primary-foreground rounded-full shadow-lg hover:scale-110 transition-transform"
                     title={t("Hero.editAvatar")}
                     onClick={() => { setUploadError(null); setModalOpen(true); }}
                 >
@@ -144,13 +149,10 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
                             <Check className="w-3.5 h-3.5" />
                         </span>
                     )}
-                    {" · "}
-                    {t("memberSince")} {joinDate}
+                    {" · "}{t("memberSince")} {joinDate}
                 </p>
                 <div className="flex gap-2 justify-center sm:justify-start flex-wrap">
-                    <span className={`px-2 py-0.5 text-xs font-bold rounded uppercase tracking-wider ${badgeClass}`}>
-                        {badgeLabel}
-                    </span>
+                    <span className={`px-2 py-0.5 text-xs font-bold rounded uppercase tracking-wider ${badgeClass}`}>{badgeLabel}</span>
                     {profile.status === "ACTIVE" && (
                         <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded uppercase tracking-wider">
                             {t("Hero.statusActive")}
@@ -159,27 +161,19 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
                 </div>
             </div>
 
-            {/* Modal */}
+            {/* Modal avatar */}
             <Dialog open={modalOpen} onOpenChange={setModalOpen}>
                 <DialogContent className="sm:max-w-xs">
                     <DialogHeader>
                         <DialogTitle>{t("Hero.modalTitle")}</DialogTitle>
                     </DialogHeader>
 
-                    {/* Preview */}
                     <div className="flex justify-center py-2">
                         <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-border bg-primary/10 flex items-center justify-center">
                             {profile.avatarUrl ? (
-                                <Image
-                                    className="object-cover"
-                                    alt={profile.fullName}
-                                    fill
-                                    src={profile.avatarUrl}
-                                />
+                                <Image className="object-cover" alt={profile.fullName} fill src={profile.avatarUrl} />
                             ) : (
-                                <span className="text-2xl font-bold text-primary">
-                                    {getInitials(profile.fullName)}
-                                </span>
+                                <span className="text-2xl font-bold text-primary">{getInitials(profile.fullName)}</span>
                             )}
                             {busy && (
                                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -189,20 +183,12 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
                         </div>
                     </div>
 
-                    {uploadError && (
-                        <p className="text-xs text-destructive text-center">{uploadError}</p>
-                    )}
+                    {uploadError && <p className="text-xs text-destructive text-center">{uploadError}</p>}
 
                     <div className="flex flex-col gap-2 pt-1">
-                        <Button
-                            onClick={() => fileInputRef.current?.click()}
-                            disabled={busy}
-                            className="w-full gap-2 font-bold rounded-xl"
-                        >
-                            <Upload className="w-4 h-4" />
-                            {t("Hero.modalUpload")}
+                        <Button onClick={() => fileInputRef.current?.click()} disabled={busy} className="w-full gap-2 font-bold rounded-xl">
+                            <Upload className="w-4 h-4" />{t("Hero.modalUpload")}
                         </Button>
-
                         {profile.avatarUrl && (
                             <Button
                                 variant="outline"
@@ -210,28 +196,15 @@ export function ProfileHero({ profile, onProfileUpdate }: ProfileHeroProps) {
                                 disabled={busy}
                                 className="w-full gap-2 font-bold rounded-xl text-destructive border-destructive/40 hover:bg-destructive/10 hover:text-destructive"
                             >
-                                <Trash2 className="w-4 h-4" />
-                                {t("Hero.modalRemove")}
+                                <Trash2 className="w-4 h-4" />{t("Hero.modalRemove")}
                             </Button>
                         )}
-
-                        <Button
-                            variant="ghost"
-                            onClick={() => setModalOpen(false)}
-                            disabled={busy}
-                            className="w-full rounded-xl"
-                        >
+                        <Button variant="ghost" onClick={() => setModalOpen(false)} disabled={busy} className="w-full rounded-xl">
                             {t("Hero.modalCancel")}
                         </Button>
                     </div>
 
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        className="hidden"
-                        onChange={handleFileChange}
-                    />
+                    <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleFileChange} />
                 </DialogContent>
             </Dialog>
         </div>
