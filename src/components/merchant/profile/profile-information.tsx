@@ -5,6 +5,7 @@ import { UserCircle, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { accountService } from "@/lib/services/account.service";
@@ -13,11 +14,51 @@ import { isApiError } from "@/lib/api/error";
 import { CountrySelect } from "@/components/ui/country-select";
 
 interface ProfileInformationProps {
-    profile:         MerchantProfile;
+    profile?:        MerchantProfile | null;
+    isLoading?:      boolean;
     onProfileUpdate: (p: MerchantProfile) => void;
 }
 
-export function ProfileInformation({ profile, onProfileUpdate }: ProfileInformationProps) {
+function ProfileInformationSkeleton() {
+    return (
+        <section>
+            <div className="flex items-center gap-2 mb-6">
+                <Skeleton className="w-6 h-6 rounded" />
+                <Skeleton className="h-6 w-40" />
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-2 md:col-span-2">
+                        <Skeleton className="h-4 w-24" />
+                        <Skeleton className="h-10 w-full rounded-md" />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                        <Skeleton className="h-4 w-32" />
+                        <Skeleton className="h-10 w-full rounded-md" />
+                    </div>
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-28" />
+                        <Skeleton className="h-10 w-full rounded-md" />
+                    </div>
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-16" />
+                        <Skeleton className="h-10 w-full rounded-md" />
+                    </div>
+                </div>
+                <div className="flex justify-end pt-2">
+                    <Skeleton className="h-9 w-28 rounded-xl" />
+                </div>
+            </div>
+        </section>
+    );
+}
+
+export function ProfileInformation({ profile, isLoading, onProfileUpdate }: ProfileInformationProps) {
+    if (isLoading || !profile) return <ProfileInformationSkeleton />;
+    return <ProfileInformationForm profile={profile} onProfileUpdate={onProfileUpdate} />;
+}
+
+function ProfileInformationForm({ profile, onProfileUpdate }: { profile: MerchantProfile; onProfileUpdate: (p: MerchantProfile) => void }) {
     const t = useTranslations("Dashboard.Profile.Information");
 
     const [fullName, setFullName] = useState(profile.fullName);

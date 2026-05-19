@@ -1,0 +1,28 @@
+services:
+  frontend:
+    container_name: sharepay-frontend
+
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_DOCS_BASE_URL: ${NEXT_PUBLIC_DOCS_BASE_URL}
+        NEXT_PUBLIC_SWAGGER_URL: ${NEXT_PUBLIC_SWAGGER_URL}
+
+    env_file:
+      - .env
+
+    environment:
+      PORT: ${PORT}
+
+    ports:
+      - "${PORT}:${PORT}"
+
+    restart: unless-stopped
+
+    networks:
+      - sharepay-network
+
+networks:
+  sharepay-network:
+    driver: bridge

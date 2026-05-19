@@ -3,7 +3,7 @@ import { tokenStorage } from "@/lib/token-storage";
 import { ApiError } from "@/lib/api/error";
 import { ApiResponse } from "@/lib/api/types";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+const baseURL = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1`;
 
 export const client = axios.create({
     baseURL,
