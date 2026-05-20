@@ -15,8 +15,8 @@ export function WithdrawalsBalance({ balances, loading }: WithdrawalsBalanceProp
     const t = useTranslations("Dashboard.Withdrawals");
 
     const xaf = balances.find((b) => b.currency === "XAF");
-    const available = xaf?.available ?? 0;
-    const pending   = xaf?.pending   ?? 0;
+    const available = xaf?.availableAmount ?? 0;
+    const pending   = xaf?.pendingAmount   ?? 0;
 
     const fmt = (n: number) =>
         new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(n);

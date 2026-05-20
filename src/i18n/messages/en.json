@@ -1314,7 +1314,15 @@
         "successRef": "Reference:",
         "errorTitle": "Withdrawal failed",
         "errorAmount": "Please enter a valid amount.",
-        "errorDestination": "Please select a withdrawal account.",
+        "operatorLabel": "Operator",
+        "operatorPlaceholder": "Select an operator",
+        "phoneLabel": "Phone number",
+        "phonePlaceholder": "e.g. 237690000000",
+        "beneficiaryLabel": "Beneficiary name",
+        "beneficiaryPlaceholder": "e.g. John Doe",
+        "errorDestination": "Please select an operator.",
+        "errorPhone": "Please enter a phone number.",
+        "errorBeneficiary": "Please enter the beneficiary name.",
         "errorGeneric": "An error occurred, please try again."
       },
       "Methods": {

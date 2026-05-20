@@ -37,7 +37,7 @@ export interface WithdrawResult {
 }
 
 export interface WithdrawalBalance {
-    available: number;
-    pending: number;
+    availableAmount: number;
+    pendingAmount: number;
     currency: string;
 }

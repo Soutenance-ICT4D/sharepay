@@ -16,25 +16,29 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { WithdrawAccount } from "@/features/merchant/withdrawals/types";
+import { WithdrawProvider } from "@/features/merchant/withdrawals/types";
 import { withdrawalsService } from "@/features/merchant/withdrawals/services/withdrawals.service";
 
 interface WithdrawalsFormProps {
-    accounts: WithdrawAccount[];
+    providers: WithdrawProvider[];
     disabled?: boolean;
     onSuccess?: () => void;
 }
 
-export function WithdrawalsForm({ accounts, disabled, onSuccess }: WithdrawalsFormProps) {
+export function WithdrawalsForm({ providers, disabled, onSuccess }: WithdrawalsFormProps) {
     const t = useTranslations("Dashboard.Withdrawals.Form");
 
-    const [amount,      setAmount]      = useState("");
-    const [accountId,   setAccountId]   = useState("");
-    const [description, setDescription] = useState("");
-    const [loading,     setLoading]     = useState(false);
+    const [providerCode,      setProviderCode]      = useState("");
+    const [phoneNumber,       setPhoneNumber]        = useState("");
+    const [beneficiaryName,   setBeneficiaryName]    = useState("");
+    const [amount,            setAmount]             = useState("");
+    const [description,       setDescription]        = useState("");
+    const [loading,           setLoading]            = useState(false);
 
     const fmt = (n: number) =>
         new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(n);
+
+    const selectedProvider = providers.find((p) => p.code === providerCode);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,29 +48,36 @@ export function WithdrawalsForm({ accounts, disabled, onSuccess }: WithdrawalsFo
             toast.error(t("errorAmount"));
             return;
         }
-        if (!accountId) {
+        if (!providerCode) {
             toast.error(t("errorDestination"));
             return;
         }
-
-        const selected = accounts.find((a) => a.id === accountId);
-        if (!selected) return;
+        if (!phoneNumber.trim()) {
+            toast.error(t("errorPhone"));
+            return;
+        }
+        if (!beneficiaryName.trim()) {
+            toast.error(t("errorBeneficiary"));
+            return;
+        }
 
         setLoading(true);
         try {
             const result = await withdrawalsService.withdraw({
                 amount: parsedAmount,
                 currency: "XAF",
-                paymentMethod: selected.providerCode,
-                beneficiaryAccount: selected.accountNumber,
-                beneficiaryName: selected.accountName,
+                paymentMethod: providerCode,
+                beneficiaryAccount: phoneNumber.trim(),
+                beneficiaryName: beneficiaryName.trim(),
                 description: description || undefined,
             });
             toast.success(t("successTitle"), {
                 description: `${t("successRef")} ${result.reference}`,
             });
+            setProviderCode("");
+            setPhoneNumber("");
+            setBeneficiaryName("");
             setAmount("");
-            setAccountId("");
             setDescription("");
             onSuccess?.();
         } catch (err: unknown) {
@@ -76,8 +87,6 @@ export function WithdrawalsForm({ accounts, disabled, onSuccess }: WithdrawalsFo
             setLoading(false);
         }
     };
-
-    const selectedAccount = accounts.find((a) => a.id === accountId);
 
     return (
         <Card className="h-full">
@@ -91,6 +100,49 @@ export function WithdrawalsForm({ accounts, disabled, onSuccess }: WithdrawalsFo
                     </div>
                 )}
                 <form onSubmit={handleSubmit} className="space-y-5">
+
+                    {/* Operator */}
+                    <div className="space-y-2">
+                        <Label htmlFor="provider" className="text-sm font-medium">{t("operatorLabel")}</Label>
+                        <Select value={providerCode} onValueChange={setProviderCode}>
+                            <SelectTrigger id="provider" className="h-12 bg-muted/50 rounded-xl">
+                                <SelectValue placeholder={t("operatorPlaceholder")} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {providers.map((p) => (
+                                    <SelectItem key={p.code} value={p.code}>
+                                        {p.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    {/* Phone number */}
+                    <div className="space-y-2">
+                        <Label htmlFor="phone" className="text-sm font-medium">{t("phoneLabel")}</Label>
+                        <Input
+                            id="phone"
+                            type="tel"
+                            placeholder={t("phonePlaceholder")}
+                            className="h-12 bg-muted/50 rounded-xl"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Beneficiary name */}
+                    <div className="space-y-2">
+                        <Label htmlFor="beneficiary" className="text-sm font-medium">{t("beneficiaryLabel")}</Label>
+                        <Input
+                            id="beneficiary"
+                            placeholder={t("beneficiaryPlaceholder")}
+                            className="h-12 bg-muted/50 rounded-xl"
+                            value={beneficiaryName}
+                            onChange={(e) => setBeneficiaryName(e.target.value)}
+                        />
+                    </div>
+
                     {/* Amount */}
                     <div className="space-y-2">
                         <Label htmlFor="amount" className="text-sm font-medium">{t("amountLabel")}</Label>
@@ -110,32 +162,6 @@ export function WithdrawalsForm({ accounts, disabled, onSuccess }: WithdrawalsFo
                         </div>
                     </div>
 
-                    {/* Destination */}
-                    <div className="space-y-2">
-                        <Label htmlFor="destination" className="text-sm font-medium">{t("destinationLabel")}</Label>
-                        {accounts.length === 0 ? (
-                            <div className="h-12 flex items-center px-4 rounded-xl bg-muted/50 border border-dashed text-sm text-muted-foreground">
-                                {t("noAccountsHint")}
-                            </div>
-                        ) : (
-                            <Select value={accountId} onValueChange={setAccountId}>
-                                <SelectTrigger id="destination" className="h-12 bg-muted/50 rounded-xl">
-                                    <SelectValue placeholder={t("destinationPlaceholder")} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {accounts.map((acc) => (
-                                        <SelectItem key={acc.id} value={acc.id}>
-                                            <div className="flex flex-col">
-                                                <span className="font-medium">{acc.providerName}</span>
-                                                <span className="text-xs text-muted-foreground font-mono">{acc.accountNumber} — {acc.accountName}</span>
-                                            </div>
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        )}
-                    </div>
-
                     {/* Description (optional) */}
                     <div className="space-y-2">
                         <Label htmlFor="description" className="text-sm font-medium">
@@ -151,15 +177,15 @@ export function WithdrawalsForm({ accounts, disabled, onSuccess }: WithdrawalsFo
                     </div>
 
                     {/* Summary */}
-                    {selectedAccount && amount && parseInt(amount) > 0 && (
+                    {selectedProvider && phoneNumber && beneficiaryName && amount && parseInt(amount) > 0 && (
                         <div className="rounded-xl bg-muted/60 border p-4 space-y-1 text-sm">
                             <div className="flex justify-between text-muted-foreground">
                                 <span>{t("summaryTo")}</span>
-                                <span className="font-medium text-foreground">{selectedAccount.accountName} · {selectedAccount.accountNumber}</span>
+                                <span className="font-medium text-foreground">{beneficiaryName} · {phoneNumber}</span>
                             </div>
                             <div className="flex justify-between text-muted-foreground">
                                 <span>{t("summaryVia")}</span>
-                                <span className="font-medium text-foreground">{selectedAccount.providerName}</span>
+                                <span className="font-medium text-foreground">{selectedProvider.name}</span>
                             </div>
                             <div className="flex justify-between font-semibold text-foreground border-t pt-2 mt-2">
                                 <span>{t("summaryAmount")}</span>
@@ -172,7 +198,7 @@ export function WithdrawalsForm({ accounts, disabled, onSuccess }: WithdrawalsFo
                         type="submit"
                         size="lg"
                         className="w-full h-12 rounded-xl text-base font-semibold shadow-md group"
-                        disabled={disabled || loading || accounts.length === 0}
+                        disabled={disabled || loading}
                     >
                         {loading ? (
                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
