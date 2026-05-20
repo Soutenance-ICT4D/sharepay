@@ -1,25 +1,80 @@
 import { client } from "@/lib/api/client";
 import { parseApiResponse } from "@/lib/api/response";
 import { ApiResponse } from "@/lib/api/types";
-import { WithdrawProvider, WithdrawRequest, WithdrawResult, WithdrawalBalance } from "@/features/merchant/withdrawals/types";
+import {
+    WithdrawAccount,
+    WithdrawProvider,
+    WithdrawRequest,
+    WithdrawResult,
+    WithdrawalBalance,
+    WithdrawalConfig,
+} from "@/features/merchant/withdrawals/types";
 
 export const withdrawalsService = {
 
-    /** GET /merchants/balance — Soldes du marchand */
+    // ── Solde ────────────────────────────────────────────────────────────────
+
     async getBalance(): Promise<WithdrawalBalance[]> {
         const response = await client.get<ApiResponse<WithdrawalBalance[]>>("/merchants/balance");
         return parseApiResponse(response.data, response.status) ?? [];
     },
 
-    /** GET /merchants/providers — Providers disponibles pour les retraits */
+    // ── Providers ────────────────────────────────────────────────────────────
+
     async getProviders(): Promise<WithdrawProvider[]> {
         const response = await client.get<ApiResponse<WithdrawProvider[]>>("/merchants/providers");
         return parseApiResponse(response.data, response.status) ?? [];
     },
 
-    /** POST /merchants/withdraw — Initier un retrait */
+    // ── Comptes de retrait ────────────────────────────────────────────────────
+
+    async getAccounts(): Promise<WithdrawAccount[]> {
+        const response = await client.get<ApiResponse<WithdrawAccount[]>>("/merchants/withdrawals/accounts");
+        return parseApiResponse(response.data, response.status) ?? [];
+    },
+
+    async addAccount(data: {
+        providerCode: string;
+        accountNumber: string;
+        accountName: string;
+        isDefault: boolean;
+    }): Promise<WithdrawAccount> {
+        const response = await client.post<ApiResponse<WithdrawAccount>>("/merchants/withdrawals/accounts", data);
+        return parseApiResponse(response.data, response.status)!;
+    },
+
+    async deleteAccount(accountId: string): Promise<void> {
+        await client.delete(`/merchants/withdrawals/accounts/${accountId}`);
+    },
+
+    async setDefaultAccount(accountId: string): Promise<WithdrawAccount> {
+        const response = await client.patch<ApiResponse<WithdrawAccount>>(
+            `/merchants/withdrawals/accounts/${accountId}/default`
+        );
+        return parseApiResponse(response.data, response.status)!;
+    },
+
+    // ── Configuration ─────────────────────────────────────────────────────────
+
+    async getConfig(): Promise<WithdrawalConfig> {
+        const response = await client.get<ApiResponse<WithdrawalConfig>>("/merchants/withdrawals/config");
+        return parseApiResponse(response.data, response.status) ?? { mode: "MANUAL", account: null, thresholdAmount: null, period: null, currency: "XAF", lastTriggeredAt: null, updatedAt: null };
+    },
+
+    async updateConfig(data: {
+        mode: string;
+        accountId?: string | null;
+        thresholdAmount?: number | null;
+        period?: string | null;
+    }): Promise<WithdrawalConfig> {
+        const response = await client.put<ApiResponse<WithdrawalConfig>>("/merchants/withdrawals/config", data);
+        return parseApiResponse(response.data, response.status)!;
+    },
+
+    // ── Retrait manuel ────────────────────────────────────────────────────────
+
     async withdraw(request: WithdrawRequest): Promise<WithdrawResult> {
-        const response = await client.post<ApiResponse<WithdrawResult>>("/merchants/withdraw", request);
+        const response = await client.post<ApiResponse<WithdrawResult>>("/merchants/withdrawals/withdraw", request);
         return parseApiResponse(response.data, response.status)!;
     },
 };

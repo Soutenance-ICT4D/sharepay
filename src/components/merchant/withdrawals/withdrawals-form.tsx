@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Loader2, SendHorizonal } from "lucide-react";
@@ -16,29 +16,35 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { WithdrawProvider } from "@/features/merchant/withdrawals/types";
+import { WithdrawAccount } from "@/features/merchant/withdrawals/types";
 import { withdrawalsService } from "@/features/merchant/withdrawals/services/withdrawals.service";
 
 interface WithdrawalsFormProps {
-    providers: WithdrawProvider[];
+    accounts: WithdrawAccount[];
+    currency: string;
     disabled?: boolean;
     onSuccess?: () => void;
 }
 
-export function WithdrawalsForm({ providers, disabled, onSuccess }: WithdrawalsFormProps) {
+export function WithdrawalsForm({ accounts, currency, disabled, onSuccess }: WithdrawalsFormProps) {
     const t = useTranslations("Dashboard.Withdrawals.Form");
 
-    const [providerCode,      setProviderCode]      = useState("");
-    const [phoneNumber,       setPhoneNumber]        = useState("");
-    const [beneficiaryName,   setBeneficiaryName]    = useState("");
-    const [amount,            setAmount]             = useState("");
-    const [description,       setDescription]        = useState("");
-    const [loading,           setLoading]            = useState(false);
+    const [accountId,   setAccountId]   = useState("");
+    const [amount,      setAmount]      = useState("");
+    const [description, setDescription] = useState("");
+    const [loading,     setLoading]     = useState(false);
+
+    const defaultId = accounts.find((a) => a.isDefault)?.id ?? accounts[0]?.id ?? "";
+
+    // Pré-sélectionner le compte par défaut au chargement
+    useEffect(() => {
+        if (defaultId && !accountId) setAccountId(defaultId);
+    }, [defaultId]);
 
     const fmt = (n: number) =>
-        new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(n);
+        new Intl.NumberFormat("fr-FR", { style: "currency", currency, maximumFractionDigits: 0 }).format(n);
 
-    const selectedProvider = providers.find((p) => p.code === providerCode);
+    const selectedAccount = accounts.find((a) => a.id === accountId);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -48,16 +54,8 @@ export function WithdrawalsForm({ providers, disabled, onSuccess }: WithdrawalsF
             toast.error(t("errorAmount"));
             return;
         }
-        if (!providerCode) {
+        if (!accountId) {
             toast.error(t("errorDestination"));
-            return;
-        }
-        if (!phoneNumber.trim()) {
-            toast.error(t("errorPhone"));
-            return;
-        }
-        if (!beneficiaryName.trim()) {
-            toast.error(t("errorBeneficiary"));
             return;
         }
 
@@ -65,18 +63,16 @@ export function WithdrawalsForm({ providers, disabled, onSuccess }: WithdrawalsF
         try {
             const result = await withdrawalsService.withdraw({
                 amount: parsedAmount,
-                currency: "XAF",
-                paymentMethod: providerCode,
-                beneficiaryAccount: phoneNumber.trim(),
-                beneficiaryName: beneficiaryName.trim(),
+                currency,
+                paymentMethod: selectedAccount!.providerCode,
+                beneficiaryAccount: selectedAccount!.accountNumber,
+                beneficiaryName: selectedAccount!.accountName,
                 description: description || undefined,
             });
             toast.success(t("successTitle"), {
                 description: `${t("successRef")} ${result.reference}`,
             });
-            setProviderCode("");
-            setPhoneNumber("");
-            setBeneficiaryName("");
+            setAccountId(defaultId);
             setAmount("");
             setDescription("");
             onSuccess?.();
@@ -101,91 +97,77 @@ export function WithdrawalsForm({ providers, disabled, onSuccess }: WithdrawalsF
                 )}
                 <form onSubmit={handleSubmit} className="space-y-5">
 
-                    {/* Operator */}
+                    {/* Compte de destination */}
                     <div className="space-y-2">
-                        <Label htmlFor="provider" className="text-sm font-medium">{t("operatorLabel")}</Label>
-                        <Select value={providerCode} onValueChange={setProviderCode}>
-                            <SelectTrigger id="provider" className="h-12 bg-muted/50 rounded-xl">
-                                <SelectValue placeholder={t("operatorPlaceholder")} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {providers.map((p) => (
-                                    <SelectItem key={p.code} value={p.code}>
-                                        {p.name}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        <Label htmlFor="account">{t("destinationLabel")}</Label>
+                        {accounts.length === 0 ? (
+                            <div className="h-11 flex items-center px-3 rounded-md border border-dashed text-sm text-muted-foreground">
+                                {t("noAccountsHint")}
+                            </div>
+                        ) : (
+                            <Select value={accountId} onValueChange={setAccountId}>
+                                <SelectTrigger id="account" className="h-11">
+                                    <SelectValue placeholder={t("destinationPlaceholder")} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {accounts.map((acc) => (
+                                        <SelectItem key={acc.id} value={acc.id}>
+                                            <span className="font-medium">{acc.accountName}</span>
+                                            <span className="text-muted-foreground ml-2 font-mono text-xs">
+                                                {acc.accountNumber} · {acc.providerName}
+                                            </span>
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
                     </div>
 
-                    {/* Phone number */}
+                    {/* Montant */}
                     <div className="space-y-2">
-                        <Label htmlFor="phone" className="text-sm font-medium">{t("phoneLabel")}</Label>
-                        <Input
-                            id="phone"
-                            type="tel"
-                            placeholder={t("phonePlaceholder")}
-                            className="h-12 bg-muted/50 rounded-xl"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Beneficiary name */}
-                    <div className="space-y-2">
-                        <Label htmlFor="beneficiary" className="text-sm font-medium">{t("beneficiaryLabel")}</Label>
-                        <Input
-                            id="beneficiary"
-                            placeholder={t("beneficiaryPlaceholder")}
-                            className="h-12 bg-muted/50 rounded-xl"
-                            value={beneficiaryName}
-                            onChange={(e) => setBeneficiaryName(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Amount */}
-                    <div className="space-y-2">
-                        <Label htmlFor="amount" className="text-sm font-medium">{t("amountLabel")}</Label>
+                        <Label htmlFor="amount">{t("amountLabel")}</Label>
                         <div className="relative">
                             <Input
                                 id="amount"
-                                type="number"
-                                min="1"
+                                type="text"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
                                 placeholder={t("amountPlaceholder")}
-                                className="h-12 pl-4 pr-16 bg-muted/50 rounded-xl"
+                                className="pr-14"
                                 value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
+                                onChange={(e) => setAmount(e.target.value.replace(/\D/g, ""))}
                             />
-                            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-muted-foreground">
-                                FCFA
-                            </div>
+                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
+                                {currency}
+                            </span>
                         </div>
                     </div>
 
-                    {/* Description (optional) */}
+                    {/* Description (optionnel) */}
                     <div className="space-y-2">
-                        <Label htmlFor="description" className="text-sm font-medium">
+                        <Label htmlFor="description">
                             {t("descriptionLabel")} <span className="text-muted-foreground font-normal text-xs">({t("optional")})</span>
                         </Label>
                         <Input
                             id="description"
                             placeholder={t("descriptionPlaceholder")}
-                            className="h-12 bg-muted/50 rounded-xl"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </div>
 
-                    {/* Summary */}
-                    {selectedProvider && phoneNumber && beneficiaryName && amount && parseInt(amount) > 0 && (
+                    {/* Récapitulatif */}
+                    {selectedAccount && amount && parseInt(amount) > 0 && (
                         <div className="rounded-xl bg-muted/60 border p-4 space-y-1 text-sm">
                             <div className="flex justify-between text-muted-foreground">
                                 <span>{t("summaryTo")}</span>
-                                <span className="font-medium text-foreground">{beneficiaryName} · {phoneNumber}</span>
+                                <span className="font-medium text-foreground">
+                                    {selectedAccount.accountName} · {selectedAccount.accountNumber}
+                                </span>
                             </div>
                             <div className="flex justify-between text-muted-foreground">
                                 <span>{t("summaryVia")}</span>
-                                <span className="font-medium text-foreground">{selectedProvider.name}</span>
+                                <span className="font-medium text-foreground">{selectedAccount.providerName}</span>
                             </div>
                             <div className="flex justify-between font-semibold text-foreground border-t pt-2 mt-2">
                                 <span>{t("summaryAmount")}</span>
@@ -197,8 +179,8 @@ export function WithdrawalsForm({ providers, disabled, onSuccess }: WithdrawalsF
                     <Button
                         type="submit"
                         size="lg"
-                        className="w-full h-12 rounded-xl text-base font-semibold shadow-md group"
-                        disabled={disabled || loading}
+                        className="w-full rounded-xl font-semibold shadow-md group"
+                        disabled={disabled || loading || accounts.length === 0}
                     >
                         {loading ? (
                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />

@@ -1290,7 +1290,7 @@
     },
     "Withdrawals": {
       "title": "My Withdrawals",
-      "subtitle": "Manage your withdrawals to your mobile accounts.",
+      "subtitle": "Manage your withdrawals to your registered accounts.",
       "availableBalance": "Available Balance",
       "pendingBalance": "Pending Balance",
       "totalBalance": "Total Balance",
@@ -1332,7 +1332,10 @@
         "addFirst": "Add an account",
         "default": "Default",
         "setDefault": "Set as default",
-        "delete": "Delete"
+        "delete": "Delete",
+        "typeMobileMoney": "Mobile Money",
+        "typeBankTransfer": "Bank Transfer",
+        "typeBankCard": "Bank Card"
       },
       "AddAccount": {
         "title": "Add a withdrawal account",
@@ -1340,7 +1343,7 @@
         "providerLabel": "Provider",
         "providerPlaceholder": "Select a provider",
         "noProviders": "No providers available",
-        "phoneLabel": "Phone number",
+        "phoneLabel": "Account number",
         "phonePlaceholder": "Ex: 237690000000",
         "phoneHint": "Enter the number without spaces or dashes.",
         "nameLabel": "Beneficiary name",
@@ -1350,7 +1353,7 @@
         "cancel": "Cancel",
         "successAdd": "Withdrawal account added.",
         "errorProvider": "Please select a provider.",
-        "errorPhone": "Please enter a phone number.",
+        "errorPhone": "Please enter an account number.",
         "errorPhoneFormat": "Invalid format (8 to 15 digits).",
         "errorName": "Please enter the beneficiary name."
       },
@@ -1359,7 +1362,10 @@
         "subtitle": "Set up your automatic withdrawal behavior.",
         "back": "Back to withdrawals",
         "recommended": "Recommended",
-        "saved": "Configuration saved."
+        "saved": "Configuration saved.",
+        "noAccountsHint": "Add a withdrawal account from the main page first →",
+        "errorAccountRequired": "Please select a withdrawal account.",
+        "errorThresholdRequired": "Please enter a valid threshold amount."
       },
       "History": {
         "title": "Withdrawal History",
@@ -1400,7 +1406,8 @@
           "weekly": "Weekly",
           "monthly": "Monthly",
           "save": "Save Settings"
-        }
+        },
+        "cancel": "Cancel"
       }
     }
   },

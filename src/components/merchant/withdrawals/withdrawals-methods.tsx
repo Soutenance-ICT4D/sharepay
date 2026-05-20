@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Plus, Smartphone, MoreHorizontal, Trash2, Star } from "lucide-react";
+import { Plus, Smartphone, Building2, CreditCard, MoreHorizontal, Trash2, Star } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,16 +11,23 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { WithdrawAccount } from "@/features/merchant/withdrawals/types";
+import { WithdrawAccount, ProviderType } from "@/features/merchant/withdrawals/types";
 
 interface WithdrawalsMethodsProps {
     accounts: WithdrawAccount[];
+    loading?: boolean;
     onAddClick: () => void;
     onDelete: (id: string) => void;
     onSetDefault: (id: string) => void;
 }
 
-export function WithdrawalsMethods({ accounts, onAddClick, onDelete, onSetDefault }: WithdrawalsMethodsProps) {
+function ProviderIcon({ type, className }: { type: ProviderType; className?: string }) {
+    if (type === "MOBILE_MONEY")  return <Smartphone className={className} />;
+    if (type === "BANK_TRANSFER") return <Building2  className={className} />;
+    return <CreditCard className={className} />;
+}
+
+export function WithdrawalsMethods({ accounts, loading, onAddClick, onDelete, onSetDefault }: WithdrawalsMethodsProps) {
     const t = useTranslations("Dashboard.Withdrawals.Methods");
 
     return (
@@ -33,10 +40,16 @@ export function WithdrawalsMethods({ accounts, onAddClick, onDelete, onSetDefaul
                 </Button>
             </CardHeader>
             <CardContent className="flex-1">
-                {accounts.length === 0 ? (
+                {loading ? (
+                    <div className="animate-pulse space-y-3 mt-2">
+                        {[1, 2].map((i) => (
+                            <div key={i} className="h-16 rounded-2xl bg-muted/50" />
+                        ))}
+                    </div>
+                ) : accounts.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full min-h-[140px] gap-3 text-center py-8">
                         <div className="p-3 rounded-full bg-muted">
-                            <Smartphone className="h-6 w-6 text-muted-foreground" />
+                            <CreditCard className="h-6 w-6 text-muted-foreground" />
                         </div>
                         <p className="text-sm text-muted-foreground font-medium">{t("noAccounts")}</p>
                         <Button size="sm" variant="outline" onClick={onAddClick}>
@@ -53,24 +66,22 @@ export function WithdrawalsMethods({ accounts, onAddClick, onDelete, onSetDefaul
                             >
                                 <div className="flex items-center gap-3 min-w-0">
                                     <div className="h-10 w-10 rounded-full bg-background flex items-center justify-center border shadow-sm shrink-0">
-                                        <Smartphone className="w-5 h-5 text-muted-foreground" />
+                                        <ProviderIcon type={account.providerType} className="w-5 h-5 text-muted-foreground" />
                                     </div>
                                     <div className="min-w-0">
-                                        <div className="flex items-center gap-2 flex-wrap">
+                                        <div className="flex items-center gap-1.5">
                                             <span className="font-semibold text-sm truncate">
-                                                {account.providerName}
+                                                {account.accountName}
                                             </span>
                                             {account.isDefault && (
-                                                <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
-                                                    {t("default")}
-                                                </span>
+                                                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400 shrink-0" />
                                             )}
                                         </div>
-                                        <p className="text-xs text-muted-foreground font-mono mt-0.5 truncate">
+                                        <p className="text-xs text-muted-foreground font-mono truncate">
                                             {account.accountNumber}
                                         </p>
                                         <p className="text-xs text-muted-foreground/70 truncate">
-                                            {account.accountName}
+                                            {account.providerName}
                                         </p>
                                     </div>
                                 </div>

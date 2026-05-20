@@ -1,10 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Wallet, Clock, ArrowDownRight } from "lucide-react";
 import { OverviewStatsGrid } from "@/components/merchant/overview/overview-stats-grid";
 import { OverviewStat } from "@/lib/data/dashboard";
 import { WithdrawalBalance } from "@/features/merchant/withdrawals/types";
+import { formatAmount } from "@/lib/utils";
 
 interface WithdrawalsBalanceProps {
     balances: WithdrawalBalance[];
@@ -12,37 +13,33 @@ interface WithdrawalsBalanceProps {
 }
 
 export function WithdrawalsBalance({ balances, loading }: WithdrawalsBalanceProps) {
-    const t = useTranslations("Dashboard.Withdrawals");
+    const t      = useTranslations("Dashboard.Withdrawals");
+    const locale = useLocale();
 
-    const xaf = balances.find((b) => b.currency === "XAF");
+    const xaf       = balances.find((b) => b.currency === "XAF");
     const available = xaf?.availableAmount ?? 0;
     const pending   = xaf?.pendingAmount   ?? 0;
-
-    const fmt = (n: number) =>
-        new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(n);
-
-    const skeleton = loading && balances.length === 0;
 
     const stats: OverviewStat[] = [
         {
             label: t("availableBalance"),
-            value: skeleton ? "—" : fmt(available),
+            value: formatAmount(available, "XAF", locale),
             icon: <Wallet className="h-5 w-5" />,
             iconWrapClassName: "bg-primary/10 text-primary",
         },
         {
             label: t("pendingBalance"),
-            value: skeleton ? "—" : fmt(pending),
+            value: formatAmount(pending, "XAF", locale),
             icon: <Clock className="h-5 w-5" />,
             iconWrapClassName: "bg-amber-500/10 text-amber-600",
         },
         {
             label: t("totalBalance"),
-            value: skeleton ? "—" : fmt(available + pending),
+            value: formatAmount(available + pending, "XAF", locale),
             icon: <ArrowDownRight className="h-5 w-5" />,
             iconWrapClassName: "bg-emerald-500/10 text-emerald-600",
         },
     ];
 
-    return <OverviewStatsGrid stats={stats} />;
+    return <OverviewStatsGrid stats={stats} isLoading={loading} />;
 }
