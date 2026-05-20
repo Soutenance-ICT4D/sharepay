@@ -1314,7 +1314,15 @@
         "successRef": "Référence :",
         "errorTitle": "Échec du retrait",
         "errorAmount": "Veuillez entrer un montant valide.",
-        "errorDestination": "Veuillez sélectionner un compte de retrait.",
+        "operatorLabel": "Opérateur",
+        "operatorPlaceholder": "Sélectionnez un opérateur",
+        "phoneLabel": "Numéro de téléphone",
+        "phonePlaceholder": "Ex: 237690000000",
+        "beneficiaryLabel": "Nom du bénéficiaire",
+        "beneficiaryPlaceholder": "Ex: Jean Dupont",
+        "errorDestination": "Veuillez sélectionner un opérateur.",
+        "errorPhone": "Veuillez entrer un numéro de téléphone.",
+        "errorBeneficiary": "Veuillez entrer le nom du bénéficiaire.",
         "errorGeneric": "Une erreur est survenue, réessayez."
       },
       "Methods": {
