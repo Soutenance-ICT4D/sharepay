@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { Smartphone } from "lucide-react";
+import { Loader2, CreditCard } from "lucide-react";
 
 import {
     Dialog,
@@ -23,14 +23,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { WithdrawAccount, WithdrawProvider } from "@/features/merchant/withdrawals/types";
+import { WithdrawProvider } from "@/features/merchant/withdrawals/types";
+import { withdrawalsService } from "@/features/merchant/withdrawals/services/withdrawals.service";
 
 interface WithdrawalAddAccountModalProps {
     open: boolean;
     providers: WithdrawProvider[];
     hasAccounts: boolean;
     onClose: () => void;
-    onSave: (account: WithdrawAccount) => void;
+    onSuccess: () => void;
 }
 
 export function WithdrawalAddAccountModal({
@@ -38,15 +39,16 @@ export function WithdrawalAddAccountModal({
     providers,
     hasAccounts,
     onClose,
-    onSave,
+    onSuccess,
 }: WithdrawalAddAccountModalProps) {
     const t = useTranslations("Dashboard.Withdrawals.AddAccount");
 
-    const [providerCode, setProviderCode] = React.useState("");
+    const [providerCode,  setProviderCode]  = React.useState("");
     const [accountNumber, setAccountNumber] = React.useState("");
-    const [accountName, setAccountName]     = React.useState("");
-    const [isDefault, setIsDefault]         = React.useState(!hasAccounts);
-    const [errors, setErrors]               = React.useState<Record<string, string>>({});
+    const [accountName,   setAccountName]   = React.useState("");
+    const [isDefault,     setIsDefault]     = React.useState(!hasAccounts);
+    const [errors,        setErrors]        = React.useState<Record<string, string>>({});
+    const [loading,       setLoading]       = React.useState(false);
 
     React.useEffect(() => {
         if (open) {
@@ -68,17 +70,23 @@ export function WithdrawalAddAccountModal({
         return Object.keys(next).length === 0;
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!validate()) return;
-        const provider = providers.find((p) => p.code === providerCode);
-        onSave({
-            id: crypto.randomUUID(),
-            providerCode,
-            providerName: provider?.name ?? providerCode,
-            accountNumber: accountNumber.trim(),
-            accountName: accountName.trim(),
-            isDefault,
-        });
+        setLoading(true);
+        try {
+            await withdrawalsService.addAccount({
+                providerCode,
+                accountNumber: accountNumber.trim(),
+                accountName: accountName.trim(),
+                isDefault,
+            });
+            onSuccess();
+            onClose();
+        } catch (e: unknown) {
+            setErrors({ submit: e instanceof Error ? e.message : "Erreur lors de l'ajout." });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -87,7 +95,7 @@ export function WithdrawalAddAccountModal({
                 <DialogHeader>
                     <div className="flex items-center gap-3 mb-1">
                         <div className="p-2 rounded-xl bg-primary/10">
-                            <Smartphone className="h-5 w-5 text-primary" />
+                            <CreditCard className="h-5 w-5 text-primary" />
                         </div>
                         <DialogTitle className="text-lg font-bold">{t("title")}</DialogTitle>
                     </div>
@@ -109,19 +117,15 @@ export function WithdrawalAddAccountModal({
                                     <SelectItem value="__none__" disabled>{t("noProviders")}</SelectItem>
                                 ) : (
                                     providers.map((p) => (
-                                        <SelectItem key={p.code} value={p.code}>
-                                            {p.name}
-                                        </SelectItem>
+                                        <SelectItem key={p.code} value={p.code}>{p.name}</SelectItem>
                                     ))
                                 )}
                             </SelectContent>
                         </Select>
-                        {errors.providerCode && (
-                            <p className="text-xs text-destructive">{errors.providerCode}</p>
-                        )}
+                        {errors.providerCode && <p className="text-xs text-destructive">{errors.providerCode}</p>}
                     </div>
 
-                    {/* Phone number */}
+                    {/* Account number */}
                     <div className="space-y-2">
                         <Label className="text-sm font-medium">{t("phoneLabel")}</Label>
                         <Input
@@ -131,14 +135,13 @@ export function WithdrawalAddAccountModal({
                             onChange={(e) => setAccountNumber(e.target.value)}
                             className={`h-11 font-mono ${errors.accountNumber ? "border-destructive" : ""}`}
                         />
-                        {errors.accountNumber ? (
-                            <p className="text-xs text-destructive">{errors.accountNumber}</p>
-                        ) : (
-                            <p className="text-xs text-muted-foreground">{t("phoneHint")}</p>
-                        )}
+                        {errors.accountNumber
+                            ? <p className="text-xs text-destructive">{errors.accountNumber}</p>
+                            : <p className="text-xs text-muted-foreground">{t("phoneHint")}</p>
+                        }
                     </div>
 
-                    {/* Account name */}
+                    {/* Name */}
                     <div className="space-y-2">
                         <Label className="text-sm font-medium">{t("nameLabel")}</Label>
                         <Input
@@ -147,12 +150,10 @@ export function WithdrawalAddAccountModal({
                             onChange={(e) => setAccountName(e.target.value)}
                             className={`h-11 ${errors.accountName ? "border-destructive" : ""}`}
                         />
-                        {errors.accountName && (
-                            <p className="text-xs text-destructive">{errors.accountName}</p>
-                        )}
+                        {errors.accountName && <p className="text-xs text-destructive">{errors.accountName}</p>}
                     </div>
 
-                    {/* Default checkbox */}
+                    {/* Default */}
                     <div className="flex items-center gap-3 pt-1">
                         <Checkbox
                             id="set-default"
@@ -160,20 +161,20 @@ export function WithdrawalAddAccountModal({
                             onCheckedChange={(v) => setIsDefault(!!v)}
                             disabled={!hasAccounts}
                         />
-                        <Label
-                            htmlFor="set-default"
-                            className="text-sm font-medium cursor-pointer leading-tight"
-                        >
+                        <Label htmlFor="set-default" className="text-sm font-medium cursor-pointer leading-tight">
                             {t("setDefault")}
                         </Label>
                     </div>
+
+                    {errors.submit && <p className="text-xs text-destructive">{errors.submit}</p>}
                 </div>
 
                 <DialogFooter className="gap-2 mt-2">
-                    <Button variant="outline" onClick={onClose} className="flex-1 sm:flex-none">
+                    <Button variant="outline" onClick={onClose} className="flex-1 sm:flex-none" disabled={loading}>
                         {t("cancel")}
                     </Button>
-                    <Button onClick={handleSave} className="flex-1 sm:flex-none font-semibold">
+                    <Button onClick={handleSave} className="flex-1 sm:flex-none font-semibold" disabled={loading}>
+                        {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                         {t("submit")}
                     </Button>
                 </DialogFooter>

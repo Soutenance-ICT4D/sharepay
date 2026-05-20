@@ -5,56 +5,54 @@ import { useTranslations } from "next-intl";
 import { Settings } from "lucide-react";
 import { toast } from "sonner";
 
-import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { WithdrawalsBalance } from "@/components/merchant/withdrawals/withdrawals-balance";
 import { WithdrawalsForm } from "@/components/merchant/withdrawals/withdrawals-form";
 import { WithdrawalsMethods } from "@/components/merchant/withdrawals/withdrawals-methods";
 import { WithdrawalAddAccountModal } from "@/components/merchant/withdrawals/withdrawal-add-account-modal";
+import { WithdrawalsConfigModal } from "@/components/merchant/withdrawals/withdrawals-config-modal";
 import { useWithdrawalBalance } from "@/features/merchant/withdrawals/hooks/use-withdrawal-balance";
 import { useWithdrawalProviders } from "@/features/merchant/withdrawals/hooks/use-withdrawal-providers";
-import { WithdrawAccount } from "@/features/merchant/withdrawals/types";
+import { useWithdrawalAccounts } from "@/features/merchant/withdrawals/hooks/use-withdrawal-accounts";
+import { useWithdrawalConfig } from "@/features/merchant/withdrawals/hooks/use-withdrawal-config";
+import { withdrawalsService } from "@/features/merchant/withdrawals/services/withdrawals.service";
 
 export function WithdrawalsClientPage() {
     const t = useTranslations("Dashboard.Withdrawals");
 
-    const { balances, loading: balanceLoading, refetch: refetchBalance } = useWithdrawalBalance();
-    const { providers } = useWithdrawalProviders();
+    const { balances, loading: balanceLoading, refetch: refetchBalance }   = useWithdrawalBalance();
+    const { providers }                                                     = useWithdrawalProviders();
+    const { accounts, loading: accountsLoading, refetch: refetchAccounts } = useWithdrawalAccounts();
+    const { config, refetch: refetchConfig }                               = useWithdrawalConfig();
 
-    const [accounts, setAccounts] = useState<WithdrawAccount[]>([]);
-    const [addModalOpen, setAddModalOpen] = useState(false);
+    const [addModalOpen,    setAddModalOpen]    = useState(false);
+    const [configModalOpen, setConfigModalOpen] = useState(false);
 
-    const handleAddAccount = useCallback((account: WithdrawAccount) => {
-        setAccounts((prev) => {
-            if (account.isDefault) {
-                return [...prev.map((a) => ({ ...a, isDefault: false })), account];
-            }
-            return [...prev, account];
-        });
-        setAddModalOpen(false);
-        toast.success(t("AddAccount.successAdd"));
-    }, [t]);
+    const handleDeleteAccount = useCallback(async (id: string) => {
+        try {
+            await withdrawalsService.deleteAccount(id);
+            await refetchAccounts();
+        } catch (e: unknown) {
+            toast.error(e instanceof Error ? e.message : "Erreur lors de la suppression.");
+        }
+    }, [refetchAccounts]);
 
-    const handleDeleteAccount = useCallback((id: string) => {
-        setAccounts((prev) => {
-            const remaining = prev.filter((a) => a.id !== id);
-            if (remaining.length > 0 && !remaining.some((a) => a.isDefault)) {
-                remaining[0] = { ...remaining[0], isDefault: true };
-            }
-            return remaining;
-        });
-    }, []);
+    const handleSetDefault = useCallback(async (id: string) => {
+        try {
+            await withdrawalsService.setDefaultAccount(id);
+            await refetchAccounts();
+        } catch (e: unknown) {
+            toast.error(e instanceof Error ? e.message : "Erreur lors de la mise à jour.");
+        }
+    }, [refetchAccounts]);
 
-    const handleSetDefault = useCallback((id: string) => {
-        setAccounts((prev) =>
-            prev.map((a) => ({ ...a, isDefault: a.id === id }))
-        );
-    }, []);
+    const isManual = !config || config.mode === "MANUAL";
+    const currency = balances[0]?.currency ?? "XAF";
 
     return (
         <div className="space-y-8">
             {/* Page Heading */}
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 min-w-0">
+            <div className="flex flex-row items-center justify-between gap-2">
                 <div className="min-w-0">
                     <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-foreground truncate">
                         {t("title")}
@@ -63,30 +61,56 @@ export function WithdrawalsClientPage() {
                         {t("subtitle")}
                     </p>
                 </div>
-                <Link href="/merchant/withdrawals/config" className="shrink-0">
-                    <Button variant="outline" className="rounded-xl w-full sm:w-auto">
-                        <Settings className="w-4 h-4 mr-2" />
+
+                <div className="shrink-0 flex gap-2">
+                    {/* Mobile: icon only */}
+                    <Button
+                        variant="outline"
+                        className="sm:hidden h-9 w-9 p-0"
+                        onClick={() => setConfigModalOpen(true)}
+                        aria-label={t("configureWithdrawals")}
+                    >
+                        <Settings className="h-4 w-4" />
+                    </Button>
+
+                    {/* Desktop: icon + text */}
+                    <Button
+                        variant="outline"
+                        className="hidden sm:inline-flex gap-2 font-bold"
+                        onClick={() => setConfigModalOpen(true)}
+                    >
+                        <Settings className="h-4 w-4" />
                         {t("configureWithdrawals")}
                     </Button>
-                </Link>
+                </div>
             </div>
 
             {/* Balance Stats */}
             <WithdrawalsBalance balances={balances} loading={balanceLoading} />
 
             {/* Form + Methods */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <WithdrawalsForm
-                    providers={providers}
+                    accounts={accounts}
+                    currency={currency}
+                    disabled={!isManual}
                     onSuccess={refetchBalance}
                 />
                 <WithdrawalsMethods
                     accounts={accounts}
+                    loading={accountsLoading}
                     onAddClick={() => setAddModalOpen(true)}
                     onDelete={handleDeleteAccount}
                     onSetDefault={handleSetDefault}
                 />
             </div>
+
+            {/* Config Modal */}
+            <WithdrawalsConfigModal
+                open={configModalOpen}
+                onClose={() => setConfigModalOpen(false)}
+                onSaved={refetchConfig}
+            />
 
             {/* Add Account Modal */}
             <WithdrawalAddAccountModal
@@ -94,7 +118,10 @@ export function WithdrawalsClientPage() {
                 providers={providers}
                 hasAccounts={accounts.length > 0}
                 onClose={() => setAddModalOpen(false)}
-                onSave={handleAddAccount}
+                onSuccess={() => {
+                    refetchAccounts();
+                    toast.success(t("AddAccount.successAdd"));
+                }}
             />
         </div>
     );

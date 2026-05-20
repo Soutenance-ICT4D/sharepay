@@ -1290,7 +1290,7 @@
     },
     "Withdrawals": {
       "title": "Mes retraits",
-      "subtitle": "Gérez vos retraits vers vos comptes mobiles.",
+      "subtitle": "Gérez vos retraits vers vos comptes enregistrés.",
       "availableBalance": "Solde disponible",
       "pendingBalance": "Solde en attente",
       "totalBalance": "Solde total",
@@ -1299,14 +1299,14 @@
         "title": "Effectuer un retrait",
         "amountLabel": "Montant à retirer",
         "amountPlaceholder": "Ex: 50000",
-        "destinationLabel": "Numéro de retrait",
+        "destinationLabel": "Compte de retrait",
         "destinationPlaceholder": "Sélectionnez un compte",
         "descriptionLabel": "Description",
         "descriptionPlaceholder": "Ex: Remboursement client",
         "optional": "optionnel",
         "submit": "Retirer les fonds",
         "disabledNotice": "Le retrait manuel est désactivé avec un mode automatique configuré.",
-        "noAccountsHint": "Ajoutez d'abord un numéro de retrait →",
+        "noAccountsHint": "Ajoutez d'abord un compte de retrait →",
         "summaryTo": "Vers",
         "summaryVia": "Via",
         "summaryAmount": "Montant",
@@ -1326,21 +1326,24 @@
         "errorGeneric": "Une erreur est survenue, réessayez."
       },
       "Methods": {
-        "title": "Numéros de retrait",
-        "addMethod": "Ajouter un numéro",
-        "noAccounts": "Aucun numéro de retrait configuré.",
-        "addFirst": "Ajouter un numéro",
+        "title": "Comptes de retrait",
+        "addMethod": "Ajouter un compte",
+        "noAccounts": "Aucun compte de retrait configuré.",
+        "addFirst": "Ajouter un compte",
         "default": "Par défaut",
         "setDefault": "Définir par défaut",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "typeMobileMoney": "Mobile Money",
+        "typeBankTransfer": "Virement bancaire",
+        "typeBankCard": "Carte bancaire"
       },
       "AddAccount": {
-        "title": "Ajouter un numéro de retrait",
-        "subtitle": "Ce numéro sera disponible comme destination pour vos futurs retraits.",
+        "title": "Ajouter un compte de retrait",
+        "subtitle": "Ce compte sera disponible comme destination pour vos futurs retraits.",
         "providerLabel": "Opérateur",
         "providerPlaceholder": "Sélectionnez un opérateur",
         "noProviders": "Aucun opérateur disponible",
-        "phoneLabel": "Numéro de téléphone",
+        "phoneLabel": "Numéro de compte",
         "phonePlaceholder": "Ex: 237690000000",
         "phoneHint": "Entrez le numéro sans espaces ni tirets.",
         "nameLabel": "Nom du bénéficiaire",
@@ -1348,9 +1351,9 @@
         "setDefault": "Définir comme compte par défaut",
         "submit": "Ajouter le compte",
         "cancel": "Annuler",
-        "successAdd": "Numéro de retrait ajouté.",
+        "successAdd": "Compte de retrait ajouté.",
         "errorProvider": "Sélectionnez un opérateur.",
-        "errorPhone": "Entrez un numéro de téléphone.",
+        "errorPhone": "Entrez un numéro de compte.",
         "errorPhoneFormat": "Format invalide (8 à 15 chiffres).",
         "errorName": "Entrez le nom du bénéficiaire."
       },
@@ -1359,7 +1362,10 @@
         "subtitle": "Paramétrez le comportement de vos retraits automatiques.",
         "back": "Retour aux retraits",
         "recommended": "Recommandé",
-        "saved": "Configuration enregistrée."
+        "saved": "Configuration enregistrée.",
+        "noAccountsHint": "Ajoutez d'abord un compte de retrait depuis la page principale →",
+        "errorAccountRequired": "Veuillez sélectionner un compte de retrait.",
+        "errorThresholdRequired": "Veuillez entrer un montant seuil valide."
       },
       "History": {
         "title": "Historique des retraits",
@@ -1400,7 +1406,8 @@
           "weekly": "Hebdomadaire",
           "monthly": "Mensuel",
           "save": "Enregistrer les paramètres"
-        }
+        },
+        "cancel": "Annuler"
       }
     }
   },
