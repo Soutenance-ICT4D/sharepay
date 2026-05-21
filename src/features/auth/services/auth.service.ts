@@ -23,7 +23,7 @@ export const authService = {
         @param rememberMe  true → localStorage (30 jours), false → sessionStorage
     */
     async login(data: LoginRequest, rememberMe: boolean = false): Promise<AuthTokenData> {
-        const response = await client.post<ApiResponse<AuthTokenData>>("/auth/login", data);
+        const response = await client.post<ApiResponse<AuthTokenData>>("/api/v1/auth/login", data);
         const authData = parseApiResponse(response.data, response.status);
 
         tokenStorage.set(
@@ -40,38 +40,38 @@ export const authService = {
     },
 
     async register(data: RegisterRequest): Promise<void> {
-        const response = await client.post<ApiResponse<null>>("/auth/register", data);
+        const response = await client.post<ApiResponse<null>>("/api/v1/auth/register", data);
         parseApiResponse(response.data, response.status);
     },
 
     /*  POST /auth/verify-email-otp */
     async verifyEmail(data: VerifyEmailRequest): Promise<void> {
-        const response = await client.post<ApiResponse<null>>("/auth/verify-email-otp", data);
+        const response = await client.post<ApiResponse<null>>("/api/v1/auth/verify-email-otp", data);
         parseApiResponse(response.data, response.status);
     },
 
     /*  POST /auth/resend-verify-email-code */
     async resendOtp(email: string): Promise<void> {
-        const response = await client.post<ApiResponse<null>>("/auth/resend-verify-email-code", { email });
+        const response = await client.post<ApiResponse<null>>("/api/v1/auth/resend-verify-email-code", { email });
         parseApiResponse(response.data, response.status);
     },
 
     async forgotPassword(data: ForgotPasswordRequest): Promise<void> {
-        const response = await client.post<ApiResponse<null>>("/auth/forgot-password", data);
+        const response = await client.post<ApiResponse<null>>("/api/v1/auth/forgot-password", data);
         parseApiResponse(response.data, response.status);
     },
 
     /*  POST /auth/verify-reset-password-otp */
     async verifyResetCode(data: VerifyResetCodeRequest): Promise<VerifyResetCodeResponse> {
         const response = await client.post<ApiResponse<VerifyResetCodeResponse>>(
-            "/auth/verify-reset-password-otp",
+            "/api/v1/auth/verify-reset-password-otp",
             data
         );
         return parseApiResponse(response.data, response.status)!;
     },
 
     async resetPassword(data: ResetPasswordRequest): Promise<void> {
-        const response = await client.post<ApiResponse<null>>("/auth/reset-password", data);
+        const response = await client.post<ApiResponse<null>>("/api/v1/auth/reset-password", data);
         parseApiResponse(response.data, response.status);
     },
 
@@ -80,7 +80,7 @@ export const authService = {
         Cette méthode est utile uniquement pour forcer un refresh explicitement.
     */
     async refreshToken(refreshToken: string): Promise<AuthTokenData> {
-        const response = await client.post<ApiResponse<AuthTokenData>>("/auth/refresh-token", {
+        const response = await client.post<ApiResponse<AuthTokenData>>("/api/v1/auth/refresh-token", {
             refreshToken,
         });
         const authData = parseApiResponse(response.data, response.status)!;
@@ -103,7 +103,7 @@ export const authService = {
         try {
             const tokens = tokenStorage.get();
             if (tokens?.refreshToken) {
-                await client.post<ApiResponse<null>>("/auth/logout", {
+                await client.post<ApiResponse<null>>("/api/v1/auth/logout", {
                     refreshToken: tokens.refreshToken,
                 });
             }

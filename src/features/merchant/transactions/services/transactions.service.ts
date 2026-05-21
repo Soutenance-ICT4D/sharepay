@@ -14,7 +14,7 @@ export const transactionsService = {
         if (filters?.type) params.append("type", filters.type);
         const query = params.toString() ? `?${params}` : "";
         const response = await client.get<ApiResponse<TransactionPage>>(
-            `/merchants/transactions${query}`
+            `/api/v1/merchants/transactions${query}`
         );
         return parseApiResponse(response.data, response.status)!;
     },
@@ -22,7 +22,7 @@ export const transactionsService = {
     /** GET /pay-in/check_status/:reference — Détail d'une transaction via son référence */
     async getByReference(reference: string): Promise<Transaction> {
         const response = await client.get<ApiResponse<Transaction>>(
-            `/pay-in/check_status/${reference}`
+            `/api/v1/pay-in/check_status/${reference}`
         );
         return parseApiResponse(response.data, response.status)!;
     },

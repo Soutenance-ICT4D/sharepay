@@ -11,26 +11,26 @@ import {
 export const adminStaffService = {
     async list(page = 0, size = 20): Promise<PaginationResponse<StaffResponse>> {
         const res = await client.get<ApiResponse<PaginationResponse<StaffResponse>>>(
-            "/admin/staff",
+            "/api/v1/admin/staff",
             { params: { page, size } }
         );
         return parseApiResponse(res.data, res.status)!;
     },
 
     async create(request: CreateStaffRequest): Promise<StaffResponse> {
-        const res = await client.post<ApiResponse<StaffResponse>>("/admin/staff", request);
+        const res = await client.post<ApiResponse<StaffResponse>>("/api/v1/admin/staff", request);
         return parseApiResponse(res.data, res.status)!;
     },
 
     async updateStatus(id: string, request: UpdateStatusRequest): Promise<StaffResponse> {
         const res = await client.patch<ApiResponse<StaffResponse>>(
-            `/admin/staff/${id}/status`,
+            `/api/v1/admin/staff/${id}/status`,
             request
         );
         return parseApiResponse(res.data, res.status)!;
     },
 
     async delete(id: string): Promise<void> {
-        await client.delete(`/admin/staff/${id}`);
+        await client.delete(`/api/v1/admin/staff/${id}`);
     },
 };

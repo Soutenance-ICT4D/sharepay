@@ -14,20 +14,20 @@ export const adminMerchantsService = {
         const params: Record<string, unknown> = { page, size };
         if (status) params.status = status;
         const res = await client.get<ApiResponse<PaginationResponse<MerchantSummaryResponse>>>(
-            "/admin/merchants",
+            "/api/v1/admin/merchants",
             { params }
         );
         return parseApiResponse(res.data, res.status)!;
     },
 
     async get(id: string): Promise<MerchantSummaryResponse> {
-        const res = await client.get<ApiResponse<MerchantSummaryResponse>>(`/admin/merchants/${id}`);
+        const res = await client.get<ApiResponse<MerchantSummaryResponse>>(`/api/v1/admin/merchants/${id}`);
         return parseApiResponse(res.data, res.status)!;
     },
 
     async updateStatus(id: string, request: UpdateStatusRequest): Promise<MerchantSummaryResponse> {
         const res = await client.patch<ApiResponse<MerchantSummaryResponse>>(
-            `/admin/merchants/${id}/status`,
+            `/api/v1/admin/merchants/${id}/status`,
             request
         );
         return parseApiResponse(res.data, res.status)!;
@@ -35,7 +35,7 @@ export const adminMerchantsService = {
 
     async updateKyc(id: string, request: UpdateMerchantKycRequest): Promise<MerchantSummaryResponse> {
         const res = await client.patch<ApiResponse<MerchantSummaryResponse>>(
-            `/admin/merchants/${id}/kyc`,
+            `/api/v1/admin/merchants/${id}/kyc`,
             request
         );
         return parseApiResponse(res.data, res.status)!;
