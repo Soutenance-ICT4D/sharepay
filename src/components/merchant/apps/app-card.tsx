@@ -35,9 +35,6 @@ export function AppCard({ app, onSettingsClick }: AppCardProps) {
 
     const dateLocale = locale === 'fr' ? fr : enUS;
 
-    // Default SharePay logo if no logo provided
-    const defaultLogo = "/logo.svg"; // Adjust path if needed, usually in public/
-
     return (
         <>
             <Card
@@ -49,17 +46,11 @@ export function AppCard({ app, onSettingsClick }: AppCardProps) {
                         <div className="flex items-center gap-3">
                             {/* App Logo */}
                             <div className="w-12 h-12 rounded-xl border border-border bg-muted/30 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300">
-                                {app.logoUrl ? (
+                                {app.logoUrl && (
                                     <img
                                         src={app.logoUrl}
                                         alt={app.name}
                                         className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <img
-                                        src={defaultLogo}
-                                        alt="SharePay"
-                                        className="w-8 h-8 opacity-80"
                                     />
                                 )}
                             </div>

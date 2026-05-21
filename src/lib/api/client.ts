@@ -3,7 +3,7 @@ import { tokenStorage } from "@/lib/token-storage";
 import { ApiError } from "@/lib/api/error";
 import { ApiResponse } from "@/lib/api/types";
 
-const baseURL = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/api/v1`;
+const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export const client = axios.create({
     baseURL,
@@ -99,7 +99,7 @@ client.interceptors.response.use(
                 accessToken: string;
                 refreshToken: string;
             }>>(
-                `${baseURL}/auth/refresh-token`,
+                `${baseURL}/api/v1/auth/refresh-token`,
                 { refreshToken: tokens.refreshToken },
                 { headers: { "Content-Type": "application/json" } }
             );

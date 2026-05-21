@@ -10,7 +10,7 @@ export interface PublicStats {
 
 export const publicStatsService = {
     async get(): Promise<PublicStats> {
-        const response = await client.get<ApiResponse<PublicStats>>("/public/stats");
+        const response = await client.get<ApiResponse<PublicStats>>("/api/v1/public/stats");
         return parseApiResponse(response.data, response.status)!;
     },
 };

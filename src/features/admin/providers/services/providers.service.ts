@@ -5,22 +5,22 @@ import { AdminProviderResponse, UpsertProviderRequest } from "@/features/admin/p
 
 export const adminProvidersService = {
     async list(): Promise<AdminProviderResponse[]> {
-        const res = await client.get<ApiResponse<AdminProviderResponse[]>>("/admin/providers");
+        const res = await client.get<ApiResponse<AdminProviderResponse[]>>("/api/v1/admin/providers");
         return parseApiResponse(res.data, res.status)!;
     },
 
     async create(request: UpsertProviderRequest): Promise<AdminProviderResponse> {
-        const res = await client.post<ApiResponse<AdminProviderResponse>>("/admin/providers", request);
+        const res = await client.post<ApiResponse<AdminProviderResponse>>("/api/v1/admin/providers", request);
         return parseApiResponse(res.data, res.status)!;
     },
 
     async update(id: string, request: UpsertProviderRequest): Promise<AdminProviderResponse> {
-        const res = await client.put<ApiResponse<AdminProviderResponse>>(`/admin/providers/${id}`, request);
+        const res = await client.put<ApiResponse<AdminProviderResponse>>(`/api/v1/admin/providers/${id}`, request);
         return parseApiResponse(res.data, res.status)!;
     },
 
     async toggle(id: string): Promise<AdminProviderResponse> {
-        const res = await client.patch<ApiResponse<AdminProviderResponse>>(`/admin/providers/${id}/toggle`);
+        const res = await client.patch<ApiResponse<AdminProviderResponse>>(`/api/v1/admin/providers/${id}/toggle`);
         return parseApiResponse(res.data, res.status)!;
     },
 };

@@ -19,14 +19,14 @@ export const fundCollectionsService = {
         if (filters?.status) params.append("status", filters.status);
         const query = params.toString() ? `?${params}` : "";
         const response = await client.get<ApiResponse<FundCollectionResponse[]>>(
-            `/fund-collections${query}`
+            `/api/v1/merchants/fund-collections${query}`
         );
         return parseApiResponse(response.data, response.status) ?? [];
     },
 
     async getById(id: string): Promise<FundCollectionResponse> {
         const response = await client.get<ApiResponse<FundCollectionResponse>>(
-            `/fund-collections/${id}`
+            `/api/v1/merchants/fund-collections/${id}`
         );
         return parseApiResponse(response.data, response.status)!;
     },
@@ -36,7 +36,7 @@ export const fundCollectionsService = {
         data: CreateFundCollectionRequest
     ): Promise<FundCollectionResponse> {
         const response = await client.post<ApiResponse<FundCollectionResponse>>(
-            `/apps/${applicationId}/fund-collections`,
+            `/api/v1/merchants/apps/${applicationId}/fund-collections`,
             data
         );
         return parseApiResponse(response.data, response.status)!;
@@ -47,7 +47,7 @@ export const fundCollectionsService = {
         data: UpdateFundCollectionRequest
     ): Promise<FundCollectionResponse> {
         const response = await client.patch<ApiResponse<FundCollectionResponse>>(
-            `/fund-collections/${id}`,
+            `/api/v1/merchants/fund-collections/${id}`,
             data
         );
         return parseApiResponse(response.data, response.status)!;
@@ -55,19 +55,19 @@ export const fundCollectionsService = {
 
     async close(id: string): Promise<FundCollectionResponse> {
         const response = await client.patch<ApiResponse<FundCollectionResponse>>(
-            `/fund-collections/${id}/close`
+            `/api/v1/merchants/fund-collections/${id}/close`
         );
         return parseApiResponse(response.data, response.status)!;
     },
 
     async reopen(id: string): Promise<FundCollectionResponse> {
         const response = await client.patch<ApiResponse<FundCollectionResponse>>(
-            `/fund-collections/${id}/reopen`
+            `/api/v1/merchants/fund-collections/${id}/reopen`
         );
         return parseApiResponse(response.data, response.status)!;
     },
 
     async remove(id: string): Promise<void> {
-        await client.delete(`/fund-collections/${id}`);
+        await client.delete(`/api/v1/merchants/fund-collections/${id}`);
     },
 };
